@@ -15,7 +15,7 @@
 <!--
   ===========================================
   Let's Brush (렛츠 브러시) — 앱 이름은 아이가 지어 줌 (2026-10-26). 주인공 캐릭터 이름은 그대로 반짝이
-  버전: v0.28.5  |  2026-10-26
+  버전: v0.29.1  |  2026-10-26
   -------------------------------------------
   ★ 개발 안내 (다음 작업 세션 인수인계용) — 새로 이어서 작업한다면 이 부분부터 읽을 것
   -------------------------------------------
@@ -142,6 +142,18 @@
     · 반짝이 옷 자리 좌표는 바꾸지 말 것 (눈 78·122,80 / 목 y≈134 / 오른손 166,124) → 바꾸면 모든 아이템이 어긋남
   -------------------------------------------
   변경 기록
+  v0.29.1 - 양치 시간 권장을 나라별로: 한국 3분 (333), 그 밖의 나라 2분
+    · 근거: 2분 = 미국치과협회(ADA) · 중국 질병통제센터 · 독일 건강보험(Barmer) · 영국 NHS 의 "하루 두 번 2분 이상".
+      일본 · 대만은 공식 분 수를 찾지 못해 2분 (찾으면 CONFIG.durByCountry 에 더하기)
+    · 설정에서 권장 시간에 "(권장)" 표시. 부모님이 직접 고르기 전에는 나라 권장 시간을 씀 (나라를 바꾸면 같이 바뀜)
+      직접 고르면 bj_durSet 이 생기고 그 뒤로는 고른 값 유지
+    · 예전 첫 화면 단추로 골랐던 시간(bj_dur)은 부모님이 고른 게 아니라서 쓰지 않음 → 한국이면 3분으로 시작
+  v0.29.0 - 펫 인기 순서 + 양치 시간을 설정으로
+    · 새 알 · 하루 두 번 선물 펫 · 이달의 친구는 아이들이 잘 아는 동물(A 100종)부터 → 다 모으면 보통(B) → 마지막에 낯선 동물(C 62종: 스컹크 · 두더지 · 천산갑 등)
+      같은 등급 안에서는 무작위. 새 동물은 따로 안 적으면 B. 특별한 알(전설)은 그대로. CONFIG.popularFirst:false 면 예전처럼 전부 무작위
+      이미 정해져 있던 아직 안 깬 알 · 이달의 친구가 뒤 등급이면 앱을 열 때 앞 등급으로 다시 고름 (알의 따뜻해진 정도는 그대로). 이미 받은 펫은 그대로
+      계기: 첫 펫으로 스컹크가 나와 아이가 실망함
+    · 양치 시간(1 · 2 · 3분)을 첫 화면 단추에서 부모님 설정 "양치 시간"으로 옮김 (2분 권장 표시). 고른 값은 그대로 이어짐 (bj_dur)
   v0.28.5 - 부모 확인: 설정 단추(⚙️)를 누르면 곱셈 문제 ((3~9) × (6~9))를 맞혀야 설정이 열림
     · 숫자 단추(0~9 · 지우기 · 확인)로 답을 넣음 → 폰 자판이 안 올라와서 화면이 안 가려짐
     · 틀리면 흔들리고 새 문제. "닫기"나 뒤로 가기로 그만둠. 설정에 들어올 때마다 물음
@@ -1397,11 +1409,6 @@
     <p class="today" id="todayText"></p>
   </div>
   <div class="bottom">
-    <div class="chips" id="chips">
-      <button class="chip" data-sec="60"></button>
-      <button class="chip" data-sec="120"></button>
-      <button class="chip" data-sec="180"></button>
-    </div>
     <button class="big-btn" id="startBtn" data-i18n="home.start"></button>
     <div class="menu-row">
       <button class="menu-btn closetBtn"><span class="mi">👕</span><span data-i18n="menu.closet"></span></button>
@@ -1409,7 +1416,7 @@
       <button class="menu-btn" id="bookBtn"><span class="mi">📖</span><span data-i18n="menu.book"></span></button>
       <button class="menu-btn" id="mapBtn"><span class="mi">🗺️</span><span data-i18n="menu.map"></span><i class="mbadge" id="mapBadge"></i></button>
     </div>
-    <button class="ver" id="ver">v0.28.5</button>
+    <button class="ver" id="ver">v0.29.1</button>
   </div>
 </section>
 
@@ -1513,6 +1520,7 @@
     </div>
     <div class="set-card">
       <div class="set-sub" data-i18n="settings.parentTitle"></div>
+      <label class="set-row"><span data-i18n="settings.dur"></span><select id="durSel"></select></label>
       <label class="set-row"><span data-i18n="settings.technique"></span><select id="techSel"></select></label>
       <label class="set-row"><span data-i18n="settings.hand"></span><select id="handSel"></select></label>
       <label class="set-row"><span data-i18n="settings.kidName"></span><input id="nameIn" maxlength="12" autocomplete="off" style="font:inherit;font-size:17px;padding:8px 10px;border-radius:12px;border:2px solid #d6e9f7;width:52%"></label>
@@ -1735,6 +1743,7 @@
   const RES = (typeof window.BJ_RESOURCES === 'object' && window.BJ_RESOURCES) || {};
   const CONFIG = Object.assign({
     testMode: false,                // v0.28.4 기본 꺼짐 (웹에 올려 다른 사람이 써도 안전하게). 내 폰에서 테스트는 주소 끝 ?test=1 (별 100개 선물, 개발자 메뉴)
+    popularFirst: true,             // v0.29.0 새 알 · 선물 펫은 아이들이 잘 아는 동물부터 (false = 전부 무작위)
     parentGate: true,               // v0.28.5 설정을 열 때 곱셈 문제로 어른 확인 (false = 안 물음)
     testParam: true,                // 주소로 테스트 모드를 정할 수 있게 함. ★ 출시 때 false 로 잠그면 주소 · 기억 값을 무시
     testStars: 100,
@@ -1857,6 +1866,7 @@
     'say.ul':'윗니 왼쪽부터 닦아 볼까요?', 'say.ur':'이번엔 윗니 오른쪽이에요.', 'say.lr':'아랫니 오른쪽도 치카치카 해 줘요.', 'say.ll':'마지막으로 아랫니 왼쪽이에요.',
     'say.cheers':['정말 잘하고 있어요.', '구석구석 꼼꼼하게, 좋아요.', '거품이 보글보글 나요.', '이가 웃고 있어요.', '최고예요, 조금만 더요.'],
     'say.hurry':'거의 다 했어요. 10초만 더 힘내요.', 'say.pause':'잠깐 쉬는 중…', 'say.resume':'다시 같이 닦아 볼까요?',
+    'settings.dur':'양치 시간', 'dur.60':'1분', 'dur.120':'2분', 'dur.180':'3분', 'dur.rec':'{t} (권장)',
     'gate.title':'👨‍👩‍👧 어른 확인', 'gate.note':'설정은 어른이 열어 주세요. 답을 눌러 주세요', 'gate.q':'{a} × {b} = ?', 'gate.wrong':'답이 달라요. 새 문제예요', 'gate.cancel':'닫기',
     'stop.q':'양치를 그만할까요?', 'stop.keep':'계속 닦기', 'stop.quit':'그만하기',
     'done.title':'다 닦았어요!',
@@ -1979,6 +1989,7 @@
     'say.ul':"Let's start with the top left.", 'say.ur':'Now the top right!', 'say.lr':'Bottom right, swish swish!', 'say.ll':'Last one! Bottom left!',
     'say.cheers':['Great job!', 'Get every corner!', 'Bubbles everywhere!', 'Your teeth are smiling!', 'Awesome! Keep going!'],
     'say.hurry':'Almost there. Just 10 more seconds.', 'say.pause':'Taking a little break…', 'say.resume':'Back to brushing!',
+    'settings.dur':'Brushing time', 'dur.60':'1 min', 'dur.120':'2 min', 'dur.180':'3 min', 'dur.rec':'{t} (recommended)',
     'gate.title':'👨‍👩‍👧 Grown-ups only', 'gate.note':'Settings are for grown-ups. Tap in the answer.', 'gate.q':'{a} × {b} = ?', 'gate.wrong':'Not quite. Here is a new one.', 'gate.cancel':'Close',
     'stop.q':'Stop brushing?', 'stop.keep':'Keep brushing', 'stop.quit':'Stop',
     'done.title':'All clean!',
@@ -2080,7 +2091,7 @@
   })};
 
   // ▼ 받는 언어팩 샘플 (출시 때는 서버에 JSON 파일로 올리고 url만 적으면 됨)
-  const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:36,
+  const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:38,
       font:{ family:"'Kosugi Maru'", url:'https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap' } },
     strings: withItems('ja', {
     'app.title':"Let's Brush",
@@ -2105,6 +2116,7 @@
     'say.ul':'うえの ひだりを ゴシゴシ!', 'say.ur':'こんどは うえの みぎ!', 'say.lr':'したの みぎを シャカシャカ!', 'say.ll':'さいご! したの ひだり!',
     'say.cheers':['じょうずだね!', 'すみずみまで ゴシゴシ!', 'あわが ブクブク!', 'はが わらってるよ!', 'さいこう! そのちょうし!'],
     'say.hurry':'もうすこし! あと10びょう!', 'say.pause':'ちょっと おやすみ…', 'say.resume':'また シャカシャカ!',
+    'settings.dur':'はみがきの じかん', 'dur.60':'1分', 'dur.120':'2分', 'dur.180':'3分', 'dur.rec':'{t}(おすすめ)',
     'gate.title':'👨‍👩‍👧 おとなの かくにん', 'gate.note':'せっていは おとなが ひらいてね。こたえを おしてね', 'gate.q':'{a} × {b} = ?', 'gate.wrong':'こたえが ちがうよ。あたらしい もんだいだよ', 'gate.cancel':'とじる',
     'stop.q':'はみがきを やめる?', 'stop.keep':'つづける', 'stop.quit':'やめる',
     'done.title':'ピカピカに なった!',
@@ -2428,7 +2440,12 @@
   const handDir   = () => hand === 'left' ? -1 : 1;    // 거울 기준: 오른손 = 화면 오른쪽
   if (!TECHS.includes(technique)) technique = 'short';
   function applyTech(){ TECHS.forEach(k => document.body.classList.toggle('tech-' + k, k === technique)); }
-  let totalSec    = store.get('dur', 120);
+  const DURS = [60, 120, 180];                       // v0.29.0 양치 시간은 부모님 설정에서 고름 (1 · 2 · 3분)
+  // v0.29.1 나라별 권장 시간: 한국 3분(333), 그 밖은 2분 (미국 ADA · 영국 NHS · 중국 질병통제센터 · 독일 등 "하루 두 번 2분")
+  //   부모님이 설정에서 직접 고르기 전(bj_durSet 없음)에는 나라 권장 시간을 따름 → 나라를 바꾸면 같이 바뀜
+  //   나라 추가 · 바꾸기: CONFIG.durByCountry = { JP:180, … } (resources.js 의 config 에서도 됨)
+  const recDur = () => { const v = Object.assign({ KR:180 }, CONFIG.durByCountry || {})[country]; return DURS.includes(v) ? v : 120; };
+  let totalSec    = store.get('durSet', false) && DURS.includes(store.get('dur', 0)) ? store.get('dur', 120) : recDur();
   let owned       = store.get('owned', ['head_cap', 'neck_bowtie']);
   let look        = store.get('look', { back:null, neck:'neck_bowtie', eyes:null, head:null, hand:null });
   let evOverrides = store.get('evOverrides', {});    // { 이벤트id: { 슬롯: 아이템|null } } 이벤트 중 아이가 직접 바꾼 것
@@ -3856,6 +3873,7 @@
     $('#theaterTgl').checked = theaterOn;
     $('#specialTgl').checked = specialOn;
     $('#handSel').innerHTML = ['right', 'left'].map(k => `<option value="${k}" ${hand === k ? 'selected' : ''}>${t('hand.' + k)}</option>`).join('');
+    $('#durSel').innerHTML = DURS.map(sec => `<option value="${sec}" ${totalSec === sec ? 'selected' : ''}>${sec === recDur() ? t('dur.rec', { t:t('dur.' + sec) }) : t('dur.' + sec)}</option>`).join('');   // v0.29.0 양치 시간 (첫 화면에서 옮김)
     $('#techSel').innerHTML = TECHS.map(k => `<option value="${k}" ${technique === k ? 'selected' : ''}>${t('tech.' + k)}</option>`).join('');
     $('#techNote').textContent = t('tech.' + technique + 'Note');
   }
@@ -3893,7 +3911,9 @@
   $('#settingsBtn').addEventListener('click', () => { sfx.tap(); parentGate(() => { renderSettings(); show('settings'); }); });
   $('#langSel').addEventListener('change', (e) => setLang(e.target.value));
   $('#countrySel').addEventListener('change', (e) => {
-    country = e.target.value; store.set('country', country); renderSettings(); refreshEvent();
+    country = e.target.value; store.set('country', country);
+    if (!store.get('durSet', false)) totalSec = recDur();                       // v0.29.1 직접 고른 적 없으면 새 나라 권장 시간으로
+    renderSettings(); refreshEvent();
   });
   const voiceSample = () => Voice.play('say.sample', t('say.ul'));
 
@@ -3990,6 +4010,7 @@
   $('#theaterTgl').addEventListener('change', (e) => { theaterOn = e.target.checked; store.set('theaterOn', theaterOn); });
   $('#specialTgl').addEventListener('change', (e) => { specialOn = e.target.checked; store.set('specialOn', specialOn); });
   $('#handSel').addEventListener('change', (e) => { hand = e.target.value === 'left' ? 'left' : 'right'; store.set('hand', hand); sfx.tap(); });
+  $('#durSel').addEventListener('change', (e) => { const v = +e.target.value; if (DURS.includes(v)){ totalSec = v; store.set('dur', v); store.set('durSet', true); } sfx.tap(); });
   $('#techSel').addEventListener('change', (e) => {
     technique = TECHS.includes(e.target.value) ? e.target.value : 'short';
     store.set('technique', technique); applyTech(); renderSettings(); sfx.tap();
@@ -5825,6 +5846,18 @@
   }
   injectPetNames();
   const regularIds = Object.keys(PETS).filter(id => !PETS[id].special), legendIds = Object.keys(PETS).filter(id => PETS[id].special);
+  // v0.29.0 인기 순서: 아이들이 잘 아는 동물(A)부터 새 알 · 선물로 옴 → A를 다 모으면 보통(B) → 마지막에 낯선 동물(C)
+  //   의도: 첫 펫으로 스컹크가 나와 아이가 실망한 일이 있었음. 순서는 같은 등급 안에서만 무작위
+  //   새 동물을 더하면 따로 안 적어도 B. 아는 동물이면 PET_TIER_A, 낯설거나 호불호가 큰 동물이면 PET_TIER_C 에 이름 더하기
+  //   CONFIG.popularFirst:false 면 예전처럼 전부 무작위
+  const PET_TIER_A = new Set('lion tiger whitetiger cheetah cat blackcat persian calico scottishfold shiba corgi retriever dalmatian poodle husky beagle maltese jindo samoyed pug dachshund fox fennec raccoon redpanda panda brownbear polarbear koala kangaroo quokka sloth rabbit loprabbit hamster guineapig chipmunk hedgehog otter seaotter capybara meerkat elephant giraffe zebra horse pony cow sheep alpaca deer reindeer hippo rhino pig monkey gorilla chick chicken duck owl macaw budgie flamingo swan peacock penguin emperorpenguin whale dolphin orca beluga seal harpseal clownfish goldfish pufferfish shark octopus jellyfish starfish crab seahorse turtle seaturtle frog crocodile chameleon trex triceratops stegosaurus brachiosaurus pteranodon ladybug bee butterfly beetle stagbeetle snail dragonfly'.split(' '));
+  const PET_TIER_C = new Set('skunk mole bat hyena opossum tasdevil jerboa pangolin anteater armadillo porcupine weasel badger coyote boar tapir mandrill okapi ibex bighorn yak bison buffalo moose crow pigeon seagull turkey quail stork heron dodo emu hornbill anglerfish tuna salmon urchin clam toad dartfrog salamander snake cobra komodo frilledlizard gecko iguana ant spider earthworm cicada mantis grasshopper caterpillar shrimp lobster hammerhead swordfish walrus manatee blackswan'.split(' '));
+  const petTier = (id) => PET_TIER_A.has(id) ? 0 : PET_TIER_C.has(id) ? 2 : 1;
+  function bestTier(pool){                                   // 남은 동물 중 가장 앞 등급만
+    if (CONFIG.popularFirst === false || !pool.length) return pool;
+    const m = Math.min(...pool.map(petTier));
+    return pool.filter(id => petTier(id) === m);
+  }
   // 펫 꾸미기 아이템: 펫마다 자리(top·eye·ex·neck)에 맞춰 그림. 한 번 사면 모든 펫에게
   const HEART = '<path d="M0 3 C-5 -2 -2 -6 0 -3 C2 -6 5 -2 0 3Z" fill="#ff5d8f"/>';
   const PET_ITEMS = {
@@ -5949,7 +5982,8 @@
   function ensureFeat(){
     const mk = monthKey();
     if (petState.feat && petState.feat.m === mk) return;
-    const h = haveSp(), order = regularIds.slice().sort((a, b) => hashStr(mk + a) - hashStr(mk + b));
+    const tierOf = (x) => CONFIG.popularFirst === false ? 0 : petTier(x);          // v0.29.0 이달의 친구도 인기 동물부터
+    const h = haveSp(), order = regularIds.slice().sort((a, b) => (tierOf(a) - tierOf(b)) || (hashStr(mk + a) - hashStr(mk + b)));
     const sp = order.find(x => !h.has(x)) || null;
     const given = !!(sp && petState.egg && petState.egg.sp === sp);
     petState.feat = { m:mk, sp, given };
@@ -5965,13 +5999,14 @@
     let pool = freePool(special ? legendIds : regularIds);
     if (!pool.length && special){ special = false; pool = freePool(regularIds); }
     if (!pool.length){ pool = freePool(legendIds); special = pool.length > 0; }   // 보통 동물을 다 모으면 전설만
+    if (!special) pool = bestTier(pool);                                           // v0.29.0 인기 동물부터
     if (pool.length && !special && Math.random() < TEAM_BIAS){ const tp = teamPool().filter(sp => pool.includes(sp)); if (tp.length) return { sp:pick(tp), p:0, special }; }   // 시작한 팀 채우기
     return got(pool.length ? { sp:pick(pool), p:0, special } : null);             // 전부 모으면 알 없음
   }
   // 양치 보상 펫: 하루에 두 번 닦은 날 한 번
   const giftSkip = () => (petState.egg ? [petState.egg.sp] : []).concat(petState.feat && !petState.feat.given && petState.feat.sp ? [petState.feat.sp] : []);
   function giftPet(){
-    const pool = freePool(regularIds, giftSkip());
+    const pool = bestTier(freePool(regularIds, giftSkip()));                     // v0.29.0 인기 동물부터
     if (!pool.length) return null;
     const np = { id:petUid(), sp:pick(pool), st:1, p:0, name:'', wear:{} };
     petState.pets.push(np); bookPet(np);
@@ -5984,6 +6019,15 @@
   if (!petState.pets){ petState.pets = (petState.friends || []).concat(petState.cur ? [petState.cur] : []); delete petState.friends; delete petState.cur; }
   petState.v = 3;
   petState.pets.forEach(p => { if (!p.id) p.id = petUid(); p.wear = p.wear || {}; if (!PETS[p.sp]) p.sp = 'penguin'; delete p.color; delete p.shiny; });
+  // v0.29.0 인기 순서 전에 정해 둔 것 다시 고르기: 이달의 친구 · 아직 안 깬 알이 더 앞 등급 동물이 남았는데 뒤 등급이면 (알은 따뜻해진 정도 그대로)
+  const topTierLeft = () => { const fp = freePool(regularIds); return fp.length ? Math.min(...fp.map(petTier)) : 9; };
+  if (CONFIG.popularFirst !== false){
+    if (petState.feat && !petState.feat.given && petState.feat.sp && petTier(petState.feat.sp) > topTierLeft()) delete petState.feat;
+    const e0 = petState.egg;
+    if (e0 && !e0.special && !e0.feat && PETS[e0.sp] && petTier(e0.sp) > topTierLeft()){
+      const ne = newEgg(); if (ne && !ne.special){ ne.p = Math.min(e0.p || 0, PET_CFG.hatch - 1); petState.egg = ne; }
+    }
+  }
   ensureFeat();
   if (petState.egg && (!PETS[petState.egg.sp] || petState.pets.some(p => p.sp === petState.egg.sp))){     // 이미 있는 동물 알이면 바꿈 (따뜻해진 정도는 그대로)
     const ne = newEgg(); if (ne) ne.p = Math.min(petState.egg.p || 0, PET_CFG.hatch - 1); petState.egg = ne;
@@ -7740,16 +7784,8 @@
     $('#mapBadge').textContent = mapLeft();
     const n = log.filter(k => k === todayKey()).length;
     $('#todayText').textContent = n === 1 && giftReady() ? t('home.twiceHint') : n ? t('home.todayCount', { n }) : t('home.todayNone');
-    $$('.chip').forEach(c => {
-      c.textContent = t('home.min', { n:+c.dataset.sec / 60 });
-      c.classList.toggle('active', +c.dataset.sec === totalSec);
-    });
   }
 
-  $('#chips').addEventListener('click', (ev) => {
-    const c = ev.target.closest('.chip'); if (!c) return;
-    totalSec = +c.dataset.sec; store.set('dur', totalSec); sfx.tap(); refreshHome();
-  });
   /* ---------- 양치 전 준비: 치약 짜기 ---------- */
   function prepSVG(kind){
     /* 실제 비율: 칫솔모 길이(약 2cm) = 91단위 → 1cm ≈ 45단위
