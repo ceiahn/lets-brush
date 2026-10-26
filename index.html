@@ -15,7 +15,7 @@
 <!--
   ===========================================
   Let's Brush (렛츠 브러시) — 앱 이름은 아이가 지어 줌 (2026-10-26). 주인공 캐릭터 이름은 그대로 반짝이
-  버전: v0.28.2  |  2026-10-26
+  버전: v0.28.5  |  2026-10-26
   -------------------------------------------
   ★ 개발 안내 (다음 작업 세션 인수인계용) — 새로 이어서 작업한다면 이 부분부터 읽을 것
   -------------------------------------------
@@ -121,7 +121,8 @@
       (지난 문서: "반짝이 스페셜 영상 2부작 10편 (v2.0)" · "반짝이 영상 프롬프트 10편 (v1.0)" — 바이블로 대체)
       앱 출시 때는 영상을 앱 안에 같이 넣을지(용량) · 서버에서 받을지 결정 필요
     · 중간 응원(say.cheers)은 A·B 에서만 나왔음 → 지금 C 에선 안 나옴. 넣을지 아이 테스트 뒤 결정
-    · 사업 모델 적용 (위 [4]), 출시 전 testMode:false + testParam:false (주소 ?test=1 로 다시 켜지지 않게 잠금)
+    · 사업 모델 적용 (위 [4]), 출시 전 testParam:false (주소 ?test=1 로 다시 켜지지 않게 잠금. testMode 는 v0.28.4 부터 기본 false)
+    · 부모 확인(v0.28.5): 설정 앞에 곱셈 문제. 결제 · 바깥 링크를 넣으면 그 앞에도 parentGate(() => …) 로 감싸기
     · Character 모듈은 나중에 Spine 애니메이션으로 바꿀 수 있게 분리해 둠
 
   [11] 그림 규칙 — 그림체 B "말랑 스티커" (v0.20, 사용자가 고름. 새 그림은 모두 이 규칙으로)
@@ -141,6 +142,21 @@
     · 반짝이 옷 자리 좌표는 바꾸지 말 것 (눈 78·122,80 / 목 y≈134 / 오른손 166,124) → 바꾸면 모든 아이템이 어긋남
   -------------------------------------------
   변경 기록
+  v0.28.5 - 부모 확인: 설정 단추(⚙️)를 누르면 곱셈 문제 ((3~9) × (6~9))를 맞혀야 설정이 열림
+    · 숫자 단추(0~9 · 지우기 · 확인)로 답을 넣음 → 폰 자판이 안 올라와서 화면이 안 가려짐
+    · 틀리면 흔들리고 새 문제. "닫기"나 뒤로 가기로 그만둠. 설정에 들어올 때마다 물음
+    · CONFIG.parentGate:false 면 안 물음. 문구 gate.* (ko · en · ja, 일본어 팩 version 36)
+    · 정정: v0.28.0 기록의 "ep7.mp4 도 찾음"은 틀림. specials 폴더에서 찾는 이름은 ep001 · ep01 (첫 글자 대문자 · 전부 대문자 · .MP4 도 됨)
+      ep7 · ep0007 처럼 다른 자릿수는 부모님 설정 "📥 스페셜 영상 넣기"로 앱에 넣을 때만 알아봄
+  v0.28.4 - 점검 (설정 19칸 저장 · 3개 언어 화면 · 16일 양치 흉내 · 멈춤 · 백업 · 언어 바꾸기 · 상점)
+    · 테스트 모드 기본값을 끔 (testMode:false). 웹 주소를 다른 사람에게 보내도 별 100개 · 개발자 메뉴가 안 나옴
+      내 폰에서 테스트할 땐 주소 끝에 ?test=1 (한 번 열면 그 폰이 기억)
+    · 음력 달력을 모르는 브라우저에서 설날 · 추석을 양력 1월 1일 · 8월 15일로 착각할 수 있던 것 막음 (그땐 음력 행사를 끔)
+    · 찾았지만 고치지 않은 것: 부모 확인 화면이 아직 없음 (아이가 설정 · 초기화 · 백업 불러오기를 누를 수 있음) → 사용자와 상의 후
+  v0.28.3 - 생일을 고를 수 없던 문제 고침 (부모님 설정 > 생일)
+    · 원인: 월(또는 일)만 고르면 아직 저장할 생일이 없어서 설정 화면을 다시 그렸고, 그때 고른 월이 "없음"으로 돌아감 → 둘 다 고를 수가 없었음
+    · 이제 한쪽만 고른 동안은 그대로 두고, 월 · 일을 둘 다 고르면 저장. 월을 "없음"으로 고르면 생일이 지워짐
+    · 그 달에 없는 날(2월 30일 · 4월 31일 등)은 그 달 마지막 날로 바꿈 (2월은 29일까지)
   v0.28.2 - 테스트 모드를 꺼도 개발자 메뉴가 보이던 문제 고침
     · 원인: .set-card 의 display:flex 가 hidden 표시를 덮어씀 (화면에 보이는 칸은 hidden 을 무시함). 처음부터 있던 문제
     · 모든 [hidden] 이 꼭 숨겨지게 CSS 맨 앞에 한 줄 ([hidden]{display:none !important})
@@ -1317,6 +1333,18 @@
   .dlg-icon svg.bthumb{width:220px;height:auto}
   .big-btn.small{font-size:24px;padding:16px;animation:none}
   .text-btn{font-size:18px;opacity:.6;padding:8px}
+  /* v0.28.5 부모 확인 (곱셈) */
+  #gate{z-index:25}
+  .gate-title{font-size:22px;font-weight:800;color:var(--title)}
+  .modal-box p.gate-note{font-size:16px;line-height:1.4;opacity:.7}
+  .modal-box p.gate-note.bad{color:var(--pink-d);opacity:1}
+  .modal-box p.gate-q{font-size:36px;font-weight:800;letter-spacing:1px}
+  .gate-ans{min-width:130px;font-size:32px;font-weight:800;padding:6px 18px;border-radius:16px;background:#eef4fb;color:var(--ink)}
+  .gate-pad{display:grid;grid-template-columns:repeat(3,68px);gap:10px}
+  .gate-pad button{height:58px;border-radius:18px;font-size:26px;font-weight:800;background:#eef4fb;color:var(--ink);box-shadow:0 4px 0 #0001}
+  .gate-pad button:active{transform:translateY(2px);box-shadow:none}
+  .gate-pad [data-k=ok]{background:var(--mint);color:#fff}
+  .gate-box.shake{animation:shake .3s 2}
 
   /* 알림 */
   #toast{position:fixed;left:50%;top:calc(76px + env(safe-area-inset-top));transform:translate(-50%,-20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:22px;font-size:17px;opacity:0;pointer-events:none;transition:.25s;z-index:30;width:max-content;max-width:calc(100vw - 32px);text-align:center;line-height:1.35}
@@ -1381,7 +1409,7 @@
       <button class="menu-btn" id="bookBtn"><span class="mi">📖</span><span data-i18n="menu.book"></span></button>
       <button class="menu-btn" id="mapBtn"><span class="mi">🗺️</span><span data-i18n="menu.map"></span><i class="mbadge" id="mapBadge"></i></button>
     </div>
-    <button class="ver" id="ver">v0.28.2</button>
+    <button class="ver" id="ver">v0.28.5</button>
   </div>
 </section>
 
@@ -1653,6 +1681,22 @@
     <button class="text-btn" id="dlgCancel"></button>
   </div>
 </div>
+<!-- v0.28.5 부모 확인: 설정을 열기 전에 곱셈 문제 -->
+<div class="modal" id="gate">
+  <div class="modal-box gate-box" id="gateBox">
+    <div class="gate-title" data-i18n="gate.title"></div>
+    <p class="gate-note" id="gateNote"></p>
+    <p class="gate-q" id="gateQ"></p>
+    <div class="gate-ans" id="gateAns">?</div>
+    <div class="gate-pad" id="gatePad">
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+      <button data-k="del" aria-label="Delete">⌫</button><button data-k="0">0</button><button data-k="ok" aria-label="OK">✓</button>
+    </div>
+    <button class="text-btn" id="gateCancel" data-i18n="gate.cancel"></button>
+  </div>
+</div>
 
 <!-- 소리 설정 창 -->
 <div class="audio-pop" id="audioPop">
@@ -1690,7 +1734,8 @@
      ========================================================= */
   const RES = (typeof window.BJ_RESOURCES === 'object' && window.BJ_RESOURCES) || {};
   const CONFIG = Object.assign({
-    testMode: true,                 // ★ 출시 전 false (별 100개 선물, 개발자 메뉴). 주소 ?test=1 · ?test=0 이 이 값보다 먼저
+    testMode: false,                // v0.28.4 기본 꺼짐 (웹에 올려 다른 사람이 써도 안전하게). 내 폰에서 테스트는 주소 끝 ?test=1 (별 100개 선물, 개발자 메뉴)
+    parentGate: true,               // v0.28.5 설정을 열 때 곱셈 문제로 어른 확인 (false = 안 물음)
     testParam: true,                // 주소로 테스트 모드를 정할 수 있게 함. ★ 출시 때 false 로 잠그면 주소 · 기억 값을 무시
     testStars: 100,
     firstGiftStars: 3,
@@ -1812,6 +1857,7 @@
     'say.ul':'윗니 왼쪽부터 닦아 볼까요?', 'say.ur':'이번엔 윗니 오른쪽이에요.', 'say.lr':'아랫니 오른쪽도 치카치카 해 줘요.', 'say.ll':'마지막으로 아랫니 왼쪽이에요.',
     'say.cheers':['정말 잘하고 있어요.', '구석구석 꼼꼼하게, 좋아요.', '거품이 보글보글 나요.', '이가 웃고 있어요.', '최고예요, 조금만 더요.'],
     'say.hurry':'거의 다 했어요. 10초만 더 힘내요.', 'say.pause':'잠깐 쉬는 중…', 'say.resume':'다시 같이 닦아 볼까요?',
+    'gate.title':'👨‍👩‍👧 어른 확인', 'gate.note':'설정은 어른이 열어 주세요. 답을 눌러 주세요', 'gate.q':'{a} × {b} = ?', 'gate.wrong':'답이 달라요. 새 문제예요', 'gate.cancel':'닫기',
     'stop.q':'양치를 그만할까요?', 'stop.keep':'계속 닦기', 'stop.quit':'그만하기',
     'done.title':'다 닦았어요!',
     'done.msgs':['충치균이 도망갔어요!', '이가 반짝반짝 빛나요!', '양치 왕이 됐어요!', '입안이 상쾌해졌어요!'],
@@ -1933,6 +1979,7 @@
     'say.ul':"Let's start with the top left.", 'say.ur':'Now the top right!', 'say.lr':'Bottom right, swish swish!', 'say.ll':'Last one! Bottom left!',
     'say.cheers':['Great job!', 'Get every corner!', 'Bubbles everywhere!', 'Your teeth are smiling!', 'Awesome! Keep going!'],
     'say.hurry':'Almost there. Just 10 more seconds.', 'say.pause':'Taking a little break…', 'say.resume':'Back to brushing!',
+    'gate.title':'👨‍👩‍👧 Grown-ups only', 'gate.note':'Settings are for grown-ups. Tap in the answer.', 'gate.q':'{a} × {b} = ?', 'gate.wrong':'Not quite. Here is a new one.', 'gate.cancel':'Close',
     'stop.q':'Stop brushing?', 'stop.keep':'Keep brushing', 'stop.quit':'Stop',
     'done.title':'All clean!',
     'done.msgs':['The cavity bugs ran away!', 'Your teeth are sparkling!', 'You are a brushing champion!', 'Fresh and clean!'],
@@ -2033,7 +2080,7 @@
   })};
 
   // ▼ 받는 언어팩 샘플 (출시 때는 서버에 JSON 파일로 올리고 url만 적으면 됨)
-  const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:35,
+  const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:36,
       font:{ family:"'Kosugi Maru'", url:'https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap' } },
     strings: withItems('ja', {
     'app.title':"Let's Brush",
@@ -2058,6 +2105,7 @@
     'say.ul':'うえの ひだりを ゴシゴシ!', 'say.ur':'こんどは うえの みぎ!', 'say.lr':'したの みぎを シャカシャカ!', 'say.ll':'さいご! したの ひだり!',
     'say.cheers':['じょうずだね!', 'すみずみまで ゴシゴシ!', 'あわが ブクブク!', 'はが わらってるよ!', 'さいこう! そのちょうし!'],
     'say.hurry':'もうすこし! あと10びょう!', 'say.pause':'ちょっと おやすみ…', 'say.resume':'また シャカシャカ!',
+    'gate.title':'👨‍👩‍👧 おとなの かくにん', 'gate.note':'せっていは おとなが ひらいてね。こたえを おしてね', 'gate.q':'{a} × {b} = ?', 'gate.wrong':'こたえが ちがうよ。あたらしい もんだいだよ', 'gate.cancel':'とじる',
     'stop.q':'はみがきを やめる?', 'stop.keep':'つづける', 'stop.quit':'やめる',
     'done.title':'ピカピカに なった!',
     'done.msgs':['むしばきんが にげていったよ!', 'はが キラキラ ひかってるよ!', 'はみがき チャンピオンだ!', 'おくちが さっぱり!'],
@@ -2281,6 +2329,8 @@
 
   let lunarFmt = null;
   try{ lunarFmt = new Intl.DateTimeFormat('en-u-ca-chinese', { month:'numeric', day:'numeric' }); }catch(e){}
+  // v0.28.4 음력 달력을 모르는 브라우저는 말없이 양력으로 계산함 → 1월 1일을 설날로 착각하지 않게 그땐 음력 행사를 끔
+  try{ if (lunarFmt && lunarFmt.resolvedOptions().calendar !== 'chinese') lunarFmt = null; }catch(e){ lunarFmt = null; }
   function lunarMD(d){
     if (!lunarFmt) return null;
     const parts = lunarFmt.formatToParts(d);
@@ -3252,6 +3302,7 @@
   window.addEventListener('popstate', () => {
     const keep = () => { try{ history.pushState({ bj:1 }, ''); }catch(e){} };
     if ($('#audioPop').classList.contains('show')){ $('#audioPop').classList.remove('show'); keep(); return; }
+    if ($('#gate').classList.contains('show')){ gateClose(); if (current !== 'home') keep(); return; }
     if ($('#modal').classList.contains('show')){ $('#dlgCancel').click(); if (current !== 'home') keep(); return; }
     if ($('#petShow').classList.contains('show')){ if (!$('#psOk').hidden) $('#psOk').click(); keep(); return; }
     if (/^brush/.test(current)){ keep(); askStop(); return; }
@@ -3808,7 +3859,38 @@
     $('#techSel').innerHTML = TECHS.map(k => `<option value="${k}" ${technique === k ? 'selected' : ''}>${t('tech.' + k)}</option>`).join('');
     $('#techNote').textContent = t('tech.' + technique + 'Note');
   }
-  $('#settingsBtn').addEventListener('click', () => { renderSettings(); show('settings'); sfx.tap(); });
+  // v0.28.5 부모 확인: 설정(초기화 · 백업 불러오기 · 음악 · 영상 넣기 등)은 곱셈 문제를 맞혀야 열림
+  //   문제: (3~9) × (6~9), 답 18~81. 틀리면 새 문제. CONFIG.parentGate:false 면 안 물음
+  let gateAnswer = 0, gateInput = '', gateNext = null;
+  function gateNew(){
+    const a = 3 + Math.floor(Math.random() * 7), b = 6 + Math.floor(Math.random() * 4);
+    gateAnswer = a * b; gateInput = '';
+    $('#gateQ').textContent = t('gate.q', { a, b }); gateDraw();
+  }
+  const gateDraw = () => { $('#gateAns').textContent = gateInput || '?'; };
+  function parentGate(next){
+    if (CONFIG.parentGate === false){ next(); return; }
+    gateNext = next;
+    const note = $('#gateNote'); note.textContent = t('gate.note'); note.classList.remove('bad');
+    gateNew(); $('#gate').classList.add('show');
+    if (!(history.state && history.state.bj)){ try{ history.pushState({ bj:1 }, ''); }catch(e){} }   // 뒤로 가기로 닫히게 (첫 화면에서 앱이 꺼지지 않게)
+  }
+  function gateClose(){ $('#gate').classList.remove('show'); gateNext = null; }
+  $('#gatePad').addEventListener('click', (e) => {
+    const k = e.target.closest('[data-k]'); if (!k) return;
+    sfx.tap(); const v = k.dataset.k;
+    if (v === 'del'){ gateInput = gateInput.slice(0, -1); gateDraw(); return; }
+    if (v !== 'ok'){ if (gateInput.length < 3) gateInput += v; gateDraw(); return; }
+    if (gateInput && +gateInput === gateAnswer){ const f = gateNext; gateClose(); if (f) f(); return; }
+    const box = $('#gateBox'), note = $('#gateNote');                                 // 틀림 → 흔들고 새 문제
+    box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+    note.textContent = t('gate.wrong'); note.classList.add('bad'); gateNew();
+  });
+  $('#gateCancel').addEventListener('click', () => {
+    sfx.tap(); gateClose();
+    if (current === 'home' && history.state && history.state.bj){ try{ history.back(); }catch(e){} }   // 열 때 남긴 기록 정리
+  });
+  $('#settingsBtn').addEventListener('click', () => { sfx.tap(); parentGate(() => { renderSettings(); show('settings'); }); });
   $('#langSel').addEventListener('change', (e) => setLang(e.target.value));
   $('#countrySel').addEventListener('change', (e) => {
     country = e.target.value; store.set('country', country); renderSettings(); refreshEvent();
@@ -3887,9 +3969,18 @@
   $('#eventTgl').addEventListener('change', (e) => { eventLookOn = e.target.checked; store.set('eventLook', eventLookOn); refreshEvent(); });
   $('#evSel').addEventListener('change', (e) => { evPreview = e.target.value; refreshEvent(); refreshHome(); });
   $('#nameIn').addEventListener('change', (e) => { store.set('kidName', e.target.value.trim().slice(0, 12)); refreshEvent(); });
-  const saveBday = () => {
-    const m = +$('#bdayM').value, d = +$('#bdayD').value;
-    store.set('bday', m && d ? { m, d } : null); renderSettings(); refreshEvent(); sfx.tap();
+  // v0.28.3 고침: 예전엔 월만 고르면(일은 아직) 저장할 게 없어서 화면을 다시 그리며 고른 월이 지워졌음 → 생일을 고를 수 없었음
+  //   이제 한쪽만 고른 동안은 화면을 다시 그리지 않고 기다림. 둘 다 고르면 저장
+  const BDAY_MAX = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];   // 달마다 마지막 날 (2월은 29일까지 허용)
+  const saveBday = (e) => {
+    const mSel = $('#bdayM'), dSel = $('#bdayD');
+    let m = +mSel.value, d = +dSel.value;
+    sfx.tap();
+    if (e && e.target === mSel && !m){ dSel.value = ''; d = 0; }                         // 월을 "없음"으로 → 생일 지우기
+    if (m && d > BDAY_MAX[m - 1]){ d = BDAY_MAX[m - 1]; dSel.value = String(d); }       // 2월 31일 같은 날은 그 달 마지막 날로
+    if (m && d){ store.set('bday', { m, d }); renderSettings(); refreshEvent(); return; }
+    store.set('bday', null); refreshEvent();                                            // 한쪽만 골랐으면 아직 생일 없음 (화면은 그대로 두고 나머지를 기다림)
+    if (!m && !d) renderSettings();
   };
   $('#bdayM').addEventListener('change', saveBday);
   $('#bdayD').addEventListener('change', saveBday);
