@@ -1,18 +1,41 @@
 /*
   Let's Brush – 홈 화면 앱(PWA) 저장 도우미 (sw.js)
-  버전: v0.35.0  |  2026-10-26   (index.html v0.35.0 와 짝)
+  버전: v0.36.0  |  2026-10-27   (index.html v0.36.0 와 짝)
   ------------------------------------------------------------
   의도: 웹 주소(https)로 연 앱을 폰에 저장해 두고, 인터넷이 없어도 열리게 함
-   · index.html (화면): 인터넷 먼저 → 새 버전을 올리면 바로 반영. 인터넷이 없으면 저장해 둔 것으로 엶
+   · index.html (화면) · css/ · js/ (v0.36.0 부터 나눈 앱 코드): 인터넷 먼저 → 새 버전을 올리면 바로 반영. 인터넷이 없으면 저장해 둔 것으로 엶
+     v0.36.0: 서버에 "바뀌었나요?"만 물어보고(no-cache) 안 바뀐 파일은 다시 받지 않음 → 고친 파일만 새로 받음
    · 아이콘 · resources.js · manifest.json: 저장해 둔 것 먼저 (빠름), 없으면 받아서 저장
    · 영상(specials/*.mp4 · webm)은 건드리지 않음 → 영상은 부분씩 받는 방식이라 여기서 저장하면 재생이 꼬일 수 있음
      (인터넷 없이 영상까지 보려면 부모님 설정 "📥 스페셜 영상 넣기"로 폰 안에 넣어 두기)
    · 글꼴(fonts/)은 v0.35.0 부터 같은 주소 → 저장해 둔 것 먼저 (한 번 쓴 글자 조각만 받아서 저장)
    · 다른 주소는 건드리지 않음
   ★ index.html 을 새 버전으로 올릴 때 아래 CACHE 이름의 버전도 같이 바꿀 것 (예전 저장본이 정리됨)
+  ★ js/ 에 파일을 더하거나 이름을 바꾸면 아래 APP 목록도 index.html 의 <script> 줄과 똑같이 맞출 것
 */
-const CACHE = 'banjjak-v0.35.0';
-const CORE = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png'];
+const CACHE = 'banjjak-v0.36.0';
+const APP = ['./index.html', './css/app.css',
+  './js/00-config.js',
+  './js/01-store.js',
+  './js/02-lang.js',
+  './js/03-events.js',
+  './js/04-state.js',
+  './js/05-items.js',
+  './js/06-character.js',
+  './js/07-helpers.js',
+  './js/08-sound.js',
+  './js/09-effects.js',
+  './js/10-closet.js',
+  './js/11-settings.js',
+  './js/12-brush.js',
+  './js/13-pet-art.js',
+  './js/14-pets.js',
+  './js/15-game.js',
+  './js/16-theater.js',
+  './js/17-special.js',
+  './js/18-backup.js',
+  './js/19-home.js'];
+const CORE = ['./', ...APP, './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png'];
 const OPTIONAL = ['./resources.js', './fonts/jua.css', './privacy.html', './terms.html'];   // 없어도 됨
 
 self.addEventListener('install', (e) => {
@@ -40,14 +63,16 @@ self.addEventListener('fetch', (e) => {
   if (req.headers.has('range') || /\.(mp4|webm|mov|m4v)$/i.test(url.pathname)) return;   // 영상은 그대로
   if (/\/specials\/[^/]*\.txt$/i.test(url.pathname)) return;                   // v0.35.0 영상 제목 목록은 늘 새로 (저장본 안 씀)
   const isPage = req.mode === 'navigate' || /\/(index\.html)?$/.test(url.pathname);
-  if (isPage){                                                             // 화면: 인터넷 먼저
+  const isCode = /\/(js|css)\/[^/]+\.(js|css)$/.test(url.pathname);            // v0.36.0 나눈 앱 코드 (fonts/ 는 아님)
+  if (isPage || isCode){                                                   // 화면 · 앱 코드: 인터넷 먼저
+    const key = isPage ? './index.html' : req;
     e.respondWith((async () => {
       try{
-        const res = await fetch(req, { cache:'no-store' });
-        if (res && res.ok){ const c = await caches.open(CACHE); c.put('./index.html', res.clone()); }
+        const res = await fetch(req, { cache:'no-cache' });                // 안 바뀌었으면 서버가 "그대로"(304)라고만 답함
+        if (res && res.ok){ const c = await caches.open(CACHE); c.put(key, res.clone()); }
         return res;
       }catch(err){
-        return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
+        return (await caches.match(key, { ignoreSearch:isCode })) || (isPage && await caches.match('./')) || Response.error();
       }
     })());
     return;
