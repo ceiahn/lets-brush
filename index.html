@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-title" content="Let's Brush" />
 <title>Let's Brush</title>
 <!--
-  Let's Brush (렛츠 브러시)  버전: v0.46.0  |  2026-10-27
+  Let's Brush (렛츠 브러시)  버전: v0.47.0  |  2026-10-27
   개발 안내 · 규칙 · 변경 기록은 docs/개발_인수인계.md 에 있음 (새로 이어서 작업한다면 그 파일부터 읽을 것)
   파일 나눔 (v0.36.0~): 이 파일 = 화면(HTML)만 · 모양 = css/app.css · 동작 = js/ 폴더 (아래 순서대로 읽힘, 순서 바꾸지 말 것)
 -->
@@ -28,6 +28,17 @@
 
 <div class="sky"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div></div>
 <div id="fx"></div>
+<!-- v0.47.0 웹 막기 (CONFIG.webBlock): 브라우저로 연 사람에게만 -->
+<div class="web-gate" id="webGate" hidden>
+  <div class="wg-box">
+    <img src="icons/icon-192.png" alt="" width="96" height="96">
+    <h1 data-i18n="web.title"></h1>
+    <p data-i18n="web.text"></p>
+    <a class="big-btn wg-store" id="wgStore" target="_blank" rel="noopener" data-i18n="web.store"></a>
+    <p class="wg-soon" id="wgSoon" data-i18n="web.soon"></p>
+    <p class="wg-links" id="wgLinks"></p>
+  </div>
+</div>
 
 <!-- ① 첫 화면 -->
 <section id="home" class="screen active">
@@ -60,7 +71,7 @@
       <button class="menu-btn" id="bookBtn"><span class="mi">📖</span><span data-i18n="menu.book"></span></button>
       <button class="menu-btn" id="mapBtn"><span class="mi">🗺️</span><span data-i18n="menu.map"></span><i class="mbadge" id="mapBadge"></i></button>
     </div>
-    <button class="ver" id="ver">v0.46.0</button>
+    <button class="ver" id="ver">v0.47.0</button>
   </div>
 </section>
 

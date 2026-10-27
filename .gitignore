@@ -8,3 +8,6 @@ android/gradle/
 android/*.aab
 android/*.apk
 android/*.idsig
+
+# v0.47.0 Cloudflare Pages 빌드 결과 (tools/build-site.sh)
+dist/
