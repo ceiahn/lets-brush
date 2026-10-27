@@ -4,10 +4,22 @@
    2-2. 번역 엔진 (v0.49.0 모듈화 2단계: 앱 02-lang.js 에서 나눔)
       t('키', {n, …}) · tList · lookup · 받침 조사 {이|가} · 복수형 키_one/_other · 받는 언어팩(installPack) · 글꼴(applyFont)
       앱과의 약속: 앱 02-lang.js 에 PACK_KO · PACK_EN · PACK_CATALOG. 공통 문구는 02-strings.js 의 CORE_TEXT
+      v0.51.0 addText(): 뒤에 읽는 파일이 자기 글을 넣음 (극장 이야기 파일 16-th-s*.js)
       읽는 순서: 앱 02-lang.js → core 02-strings.js → 이 파일 (이름순 = 번호순)
    ========================================================= */
 // 공통 문구(CORE_TEXT)를 앱 문구 밑에 깔아 줌 (같은 키는 앱 글이 이김)
-const withCore = (p) => { const c = typeof CORE_TEXT === 'object' && CORE_TEXT[p.meta.code]; if (c) p.strings = Object.assign({}, c, p.strings); return p; };
+const EXTRA_TEXT = [];                                                     // v0.51.0 addText 로 더한 글 (이야기 파일 등)
+const withCore = (p) => {
+  const c = typeof CORE_TEXT === 'object' && CORE_TEXT[p.meta.code]; if (c) p.strings = Object.assign({}, c, p.strings);
+  EXTRA_TEXT.forEach(tx => { const x = tx[p.meta.code]; if (x) Object.keys(x).forEach(k => { if (p.strings[k] === undefined) p.strings[k] = x[k]; }); });
+  return p;
+};
+/* v0.51.0 addText({ ko:{ 키:글 }, en:{…}, ja:{…} }): 뒤에 읽는 파일(극장 이야기 등)이 자기 글을 직접 넣음
+   이미 있는 팩에 바로 넣고, 나중에 받는 팩(installPack)에도 넣음. 같은 키가 팩에 이미 있으면 팩 글이 이김 */
+function addText(tx){
+  EXTRA_TEXT.push(tx);
+  Object.values(packs).forEach(p => { const x = tx[p.meta.code]; if (x) Object.keys(x).forEach(k => { if (p.strings[k] === undefined) p.strings[k] = x[k]; }); });
+}
 const packs = { ko:withCore(PACK_KO), en:withCore(PACK_EN) };
 store.get('packs', []).forEach(code => {
   const p = store.get('pack_' + code, null);
