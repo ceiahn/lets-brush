@@ -42,7 +42,7 @@ $('#subStart').addEventListener('click', () => {
   parentGate(async () => {                                                     // 결제 앞에는 늘 부모 확인 (아이 앱 규정)
     sfx.tap();
     if (plan === 'life'){ if (await Billing.buyLifetime()){ store.set('subAsked', true); confetti(40); toast(t('sub.lifeDone'), 3500); afterSubChange(); } return; }
-    if (subState().kind === 'none'){ if (await Billing.startTrial(plan)){ store.set('subAsked', true); confetti(30); toast(t('sub.started', { d:subCfg().trialDays }), 3500); afterSubChange(); } return; }
+    if (subState().kind === 'none'){ if (await Billing.startTrial(plan)){ store.set('subAsked', true); confetti(30); toast(Play.svc ? t('sub.stActive') : t('sub.started', { d:subCfg().trialDays }), 3500); afterSubChange(); } return; }
     if (await Billing.subscribe(plan)){ confetti(30); toast(t('sub.stActive'), 3500); afterSubChange(); }
   });
 });
@@ -84,13 +84,13 @@ $('#subAct').addEventListener('click', () => { sfx.tap(); store.set('sub', { kin
 $('#subReset').addEventListener('click', () => { sfx.tap(); ['sub', 'subAsked', 'subReminded'].forEach(k => store.del(k)); renderSub(); refreshHome(); });
 /* v0.33.0 홈 화면에 추가 안내 (부모님께 한 번)
    의도: 기록은 폰 브라우저 안에만 있음. 아이폰 사파리는 홈 화면에 추가하지 않은 사이트의 저장 값을 오래 안 쓰면 지울 수 있음
-   때: 브라우저로 열었고(홈 화면 앱 아님) · 양치한 날이 2일 이상 · 아직 안 물었을 때. 스토어 앱으로 포장하면 CONFIG.homeTip:false */
+   때: 브라우저로 열었고(홈 화면 앱 아님) · 양치한 날이 2일 이상 · 아직 안 물었을 때. 스토어 앱(TWA) 안에서는 안 물음 (v0.45.0) */
 let installEv = null;
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEv = e; });   // 안드로이드 크롬: "앱 설치" 창을 우리가 띄움
 const isStandalone = () => { try{ return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }catch(e){ return false; } };
 const isIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 function homeTipLaunch(){
-  if (CONFIG.homeTip === false || isStandalone() || !/^https?:/.test(location.protocol) || store.get('homeTip', false)) return false;
+  if (CONFIG.homeTip === false || isStandalone() || inTWA() || !/^https?:/.test(location.protocol) || store.get('homeTip', false)) return false;
   if (new Set(log).size < 2) return false;
   store.set('homeTip', true);
   setTimeout(() => dialog({ icon:'📲', text:t(isIOS() ? 'home.tipIOS' : 'home.tipAnd'), ok:t(installEv ? 'home.tipInstall' : 'sub.ok'), cancel:t('home.tipLater'),
@@ -100,7 +100,8 @@ function homeTipLaunch(){
 function subLaunch(){                                                          // 앱을 열 때: 처음이면 체험 안내, 끝나기 2일 전이면 알림 (부모님께)
   const c = subCfg(), st = subState();
   if (!c.on) return false;
-  if (st.kind === 'none' && !store.get('subAsked', false)){ setTimeout(subIntroOpen, 500); return true; }
+  // v0.45.0 subs.askAfter: 양치한 날이 이만큼 된 뒤에 처음 안내 (0 = 처음 열 때). 아이가 재미를 느낀 뒤 부모님께 보여 주려면 2~3
+  if (st.kind === 'none' && !store.get('subAsked', false) && new Set(log).size >= (c.askAfter || 0)){ setTimeout(subIntroOpen, 500); return true; }
   const s = store.get('sub', null);
   if (st.kind === 'trial' && st.left <= 2 && s && store.get('subReminded', null) !== s.start){
     store.set('subReminded', s.start);

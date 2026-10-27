@@ -302,6 +302,10 @@ const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, 
   'sub.goPlans':'요금제 보기',
   'sub.lifeDone':'평생 이용권이 열렸어요! ⭐',
   'sub.lifeNote':'구독 중에 평생 이용권을 사면, 스토어에서 구독을 꼭 해지해 주세요.',
+  'sub.payFail':'결제를 마치지 못했어요. 잠시 뒤 다시 해 주세요', 'share.btn':'📤 자랑하기', 'brand.studio':'토끼유 스튜디오', 'share.make':'📤 자랑 카드 만들기', 'share.note':'아이 사진 · 이름 없이 반짝이 · 펫 · 기록만 들어가요. 카톡 · 인스타 등으로 보낼 수 있어요',
+  'share.streak':'{n}일 연속 양치 성공!', 'share.head':'반짝이와 즐거운 양치 시간', 'share.days':'양치한 날 {n}일', 'share.pets':'펫 {n}마리', 'share.stars':'별 {n}개',
+  'share.text':'우리 아이가 {n}일 연속으로 양치했어요! 반짝이와 함께하는 양치 앱 Let\'s Brush', 'share.textPlain':'반짝이와 함께하는 즐거운 양치 앱 Let\'s Brush', 'share.saved':'자랑 카드를 사진으로 저장했어요', 'share.fail':'자랑 카드를 만들지 못했어요',
+  'fb.btn':'💌 의견 보내기', 'fb.note':'앱 버전과 폰 기종이 메일에 같이 적혀요 (문제를 찾는 데만 써요)', 'fb.subject':'Let\'s Brush {v} 의견', 'fb.body':'여기에 의견이나 불편한 점을 적어 주세요:\n\n\n\n--- 아래는 지우지 말아 주세요 ---',
   'sp.prefetched_other':'다음 영상 {n}편을 미리 받아 뒀어요 (인터넷 없이도 볼 수 있어요)',
 })};
 
@@ -546,12 +550,16 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
   'sub.goPlans':'See plans',
   'sub.lifeDone':'Lifetime unlocked! ⭐',
   'sub.lifeNote':'If you buy lifetime while subscribed, please cancel the subscription in the store.',
+  'sub.payFail':"The payment didn't go through. Please try again later.", 'share.btn':'📤 Share', 'brand.studio':'Tokkiyou Studio', 'share.make':'📤 Make a share card', 'share.note':'No photos or names, just Sparkle, a pet and the record. Send it by message or post it anywhere.',
+  'share.streak':'{n}-day brushing streak!', 'share.head':'Brushing time with Sparkle', 'share.days':'{n} days of brushing', 'share.pets':'{n} pets', 'share.stars':'{n} stars',
+  'share.text':"My kid has brushed {n} days in a row! Let's Brush makes brushing fun with Sparkle.", 'share.textPlain':"Let's Brush makes brushing fun with Sparkle.", 'share.saved':'Share card saved as a picture', 'share.fail':"Couldn't make the share card",
+  'fb.btn':'💌 Send feedback', 'fb.note':'The app version and phone model are added to the email (only to help find problems).', 'fb.subject':"Let's Brush {v} feedback", 'fb.body':'Please write your feedback here:\n\n\n\n--- please keep the lines below ---',
   'sp.prefetched_one':'Next video saved ahead (watchable offline)',
   'sp.prefetched_other':'Next {n} videos saved ahead (watchable offline)',
 })};
 
 // ▼ 받는 언어팩 샘플 (출시 때는 서버에 JSON 파일로 올리고 url만 적으면 됨)
-const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:49,
+const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:50,
     font:{ family:"'Kosugi Maru'", url:'fonts/kosugi-maru.css' } },
   strings: withItems('ja', {
   'app.title':"Let's Brush",
@@ -801,6 +809,10 @@ const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', 
   'sub.goPlans':'プランを見る',
   'sub.lifeDone':'買い切りが有効になりました! ⭐',
   'sub.lifeNote':'加入中に買い切りを購入した場合は、ストアで定期購入を解約してください。',
+  'sub.payFail':'お支払いが完了しませんでした。しばらくしてからもう一度お試しください。', 'share.btn':'📤 じまんする', 'brand.studio':'トッキユ スタジオ', 'share.make':'📤 じまんカードを作る', 'share.note':'写真や名前は入りません（キラリ・ペット・記録だけ）。メッセージや SNS で送れます。',
+  'share.streak':'{n}日連続 歯みがき達成！', 'share.head':'キラリと楽しい歯みがき', 'share.days':'歯みがき {n}日', 'share.pets':'ペット {n}匹', 'share.stars':'星 {n}個',
+  'share.text':'子どもが{n}日連続で歯みがきできました！キラリと一緒に楽しく歯みがき Let\'s Brush', 'share.textPlain':'キラリと一緒に楽しく歯みがき Let\'s Brush', 'share.saved':'じまんカードを画像で保存しました', 'share.fail':'じまんカードを作れませんでした',
+  'fb.btn':'💌 ご意見を送る', 'fb.note':'アプリのバージョンと機種がメールに入ります（不具合の確認にだけ使います）。', 'fb.subject':'Let\'s Brush {v} ご意見', 'fb.body':'ご意見・お気づきの点をお書きください：\n\n\n\n--- 以下は消さないでください ---',
   'sp.prefetched_other':'次の動画{n}本を先に保存しました(オフラインでも見られます)',
 })};
 
