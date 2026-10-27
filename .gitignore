@@ -1,13 +1,13 @@
 # v0.45.0 스토어 앱 포장 (Bubblewrap) 결과물: 서명 키는 절대 저장소에 올리지 않음
-android/*.keystore
-android/*.jks
-android/app/
-android/build/
-android/.gradle/
-android/gradle/
-android/*.aab
-android/*.apk
-android/*.idsig
+apps/*/android/*.keystore
+apps/*/android/*.jks
+apps/*/android/app/
+apps/*/android/build/
+apps/*/android/.gradle/
+apps/*/android/gradle/
+apps/*/android/*.aab
+apps/*/android/*.apk
+apps/*/android/*.idsig
 
-# v0.47.0 Cloudflare Pages 빌드 결과 (tools/build-site.sh)
+# v0.47.0 Cloudflare Pages 빌드 결과 (tools/build-site.js)
 dist/

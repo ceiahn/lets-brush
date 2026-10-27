@@ -560,7 +560,7 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
 
 // ▼ 받는 언어팩 샘플 (출시 때는 서버에 JSON 파일로 올리고 url만 적으면 됨)
 const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:51,
-    font:{ family:"'Kosugi Maru'", url:'fonts/kosugi-maru.css' } },
+    font:{ family:"'Kosugi Maru'", url:'../../core/fonts/kosugi-maru.css' } },
   strings: withItems('ja', {
   'app.title':"Let's Brush",
   'home.title':'キラリと\nシャカシャカ!',

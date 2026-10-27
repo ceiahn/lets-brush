@@ -4,39 +4,45 @@
 
 앱 이름은 아이가 지어 줬어요.
 
-- 버전: v0.47.0 (2026-10-27)
+- 버전: v0.48.0 (2026-10-27)
 - 언어: 한국어 · English · 日本語(앱 안에서 받기)
 - 화면: 세로 기준
 
 ## 들어 있는 것
 
+v0.48.0 부터 토끼유 스튜디오의 여러 앱이 같이 쓰는 구조로 나눴어요 (모듈화 1단계).
+
 ```
-index.html            화면 (HTML). 이 파일을 열면 앱이 시작돼요
-css/app.css           모양 (색 · 크기 · 움직임)
-js/                   동작 (기능별로 24개 파일, 앞 번호 = 읽는 순서)
-manifest.json         홈 화면 앱 정보 (이름 · 아이콘 · 세로 고정)
-sw.js                 홈 화면 앱 저장 도우미 (인터넷 없이도 열리게)
-icons/                앱 아이콘
-fonts/                글꼴 (주아 · 코스기 마루, 앱 안에 넣어서 구글 폰트 서버에 접속하지 않음)
-privacy.html          개인정보처리방침 (한 · 영 · 일)
-terms.html            이용약관 (한 · 영 · 일)
-specials/             스페셜 영상 (시리즈 ep001.mp4 ~ ep999.mp4 세 자리 소문자, 단편 sp01.mp4 …, 직접 넣기)
-resources.example.js  그림 · 아이템 · 음악 · 숫자를 코드 수정 없이 바꾸는 예시
-docs/개발_인수인계.md  다음 작업을 위한 안내 (규칙 · 구조 · 변경 기록)
-docs/시장_언어_가격.md  나라 · 언어 · 가격 정리 (어디에 먼저 낼지, 어떤 언어를 더할 수 있는지)
-docs/출시_준비.md      출시 준비 (끝낸 것 · 영상/음악 권리 · 법 점검 · 남은 일)
-docs/스토어_앱_포장.md  스토어 앱 포장 (Bubblewrap) · 구글 Play 결제 · 영상 서버 (R2) 순서
-docs/명예의_전당_구상.md  나중에 만들 명예의 전당 · 선물 이벤트 구상 (아이 개인정보 없이)
-android/              스토어 앱 포장 설정 (twa-manifest.json · assetlinks 예시)
-LICENSE               저작권 (모든 권리 보유, 글꼴만 각자 라이선스)
-docs/video/           영상 참고 이미지 (sparkle · sparkle_faces · boss_germ · pipi · mongi · coco · duri) + 1~20화 프롬프트 (첫 화면 그림 · 장면 A · 장면 B)
+core/                 토끼유 스튜디오 공통 엔진 (모든 앱이 같이 씀)
+  js/                 저장 · 도우미 · 소리 · 배경 효과 · 펫 그림 · 백업 · 구글 Play 결제 · 자랑 카드
+  fonts/              글꼴 (주아 · 코스기 마루, 앱 안에 넣어서 구글 폰트 서버에 접속하지 않음)
+characters/
+  tokkiyou/           🐰 토끼유: 스튜디오 마스코트 (디자인 준비 중)
+  sparkle/            🦷 반짝이: Let's Brush 주인공 (그림 코드 js/ · 영상 참고 그림 ref/)
+apps/
+  lets-brush/         Let's Brush 양치 앱
+    index.html        화면. 공통 파일은 ../../core/… 로 불러요
+    js/               양치 앱 코드 (설정 · 언어 · 이벤트 · 아이템 · 꾸미기 · 양치 · 펫 · 도감 · 극장 · 스페셜 · 지도 · 첫 화면)
+    css/ icons/       모양 · 아이콘
+    manifest.json sw.js   홈 화면 앱 정보 · 저장 도우미
+    privacy.html terms.html   개인정보처리방침 · 이용약관 (한 · 영 · 일)
+    specials/         스페셜 영상 (ep001.mp4 …, titles.txt)
+    android/          스토어 앱 포장 설정 (twa-manifest.json · assetlinks 예시)
+    docs/video/       영상 참고 그림 (대장 세균 · 피피 · 몽이 · 코코 · 두리) + 1~20화 프롬프트
+    resources.example.js  코드 수정 없이 바꾸는 예시
+index.html sw.js      예전 주소(GitHub Pages)로 오면 apps/lets-brush 로 넘겨 주는 파일 · 예전 저장본 정리
+docs/                 개발_인수인계 · 시장_언어_가격 · 출시_준비 · 스토어_앱_포장 · 명예의_전당_구상
 tests/                자동 점검 (GitHub에 올리면 Actions 탭에서 ✓ / ✗, 앱에는 안 들어감)
-tools/                버전 올리기 · Cloudflare Pages 에 올릴 파일 모으기 (build-site.sh)
+tools/                버전 올리기 (bump-version.js) · 올릴 파일 모으기 (build-site.js → dist/)
+LICENSE               저작권 (모든 권리 보유, 글꼴만 각자 라이선스)
 ```
+
+- **올릴 모습 만들기:** `node tools/build-site.js lets-brush` → `dist/` 에 앱을 맨 위로, 공통 파일을 그 아래로 모아요 (Cloudflare Pages 빌드 명령)
+- **새 앱을 만들 때:** `apps/<새 앱>/` 을 만들고 `core/` 는 그대로 불러 쓰면 돼요 (2~3단계에서 더 쉽게 만들 예정)
 
 ## 써 보기
 
-- **바로 열기:** `index.html`을 브라우저로 열면 돼요. 다만 휴대폰 파일 앱에서 바로 열면 `specials` 폴더의 영상을 못 읽을 수 있어요. 그럴 땐 부모님 설정의 "📥 스페셜 영상 넣기"로 영상을 앱 안에 넣어 주세요.
+- **바로 열기:** `apps/lets-brush/index.html`을 브라우저로 열면 돼요 (맨 위 `index.html`도 그쪽으로 넘겨 줘요). 다만 휴대폰 파일 앱에서 바로 열면 `specials` 폴더의 영상을 못 읽을 수 있어요. 그럴 땐 부모님 설정의 "📥 스페셜 영상 넣기"로 영상을 앱 안에 넣어 주세요.
 - **웹 주소로 열기 (추천):** 아래 "웹에 올리기"를 따라 하면 홈 화면 아이콘, 인터넷 없이 열기, 목소리 녹음까지 다 돼요.
 
 ## 웹에 올리기 (GitHub Pages)
