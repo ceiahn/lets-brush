@@ -1,6 +1,6 @@
 /*
   Let's Brush – 홈 화면 앱(PWA) 저장 도우미 (sw.js)
-  버전: v0.50.0  |  2026-10-27   (index.html v0.50.0 와 짝)
+  버전: v0.51.0  |  2026-10-27   (index.html v0.51.0 와 짝)
   ------------------------------------------------------------
   의도: 웹 주소(https)로 연 앱을 폰에 저장해 두고, 인터넷이 없어도 열리게 함
    · index.html (화면) · css/ · js/ (v0.36.0 부터 나눈 앱 코드): 인터넷 먼저 → 새 버전을 올리면 바로 반영. 인터넷이 없으면 저장해 둔 것으로 엶
@@ -13,7 +13,7 @@
   ★ index.html 을 새 버전으로 올릴 때 아래 CACHE 이름의 버전도 같이 바꿀 것 (예전 저장본이 정리됨)
   ★ js/ 에 파일을 더하거나 이름을 바꾸면 아래 APP 목록도 index.html 의 <script> 줄과 똑같이 맞출 것
 */
-const CACHE = 'lets-brush-v0.50.0';   // v0.48.0 이름 앞부분을 앱 이름으로 (예전 banjjak- 저장본은 지움)
+const CACHE = 'lets-brush-v0.51.0';   // v0.48.0 이름 앞부분을 앱 이름으로 (예전 banjjak- 저장본은 지움)
 const APP = ['./index.html', './css/app.css',
   '../../core/js/00-base.js',
   '../../core/js/00-club.js',

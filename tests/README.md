@@ -1,5 +1,7 @@
 # 자동 점검
 
+문서 버전: v1.1 (2026-10-27, 극장 점검 도구 더함)
+
 앱을 고친 뒤 망가진 곳이 없는지 한 번에 확인하는 도구예요. 앱에는 들어가지 않아요.
 
 ## GitHub에서 (따로 할 것 없음)
@@ -31,3 +33,17 @@ node run.js --quick    # 글 · 파일만 (몇 초)
 | 웹 막기 | webBlock 을 켜면 브라우저는 안내 화면만, 스토어 앱 표시(?src=twa)는 열리고 Play 결제 없이 체험이 시작되지 않는지 (v0.47.0) |
 | 습관 엔진 | core 습관 엔진: 하루 두 번 기록 · 칭찬 도장 · 빠진 날 지킴이 방석 · 연속 기록 (v0.49.0) |
 | 저장소 그대로 열기 | 예전 주소(맨 위 index.html)가 apps/lets-brush 로 넘어가고 앱이 뜨는지 (v0.48.0) |
+
+## 반짝이 극장 점검 (따로 돌림)
+
+이야기를 진짜 시간으로 끝까지 틀어 봐서 오래 걸려요 (전부 하면 약 8분). 그래서 위 기본 점검에는 안 넣었어요.
+
+```bash
+node tests/theater-check.js                    # 이야기 · 명절 편 · 아침 한 컷 모두
+node tests/theater-check.js owl sail           # 골라서
+LANG_CODE=en node tests/theater-check.js       # 영어 (ja 는 일본어)
+PAR=10 node tests/theater-check.js             # 동시에 10편씩
+```
+
+확인하는 것: 오류 없음 · 끝까지 가서 첫 화면으로 돌아옴 · 말풍선에 키 이름(`th.…`)이 그대로 나오지 않음.
+편마다 장면 4컷 사진: `tests/test-results/theater/<id>.png`

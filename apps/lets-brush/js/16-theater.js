@@ -15,6 +15,8 @@
                c.say(배우|null, 문구키) · c.brush(배우,켜기) · c.flip · c.burst · c.snd(소리) · c.wait(ms)
        좌표: 무대 % (x = 가운데, y = 바닥에서 위로). 땅은 y 5 근처
      v0.50.0 극장 2.0 도구 (아래 TH_FACE 앞 설명): c.cam · c.face · c.talk · c.iris · c.scene · c.quake. 시험판 21화 'dream'
+     v0.51.0 6개월치: 이야기는 ep 번호 차례 (1 ~ 120화). 새 이야기는 16-th-s*.js 파일 (window.TH_EPS + addText 로 대사), 그림은 16-th-art.js
+       c.cast(출연진) · c.defeat(세균, 방법?) 조합 장치 · c.enter · c.restyle · c.shower · c.many. 명절 편 season · 아침 한 컷 16-th-gags.js (TH_GAGS)
    ========================================================= */
 const THEATER_BGS = ['bath', 'room', 'safari', 'bug', 'bird', 'sea', 'swamp', 'castle'];
 const BATH_BG = '<rect width="400" height="260" fill="#cdeefc"/>' +
