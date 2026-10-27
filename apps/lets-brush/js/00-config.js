@@ -31,6 +31,8 @@ const CONFIG = Object.assign({
   //         개발 중에는 false. 출시할 때 true + storeUrl (apps/lets-brush/docs/스토어_앱_포장.md 0장). 약관 · 처리방침 페이지는 늘 열림
   webBlock: false,
   storeUrl: '',                   // v0.47.0 구글 Play 앱 주소 (출시 뒤): https://play.google.com/store/apps/details?id=com.tokkiyou.letsbrush
+  // v0.52.0 익명 숫자 (이야기별 본 수 · 좋아요 수만, 부모님이 설정에서 켠 경우만). 받는 서버 주소: apps/lets-brush/docs/익명_숫자.md. 비우면 설정 칸도 안 보임
+  statsUrl: '', statsApp: 'lets-brush',
   contact: 'tokkiyou.studio@gmail.com',     // v0.44.2 토끼유 스튜디오 메일 (v0.33.1 문의 이메일 (설정 부모님 칸 · 약관 · 처리방침 · 스토어)  // v0.30.0 오늘의 퀴즈: 맞히면 별 · 도장 1개, 도장 stampsForPet 개면 펫 한 마리
   popularFirst: true,             // v0.29.0 새 알 · 선물 펫은 아이들이 잘 아는 동물부터 (false = 전부 무작위)
   parentGate: true,               // v0.28.5 설정을 열 때 곱셈 문제로 어른 확인 (false = 안 물음)

@@ -295,6 +295,49 @@ async function runLangPack(browser, base){
   return problems;
 }
 
+// v0.52.0 극장 좋아요 · 좋아한 편 다시 보기 · 아침 한 컷 최근 20개 안 고르기 · 익명 숫자 (켠 경우만, 숫자만)
+async function runLikes(browser, base){
+  const problems = [], page = await browser.newPage(), sent = [];
+  page.on('pageerror', e => problems.push('[like] 오류: ' + e.message));
+  await page.route('**/stats-test', async (route) => { sent.push(route.request().postData()); await route.fulfill({ status:200, body:'ok', headers:{ 'access-control-allow-origin':'*' } }); });
+  await page.addInitScript((u) => { window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false, statsUrl:u } }; localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); localStorage.setItem('bj_kidName', '"하나"'); }, base + '/stats-test');
+  await page.goto(base + '/index.html'); await page.waitForTimeout(1200);
+  // 고르기 (순수 함수)
+  const r = await page.evaluate(() => {
+    const st = { g:[] }, likes = { owl:3, king:1 }, seq = [];
+    for (let i = 0; i < 8; i++){ const x = thPickStory(st, likes); seq.push(x.fav ? '♥' + x.ep.id : x.ep.id); st.g = [x.ep.id].concat(st.g).slice(0, 5); }
+    const sg = {}, gs = [];
+    for (let i = 0; i < 70; i++) gs.push(thPickGag(sg, {}).id);
+    let rep = 0; gs.forEach((id, i) => { if (gs.slice(Math.max(0, i - 20), i).includes(id)) rep++; });
+    return { seq, rep, n:TH_GAGS.length, statsOff:(Stats.add('th', 'owl', 'view'), JSON.stringify(store.get('stats', {}))) };
+  });
+  if (r.seq[3][0] !== '♥' || r.seq[7][0] !== '♥' || r.seq.filter(x => x[0] === '♥').length !== 2 || r.seq[3] === r.seq[7]) problems.push('[like] 4번에 1번 좋아한 이야기가 안 나옴: ' + r.seq.join(' '));
+  if (r.rep) problems.push(`[like] 아침 한 컷이 최근 20개 안에서 다시 나옴 (${r.rep}번)`);
+  if (r.statsOff !== '{}') problems.push('[like] 익명 숫자를 안 켰는데 폰에 셈: ' + r.statsOff);
+  // ♡ 누르기 + 익명 숫자
+  await page.evaluate(() => { Stats.setOn(true); store.set('statsSent', Date.now()); window.__bjTheater('yawn'); });   // 하루 한 번 보내기는 잠깐 미룸
+  const t0 = Date.now(); let clicked = false;
+  while (Date.now() - t0 < 25000){
+    await page.waitForTimeout(300);
+    if (!clicked && await page.locator('#thLike').isVisible()){ await page.click('#thLike', { force:true, timeout:2000 }); clicked = true; }
+    if (await page.evaluate(() => document.querySelector('.screen.active').id) !== 'theater') break;
+  }
+  if (!clicked) problems.push('[like] 끝날 때 ♡ 단추가 안 나옴');
+  const s = await page.evaluate(async () => ({ likes:store.get('thLikes', {}), stats:store.get('stats', {}), ok:await Stats.flush(true), after:store.get('stats', {}), hidden:document.querySelector('#thLike').hidden }));
+  if (s.likes.yawn !== 1) problems.push('[like] 좋아요가 저장 안 됨: ' + JSON.stringify(s.likes));
+  if (JSON.stringify(s.stats['thg:yawn']) !== '[1,1,0,1]') problems.push('[like] 익명 숫자가 이상함: ' + JSON.stringify(s.stats));
+  if (!s.ok || !sent.length || Object.keys(s.after).length) problems.push('[like] 익명 숫자를 못 보냄: ' + JSON.stringify({ ok:s.ok, sent:sent.length, after:s.after }));
+  if (!s.hidden) problems.push('[like] 극장이 끝났는데 ♡ 단추가 남음');
+  if (sent.length){
+    const b = JSON.parse(sent[0]);
+    if (Object.keys(b).sort().join() !== 'app,c,lang,v' || /하나/.test(sent[0])) problems.push('[like] 보낸 내용에 숫자 말고 다른 것이 있음: ' + sent[0]);
+  }
+  await page.evaluate(() => Stats.setOn(false));
+  if (await page.evaluate(() => JSON.stringify(store.get('stats', null))) !== 'null') problems.push('[like] 끄면 모아 둔 숫자를 지워야 됨');
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -326,6 +369,9 @@ async function runBrowser(){
     const rp = await runRepo(browser);
     console.log(`${rp.length ? '✗' : '✓'} 저장소 그대로 열기 (예전 주소 → apps/lets-brush)${rp.length ? ` (${rp.length})` : ''}`);
     rp.forEach(x => console.log('   ' + x)); all.push(...rp);
+    const lk = await runLikes(browser, base);
+    console.log(`${lk.length ? '✗' : '✓'} 극장 좋아요 · 다시 보기 · 아침 한 컷 고르기 · 익명 숫자${lk.length ? ` (${lk.length})` : ''}`);
+    lk.forEach(x => console.log('   ' + x)); all.push(...lk);
     const lp = await runLangPack(browser, base);
     console.log(`${lp.length ? '✗' : '✓'} 받는 언어팩 (일본 폰 저절로 · 새 버전 받기)${lp.length ? ` (${lp.length})` : ''}`);
     lp.forEach(x => console.log('   ' + x)); all.push(...lp);

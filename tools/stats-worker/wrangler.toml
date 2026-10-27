@@ -1,0 +1,9 @@
+# 토끼유 스튜디오 익명 숫자 (v0.52.0). database_id 는 wrangler d1 create 가 알려 준 값으로 바꿀 것
+name = "tokkiyou-stats"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tokkiyou-stats"
+database_id = "여기에-d1-아이디"

@@ -63,7 +63,8 @@ const APP = ['./index.html', './css/app.css',
   '../../core/js/20-webgate.js',
   './js/21-home.js',
   '../../core/js/22-play.js',
-  '../../core/js/23-share.js'];
+  '../../core/js/23-share.js',
+  '../../core/js/24-stats.js'];
 const CORE = ['./', ...APP, './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png'];
 const LANGS = ['./lang/ja.json'];                                                         // v0.52.0 받는 언어팩 (tools/sync-files.js 가 채움)
 const OPTIONAL = ['./resources.js', '../../core/fonts/jua.css', './privacy.html', './terms.html', ...LANGS];   // 없어도 됨

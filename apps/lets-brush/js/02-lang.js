@@ -54,6 +54,9 @@ const withItems = (code, strings) => {
 };
 
 const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, strings: withItems('ko', {
+  'th.like':'좋아요', 'th.fav':'♥ 좋아한 이야기 다시 보기', 'th.favOpen':'좋아하는 이야기 다시 보기! {title}',
+  'settings.stats':'📊 이야기 좋아요 수 보내기 (익명)',
+  'settings.statsNote':'켜면 이야기 · 아침 한 컷마다 본 수 · 끝까지 본 수 · 건너뛴 수 · 좋아요 수만 하루에 한 번 보내요. 이름 · 생일 · 기기 번호 · 양치 기록은 보내지 않아요. 아이들이 좋아하는 이야기를 더 만드는 데만 써요.',
   'app.title':"Let's Brush",
   'home.title':'반짝이랑\n치카치카!',
   'home.todayNone':'오늘 아직 안 닦았어요',
@@ -270,6 +273,9 @@ const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, 
 })};
 
 const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, strings: withItems('en', {
+  'th.like':'Like', 'th.fav':'♥ A favorite, once more', 'th.favOpen':'Your favorite story again! {title}',
+  'settings.stats':'📊 Send story like counts (anonymous)',
+  'settings.statsNote':'When on, the app sends only numbers once a day: how many times each story or morning mini was watched, finished, skipped and liked. No names, birthdays, device IDs or brushing records. Used only to make more stories kids love.',
   'app.title':"Let's Brush",
   'home.title':'Brush with\nSparkle!',
   'home.todayNone':'No brushing yet today',
@@ -490,5 +496,5 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
 })};
 
 const PACK_CATALOG = [   // v0.52.0 받는 언어팩은 lang/<code>.json (번역 파일 하나 = 언어 하나). version 은 그 파일 meta.version 과 같게 (올리면 받아 둔 기기도 새로 받음)
-  { code:'ja', name:'日本語', url:'lang/ja.json', version:54 }
+  { code:'ja', name:'日本語', url:'lang/ja.json', version:55 }
 ];

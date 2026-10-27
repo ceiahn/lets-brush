@@ -276,7 +276,7 @@ function thCtx(stage, tok){
     },
     async opening(n, title){
       TH_SND.fanfare();
-      Voice.play('theater', c.quick ? t('th.gagOpen') : t('th.open', { n, title }));
+      Voice.play('theater', c.quick ? t('th.gagOpen') : c.fav ? t('th.favOpen', { title }) : t('th.open', { n, title }));
       await wait(c.quick ? 900 : 1800);
       stage.classList.add('open'); await wait(c.quick ? 600 : 900);
       const tt = stage.querySelector('.th-title'); if (tt) tt.remove();
@@ -285,6 +285,7 @@ function thCtx(stage, tok){
       if (c.quick){                                                              // v0.51.0 아침 짧은 극장: 짧게 인사만
         say(null, 'th.gagEnd'); TH_SND.ding(4);
         await Promise.all([pose(c.hero, P_HOP, 420, 2), pose(c.pet, P_HOP, 420, 2)]);
+        await wait(1100);                                                         // v0.52.0 ♡ 누를 틈
         stage.classList.remove('open'); await wait(700); return;
       }
       const nm = kidName();
@@ -832,26 +833,50 @@ const THEATER = [
    · 아침(오후 3시 전) 양치에는 짧은 극장(TH_GAGS, 10초 안팎). CONFIG.theaterAmGag:false 면 아침에도 이야기 */
 const TH_ALL = () => THEATER.concat(window.TH_EPS || []);
 const TH_REG = () => TH_ALL().filter(e => !e.season).sort((a, b) => (a.ep || 999) - (b.ep || 999));
+/* v0.52.0 좋아요 · 고르기
+   · 끝날 때 ♡ 단추 (#thLike). 누르면 그 아이의 bj_thLikes[id] +1 (아이마다 따로)
+   · 저녁 이야기: 4번에 1번은 좋아요 한 이야기 다시 보기 (최근 5편 · 다음 차례 편은 빼고, 좋아요가 많을수록 잘 뽑힘). 다시 보기는 화 번호 · 차례를 안 넘김
+   · 아침 한 컷: 최근 20개는 안 고름, 남은 것 중에서 좋아요 한 것일수록 잘 뽑힘 (한 번 누르면 3배, 최대 7배) */
+const TH_FAV_EVERY = 4, TH_GAG_RECENT = 20;
+const thPickW = (arr, w) => { const tot = arr.reduce((a, x) => a + w(x), 0); let r = Math.random() * tot; for (const x of arr){ r -= w(x); if (r <= 0) return x; } return arr[arr.length - 1]; };
+function thPickStory(st, likes, REG = TH_REG()){
+  const k = (st.k || 0) % REG.length;
+  st.rc = (st.rc || 0) + 1;
+  const favs = REG.filter(e => likes[e.id] && !(st.g || []).includes(e.id) && e !== REG[k]);
+  if (st.rc % TH_FAV_EVERY === 0 && favs.length) return { ep:thPickW(favs, e => likes[e.id]), fav:true };
+  st.k = k + 1;
+  return { ep:REG[k], fav:false };
+}
+function thPickGag(st, likes, GAGS = window.TH_GAGS || []){
+  const rec = st.gr || [];
+  let pool = GAGS.filter(g => !rec.includes(g.id)); if (!pool.length) pool = GAGS;
+  const g = thPickW(pool, x => 1 + 2 * Math.min(3, likes[x.id] || 0));
+  st.gr = [g.id].concat(rec).slice(0, Math.min(TH_GAG_RECENT, Math.max(0, GAGS.length - 1)));
+  return g;
+}
 function playTheater(onDone, forceId, forceBg){                         // force…: 개발자 미리 보기용
-  const st = store.get('theater', { n:0, g:[], b:[] });
+  const st = store.get('theater', { n:0, g:[], b:[] }), likes = store.get('thLikes', {});
   const REG = TH_REG(), GAGS = window.TH_GAGS || [];
-  let gag = forceId ? (TH_ALL().concat(GAGS).find(x => x.id === forceId) || null) : null, quick = !!(gag && GAGS.includes(gag));
+  let gag = forceId ? (TH_ALL().concat(GAGS).find(x => x.id === forceId) || null) : null, quick = !!(gag && GAGS.includes(gag)), fav = false;
   if (!gag){
     const ev = activeEvent(), evk = ev ? spEvKey() : '';
     const se = ev && TH_ALL().find(e => e.season && (e.season === ev.id || e.season === ev.text) && !(st.sw || []).includes(e.id + '@' + evk));
     if (se){ gag = se; st.sw = (st.sw || []).concat(se.id + '@' + evk).slice(-30); }
-    else if (slotOf() === 'am' && CONFIG.theaterAmGag !== false && GAGS.length){ gag = GAGS[(st.gk || 0) % GAGS.length]; st.gk = (st.gk || 0) + 1; quick = true; }
-    else { const k = (st.k || 0) % REG.length; gag = REG[k]; st.k = k + 1; }
+    else if (slotOf() === 'am' && CONFIG.theaterAmGag !== false && GAGS.length){ gag = thPickGag(st, likes, GAGS); quick = true; }
+    else { const r = thPickStory(st, likes, REG); gag = r.ep; fav = r.fav; }
   }
   const bg = (THEATER_BGS.includes(forceBg) || TH_BG_EXTRA[forceBg]) ? forceBg : (gag.bg || pickFresh(THEATER_BGS, st.b || []));
-  if (!quick) st.n = (st.n || 0) + 1;
+  if (!quick && !fav) st.n = (st.n || 0) + 1;
   st.g = [gag.id].concat(st.g || []).slice(0, 5); st.b = [bg].concat(st.b || []).slice(0, 3);
   store.set('theater', st);
   const nextGag = quick || gag.season ? null : REG[(st.k || 0) % REG.length];
-  const tok = ++thTok;
-  let finished = false;
+  const tok = ++thTok, kind = quick ? 'thg' : 'th';
+  let finished = false, natural = false;
+  Stats.add(kind, gag.id, 'view');                                       // v0.52.0 익명 숫자 (부모님이 켠 경우만)
   const end = () => {
     if (finished) return; finished = true;
+    Stats.add(kind, gag.id, natural ? 'done' : 'skip');
+    thLikeHide(); setTimeout(() => Stats.flush(), 3000);
     thTok++; thEnd = null; Voice.stop();
     $('#thStage').innerHTML = ''; $('#thStage').className = 'th-stage';
     onDone();
@@ -863,7 +888,7 @@ function playTheater(onDone, forceId, forceBg){                         // force
   const look = Object.assign({}, effectiveLook());
   if (slotOf() === 'pm' && !look.head) look.head = 'head_nightcap';
   const title = t((quick ? 'thg.' : 'th.') + gag.id + '.t');
-  const epLabel = quick ? t('th.gagName') : t('th.ep', { n:st.n });
+  const epLabel = quick ? t('th.gagName') : fav ? t('th.fav') : t('th.ep', { n:st.n });
   $('#thHead').innerHTML = `🎬 ${esc(t('th.name'))}<small>${esc(epLabel)} · ${esc(title)}</small>`;
   stage.innerHTML = '<div class="th-world">' + thBgSvg(bg) + (slotOf() === 'pm' || gag.night ? '<div class="th-night"></div>' : '') + '</div>' +   // v0.50.0 카메라 층
     '<div class="th-cur l"></div><div class="th-cur r"></div>' +
@@ -872,18 +897,32 @@ function playTheater(onDone, forceId, forceBg){                         // force
   c.hero = c.prop(Character.art(look), 32, 50, 5, 3, 250 / 220);
   c.pet = c.prop(pal ? petArt(pal) : eggArt(), 20, 78, 5, 3);
   c.P = { pet: pal ? petName(pal) : t('th.eggName'), boss: t('boss.' + curBoss.id) };
-  c.nextTitle = nextGag ? t('th.' + nextGag.id + '.t') : null; c.quick = quick;
+  c.nextTitle = nextGag ? t('th.' + nextGag.id + '.t') : null; c.quick = quick; c.fav = fav;
   if (gag.setup) gag.setup(c);
   show('theater');
   (async () => {
     try{
       await c.opening(st.n, title);
       await gag.run(c);
+      thLikeShow(gag.id, kind, c);
       await c.ending();
+      natural = true;
     }catch(e){ if (e !== TH_STOP) console.error(e); }
     if (tok === thTok) end();
   })();
 }
+/* v0.52.0 ♡ 좋아요 단추: 이야기 끝날 때 나타남. 한 번 볼 때 한 번 */
+function thLikeShow(id, kind, c){
+  const b = $('#thLike'); b.hidden = false; b.classList.remove('on'); b.textContent = '♡'; b.setAttribute('aria-label', t('th.like'));
+  b.onclick = () => {
+    if (b.classList.contains('on')) return;
+    const L = store.get('thLikes', {}); L[id] = (L[id] || 0) + 1; store.set('thLikes', L);
+    b.classList.add('on'); b.textContent = '♥'; TH_SND.magic();
+    Stats.add(kind, id, 'like');
+    try{ [0, 1, 2].forEach(i => c.floatProp(TH_P.heart, 6, 14 + i * 7, 8)); }catch(e){}
+  };
+}
+function thLikeHide(){ const b = $('#thLike'); b.hidden = true; b.onclick = null; }
 $('#thSkip').addEventListener('click', () => { sfx.tap(); if (thEnd) thEnd(); });
 $('#theaterTest').addEventListener('click', () => { sfx.tap(); playTheater(() => { refreshHome(); show('home'); }); });
 $('#theaterV2').addEventListener('click', () => { sfx.tap(); playTheater(() => { renderSettings(); show('settings'); }, 'dream'); });   // v0.50.0 극장 2.0 시험판 (부모님 설정)

@@ -200,6 +200,8 @@
       <label class="set-row"><span data-i18n="settings.tongue"></span><input type="checkbox" class="tgl" id="tongueTgl"></label>
       <label class="set-row"><span data-i18n="settings.theater"></span><input type="checkbox" class="tgl" id="theaterTgl"></label>
       <button class="listen-btn" id="theaterV2" data-i18n="settings.theaterV2"></button>
+      <label class="set-row" id="statsRow" hidden><span data-i18n="settings.stats"></span><input type="checkbox" class="tgl" id="statsTgl"></label>
+      <p class="set-note" id="statsNote" data-i18n="settings.statsNote" hidden></p>
       <label class="set-row"><span data-i18n="settings.quiz"></span><input type="checkbox" class="tgl" id="quizTgl"></label>
       <label class="set-row"><span data-i18n="settings.special"></span><input type="checkbox" class="tgl" id="specialTgl"></label>
       <button class="listen-btn" id="spLoad" data-i18n="sp.load"></button>
@@ -291,6 +293,7 @@
   <div class="th-head" id="thHead"></div>
   <div class="th-stage" id="thStage"></div>
   <button class="th-skip" id="thSkip" data-i18n="th.skip"></button>
+  <button class="th-like" id="thLike" hidden>♡</button>
 </section>
 
 <!-- ④-4 스페셜 영상: 특별한 날 · 일주일에 한 번 (v0.22.0) -->
@@ -495,5 +498,6 @@
 <script src="js/21-home.js"></script>
 <script src="../../core/js/22-play.js"></script>
 <script src="../../core/js/23-share.js"></script>
+<script src="../../core/js/24-stats.js"></script>
 </body>
 </html>

@@ -793,6 +793,10 @@ body.eve .brushC{background:radial-gradient(2px 2px at 14% 8%,#fff,#fff0),radial
 .th-stage.open .th-title{opacity:0;transform:translate(-50%,-90%) scale(.8)}
 .th-skip{position:absolute;right:calc(14px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));padding:10px 18px;border-radius:999px;
   background:#ffffffe6;font-size:17px;z-index:12;box-shadow:0 3px 0 #0003}
+.th-like{position:absolute;left:calc(14px + env(safe-area-inset-left));bottom:calc(12px + env(safe-area-inset-bottom));width:64px;height:64px;border-radius:50%;
+  background:#ffffffe6;font-size:38px;line-height:1;color:#e8455f;z-index:12;box-shadow:0 3px 0 #0003;animation:pop .4s, likeBeat 1.2s ease-in-out .4s infinite}   /* v0.52.0 좋아요 */
+.th-like.on{background:#ffe0ea;animation:pop .35s}
+@keyframes likeBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 .modal{position:fixed;inset:0;background:#24324a88;display:none;align-items:center;justify-content:center;z-index:20;padding:24px}
 .modal.show{display:flex}
 .modal-box{background:#fff;border-radius:28px;padding:24px 22px;text-align:center;width:min(100%,340px);display:flex;flex-direction:column;align-items:center;gap:14px;animation:pop .3s}

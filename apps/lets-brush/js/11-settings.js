@@ -57,6 +57,7 @@ function renderSettings(){
   $('#prepTgl').checked = prepOn;
   $('#tongueTgl').checked = tongueOn;
   $('#theaterTgl').checked = theaterOn;
+  Stats.syncUI();                                                                        // v0.52.0 익명 숫자 (statsUrl 이 있을 때만 보임)
   $('#quizTgl').checked = store.get('quizOn', true);
   $('#specialTgl').checked = specialOn;
   $('#handSel').innerHTML = ['right', 'left'].map(k => `<option value="${k}" ${hand === k ? 'selected' : ''}>${t('hand.' + k)}</option>`).join('');
