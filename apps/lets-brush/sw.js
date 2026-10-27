@@ -15,9 +15,14 @@
 */
 const CACHE = 'lets-brush-v0.48.0';   // v0.48.0 이름 앞부분을 앱 이름으로 (예전 banjjak- 저장본은 지움)
 const APP = ['./index.html', './css/app.css',
+  '../../core/js/00-base.js',
+  '../../core/js/00-club.js',
   './js/00-config.js',
   '../../core/js/01-store.js',
   './js/02-lang.js',
+  '../../core/js/02-strings.js',
+  '../../core/js/02-text.js',
+  '../../core/js/03-dates.js',
   './js/03-events.js',
   './js/04-state.js',
   './js/05-items.js',
@@ -26,6 +31,7 @@ const APP = ['./index.html', './css/app.css',
   '../../core/js/08-sound.js',
   '../../core/js/09-effects.js',
   './js/10-closet.js',
+  '../../core/js/11-gate.js',
   './js/11-settings.js',
   './js/12-brush.js',
   '../../core/js/13-pet-art.js',
@@ -35,8 +41,13 @@ const APP = ['./index.html', './css/app.css',
   './js/17-special.js',
   '../../core/js/18-backup.js',
   './js/19-map.js',
+  '../../core/js/20-club.js',
   './js/20-dev.js',
-  './js/21-home.js', '../../core/js/22-play.js', '../../core/js/23-share.js'];
+  '../../core/js/20-kids.js',
+  '../../core/js/20-webgate.js',
+  './js/21-home.js',
+  '../../core/js/22-play.js',
+  '../../core/js/23-share.js'];
 const CORE = ['./', ...APP, './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png'];
 const OPTIONAL = ['./resources.js', '../../core/fonts/jua.css', './privacy.html', './terms.html'];   // 없어도 됨
 
