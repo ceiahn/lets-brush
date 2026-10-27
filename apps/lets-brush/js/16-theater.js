@@ -14,6 +14,7 @@
        c 도구: c.hero · c.pet · c.boss(x,y) · c.prop(그림,폭,x,y,z,세로비) · c.go(배우,x,y,ms) · c.pose(배우,동작,ms,반복)
                c.say(배우|null, 문구키) · c.brush(배우,켜기) · c.flip · c.burst · c.snd(소리) · c.wait(ms)
        좌표: 무대 % (x = 가운데, y = 바닥에서 위로). 땅은 y 5 근처
+     v0.50.0 극장 2.0 도구 (아래 TH_FACE 앞 설명): c.cam · c.face · c.talk · c.iris · c.scene · c.quake. 시험판 21화 'dream'
    ========================================================= */
 const THEATER_BGS = ['bath', 'room', 'safari', 'bug', 'bird', 'sea', 'swamp', 'castle'];
 const BATH_BG = '<rect width="400" height="260" fill="#cdeefc"/>' +
@@ -70,15 +71,33 @@ function thBgSvg(id){
   const raw = id === 'bath' ? inkScene(BATH_BG, 3.5) : id === 'room' ? roomBG() : habBG(id);
   return `<svg class="th-bg" viewBox="0 0 400 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${raw}</svg>`;
 }
+/* v0.50.0 극장 2.0 도구 (시험판 '꿈속 세균 성' 에서 처음 씀, 예전 이야기도 그대로 동작)
+     c.cam(x, y, 배율, ms)   카메라: 무대의 (x, y) 를 가운데로 당겨 확대 (배율 1 = 전체). 가장자리 밖은 안 보이게 자동으로 맞춤
+     c.face(배우, 표정)      반짝이 표정: 'happy' · 'sad' · 'angry' · 'surprised' · 'sleep' · null(보통)
+     c.talk(배우, 켜기)      말하기: 반짝이는 입이 뻐끔뻐끔, 펫 · 세균은 통통. c.line · c.say 가 말하는 동안 저절로 켬
+     c.iris(닫기) · c.scene(배경, 밤)   동그랗게 닫혔다 열리는 장면 전환 · 배경 바꾸기
+     c.quake(ms)             화면 흔들기
+   무대 구조: .th-stage > .th-world(배경 · 배우 · 효과, 카메라가 움직이는 층) + 말풍선 · 막 · 제목(카메라와 상관없이 고정) */
+const TH_FACE = {
+  happy:'<path d="M66 86 Q78 70 90 86 M110 86 Q122 70 134 86" fill="none" stroke="#24324a" stroke-width="6" stroke-linecap="round"/>',
+  sleep:'<path d="M66 80 Q78 90 90 80 M110 80 Q122 90 134 80" fill="none" stroke="#24324a" stroke-width="5.5" stroke-linecap="round"/>',
+  sad:'<path d="M62 66 L88 58 M112 58 L138 66" fill="none" stroke="#24324a" stroke-width="5" stroke-linecap="round"/><path d="M88 112 Q100 100 112 112" fill="none" stroke="#24324a" stroke-width="5.5" stroke-linecap="round"/>',
+  angry:'<path d="M62 58 L88 67 M112 67 L138 58" fill="none" stroke="#24324a" stroke-width="5.5" stroke-linecap="round"/>',
+  surprised:'<path d="M64 60 Q77 50 90 58 M110 58 Q123 50 136 60" fill="none" stroke="#24324a" stroke-width="5" stroke-linecap="round"/><ellipse cx="100" cy="108" rx="8" ry="10" fill="#8a2346" stroke="#24324a" stroke-width="4"/>'
+};
 function thCtx(stage, tok){
   const chk = () => { if (tok !== thTok) throw TH_STOP; };
+  const world = stage.querySelector('.th-world') || stage;
+  let cam = { x:50, y:50, z:1 };
+  const camFix = (v, z) => Math.max(50 / z, Math.min(100 - 50 / z, v));
+  const onScreen = (x, y) => ({ x:50 + (x - cam.x) * cam.z, y:50 + (y - cam.y) * cam.z });   // 무대 % → 화면 % (말풍선 자리)
   const wait = async (ms) => { await new Promise(r => setTimeout(r, ms)); chk(); };
   const actor = (svg, w, x, y, z = 2, ratio = 1) => {
     const a = document.createElement('div'); a.className = 'th-a';
     a.style.cssText = `width:${w}%;margin-left:${-w / 2}%;left:${x}%;bottom:${y}%;z-index:${z}`;
     a.innerHTML = `<div class="th-in">${svg}</div>`;
     a.pos = { x, y }; a.w = w; a.h = w * ratio;
-    stage.appendChild(a); return a;
+    world.appendChild(a); return a;
   };
   const go = async (a, x, y, ms, ease = 'ease-in-out') => {
     const from = { left:a.pos.x + '%', bottom:a.pos.y + '%' }; a.pos = { x, y };
@@ -104,7 +123,7 @@ function thCtx(stage, tok){
     stage.querySelectorAll('.th-bub').forEach(b => b.remove());
     const b = document.createElement('div'); b.className = 'th-bub' + (a ? '' : ' nar'); b.textContent = txt;
     if (a){
-      const x = Math.max(24, Math.min(76, a.pos.x)), y = Math.min(80, Math.max(8, a.pos.y + a.h + 3));
+      const top = onScreen(a.pos.x, a.pos.y + a.h), x = Math.max(24, Math.min(76, top.x)), y = Math.min(80, Math.max(8, top.y + 3));   // 카메라를 따라 머리 위
       b.style.left = x + '%'; b.style.bottom = y + '%';
     }
     stage.appendChild(b);
@@ -112,17 +131,23 @@ function thCtx(stage, tok){
       const sw = stage.clientWidth, bw = b.offsetWidth, cx = parseFloat(b.style.left) / 100 * sw;
       b.style.left = Math.max(bw / 2 + 6, Math.min(sw - bw / 2 - 6, cx)) + 'px';
     }
-    clearTimeout(bubT); bubT = setTimeout(() => b.remove(), dur);
+    clearTimeout(bubT); bubT = setTimeout(() => { b.remove(); }, dur);
+    if (a && !a.classList.contains('talk')){ talk(a, true); setTimeout(() => talk(a, false), Math.min(dur, lineMs(txt))); }
     Voice.play('theater', txt);
     return txt;
   };
   const lineMs = (txt) => Math.max(1700, 700 + [...txt].length * (lang === 'en' ? 55 : 95));   // 읽는 시간 (한 · 일은 글자당 더 길게)
-  const line = async (a, key, prm = {}) => { const txt = t(key, Object.assign({}, c.P || {}, prm)), ms = lineMs(txt); say(a, key, prm, ms + 300); await wait(ms); };
+  const talk = (a, on) => { if (a && a.classList) a.classList.toggle('talk', !!on); };
+  const line = async (a, key, prm = {}) => {
+    const txt = t(key, Object.assign({}, c.P || {}, prm)), ms = lineMs(txt);
+    say(a, key, prm, ms + 300); talk(a, true);
+    try{ await wait(ms); } finally { talk(a, false); }
+  };
   const burst = (a, n = 7) => {
     const cx = a.pos ? a.pos.x : a.x, cy = a.pos ? a.pos.y + a.h / 2 : a.y;
     for (let i = 0; i < n; i++){
       const f = document.createElement('div'); f.className = 'th-fx'; f.innerHTML = TH_ART.star;
-      f.style.left = cx + '%'; f.style.bottom = cy + '%'; stage.appendChild(f);
+      f.style.left = cx + '%'; f.style.bottom = cy + '%'; world.appendChild(f);
       const ang = i / n * Math.PI * 2, r = 120 + Math.random() * 80;
       f.animate([{ transform:'translate(0,0) scale(.4)', opacity:1 }, { transform:`translate(${Math.cos(ang) * r}%,${Math.sin(ang) * r}%) scale(1) rotate(180deg)`, opacity:0 }],
         { duration:700 + Math.random() * 300, easing:'cubic-bezier(.1,.7,.3,1)' }).onfinish = () => f.remove();
@@ -134,9 +159,45 @@ function thCtx(stage, tok){
       { duration:2600, easing:'ease-out' }).onfinish = () => p.remove();
   };
   const c = {
-    stage, wait, go, pose, morph, say, line, burst, floatProp,
+    stage, world, wait, go, pose, morph, say, line, burst, floatProp, talk,
+    async cam(x, y, z = 1, ms = 800){
+      z = Math.max(1, z); const to = { x:camFix(x, z), y:camFix(y, z), z };
+      const tf = (k) => `translate(${50 - k.z * k.x}%, ${50 - k.z * (100 - k.y)}%) scale(${k.z})`;
+      const an = world.animate([{ transform:tf(cam) }, { transform:tf(to) }], { duration:Math.max(1, ms), easing:'cubic-bezier(.45,0,.25,1)', fill:'forwards' });
+      cam = to;
+      try{ await an.finished; }catch(e){}
+      chk();
+    },
+    face(a, kind){
+      const sv = a && a.querySelector('svg.char'); if (!sv) return;
+      Object.keys(TH_FACE).forEach(k => sv.classList.remove('fx-' + k));
+      const old = sv.querySelector('.th-face'); if (old) old.remove();
+      if (!kind || !TH_FACE[kind]) return;
+      sv.classList.add('fx-' + kind);
+      const host = sv.querySelector('.eyes') ? sv.querySelector('.eyes').parentNode : sv;
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'th-face'); g.innerHTML = TH_FACE[kind];
+      host.appendChild(g);
+    },
+    async iris(close, ms = 700){
+      const a = 'circle(75% at 50% 50%)', b = 'circle(0% at 50% 50%)';
+      const an = world.animate([{ clipPath:close ? a : b }, { clipPath:close ? b : a }], { duration:ms, easing:'ease-in-out', fill:'forwards' });
+      try{ await an.finished; }catch(e){}
+      chk();
+    },
+    scene(bg, night){
+      const old = world.querySelector('.th-bg'); if (old) old.outerHTML = thBgSvg(bg);
+      let n = world.querySelector('.th-night');
+      if (night && !n){ n = document.createElement('div'); n.className = 'th-night'; world.insertBefore(n, world.querySelector('.th-bg').nextSibling); }
+      if (!night && n && slotOf() !== 'pm') n.remove();
+    },
+    async quake(ms = 500){
+      const an = stage.animate([{ transform:'translate(0,0)' }, { transform:'translate(-1.5%,1%)' }, { transform:'translate(1.5%,-1%)' }, { transform:'translate(-1%,0)' }, { transform:'translate(0,0)' }],
+        { duration:ms, iterations:1 });
+      try{ await an.finished; }catch(e){}
+      chk();
+    },
     prop: actor,
-    place(a, x, y){ a.pos = { x, y }; a.style.left = x + '%'; a.style.bottom = y + '%'; },
+    place(a, x, y){ a.getAnimations().forEach(an => an.cancel()); a.pos = { x, y }; a.style.left = x + '%'; a.style.bottom = y + '%'; },   // v0.50.0 앞서 움직인(go) 자리를 지우고 옮김
     boss(x, y, w = 20){ return actor(germSVG(curBoss.col, curBoss), w, x, y, 1); },
     flip(a, on){ a.style.transform = on ? 'scaleX(-1)' : ''; },
     brush(a, on){ const s = a.querySelector('svg.char'); if (s) s.classList.toggle('brushing', !!on); },
@@ -554,6 +615,46 @@ const THEATER = [
     c.snd('pop'); c.burst(g, 7); g.remove(); c.brush(c.hero, false); c.snd('magic'); c.burst(mr, 10);
     await Promise.all([c.line(null, 'th.mirror.6'), c.pose(c.hero, P_HOP, 420, 2), c.pose(me, P_HOP, 420, 2)]);
     await Promise.all([c.line(null, 'th.mirror.7'), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  /* v0.50.0 극장 2.0 시험판: 카메라 확대 · 이동, 말할 때 입, 표정, 장면 전환(동그라미), 화면 흔들기를 모두 씀 (약 30초) */
+  { id:'dream', bg:'room', night:true, v2:true, setup(c){ c.place(c.hero, 40, 5); c.place(c.pet, 16, 5); }, run: async (c) => {
+    c.face(c.hero, 'sad');
+    await Promise.all([c.line(null, 'th.dream.1'), c.pose(c.hero, P_YAWN, 900, 2)]);
+    await c.cam(40, 24, 1.9, 1000);                                               // 반짝이 얼굴로 가까이
+    await Promise.all([c.line(c.hero, 'th.dream.2'), c.pose(c.hero, P_SHAKE, 300, 2)]);
+    const b = c.boss(112, 5, 18);
+    await Promise.all([c.cam(80, 22, 1.8, 900), c.go(b, 84, 5, 900), c.pose(b, P_WALK, 300, 3)]);   // 카메라가 세균 쪽으로
+    await Promise.all([c.line(b, 'th.dream.3'), c.pose(b, P_WIG, 330, 4)]);
+    await c.cam(40, 24, 1.9, 450); c.face(c.hero, 'surprised'); c.snd('boing');   // 휙! 다시 반짝이
+    await Promise.all([c.line(c.hero, 'th.dream.4'), c.pose(c.hero, P_BIG, 500)]);
+    c.snd('whoosh');
+    await Promise.all([c.cam(50, 50, 1, 700), c.go(b, 125, 30, 900, 'ease-in'), c.pose(b, P_SPIN, 450, 2)]);
+    c.face(c.hero, 'angry');
+    await Promise.all([c.line(null, 'th.dream.5'), c.pose(c.hero, P_HOP, 380, 2), c.pose(c.pet, P_HOP, 380, 2)]);
+    c.snd('magic'); await c.iris(true, 650);                                      // 동그랗게 닫히며 꿈나라로
+    c.scene('castle', true); c.place(c.hero, 22, 5); c.place(c.pet, 8, 5); c.place(b, 74, 5);
+    c.morph(b, 'scale(1.7)', 10).catch(() => {});
+    await c.iris(false, 750);
+    c.snd('thud');
+    await Promise.all([c.line(b, 'th.dream.6'), c.quake(600), c.pose(b, P_SQ, 400, 2)]);
+    await c.cam(22, 24, 1.7, 700);
+    await Promise.all([c.line(c.hero, 'th.dream.7'), c.pose(c.pet, P_HOP, 350, 2)]);
+    c.brush(c.hero, true); c.snd('swish');
+    await Promise.all([c.cam(62, 34, 1.3, 1100), c.go(c.hero, 56, 5, 1100), c.go(c.pet, 40, 5, 1100), c.pose(c.hero, P_WALK, 280, 4)]);   // 카메라가 따라감
+    c.snd('swish');
+    await Promise.all([c.pose(c.hero, P_SHAKE, 240, 5), c.pose(b, P_SHAKE, 240, 5)]);
+    c.snd('pop'); c.burst(b, 10); c.quake(400);
+    await c.morph(b, 'scale(.4)', 600);
+    c.pose(b, P_SPIN, 380, 3).catch(() => {});
+    await Promise.all([c.go(b, 120, 85, 900, 'ease-in'), c.cam(50, 50, 1, 900)]);
+    c.brush(c.hero, false); c.face(c.hero, 'happy');
+    await Promise.all([c.line(c.hero, 'th.dream.8'), c.pose(c.hero, P_HOP, 400, 2), c.pose(c.pet, P_HOP, 400, 2)]);
+    await c.iris(true, 600);                                                      // 다시 방으로
+    c.scene('room', true); c.place(c.hero, 40, 5); c.place(c.pet, 16, 5); c.face(c.hero, 'sleep');
+    await c.iris(false, 700);
+    c.floatProp(TH_ART2.zzz, 7, 48, 32); c.floatProp(TH_ART2.zzz, 6, 20, 20);
+    await c.line(null, 'th.dream.9');
+    c.face(c.hero, 'happy');
   } }
 ];
 function playTheater(onDone, forceId, forceBg){                         // force…: 개발자 미리 보기용
@@ -581,7 +682,7 @@ function playTheater(onDone, forceId, forceBg){                         // force
   if (slotOf() === 'pm' && !look.head) look.head = 'head_nightcap';
   const title = t('th.' + gag.id + '.t');
   $('#thHead').innerHTML = `🎬 ${esc(t('th.name'))}<small>${esc(t('th.ep', { n:st.n }))} · ${esc(title)}</small>`;
-  stage.innerHTML = thBgSvg(bg) + (slotOf() === 'pm' || gag.night ? '<div class="th-night"></div>' : '') +
+  stage.innerHTML = '<div class="th-world">' + thBgSvg(bg) + (slotOf() === 'pm' || gag.night ? '<div class="th-night"></div>' : '') + '</div>' +   // v0.50.0 카메라 층
     '<div class="th-cur l"></div><div class="th-cur r"></div>' +
     `<div class="th-title"><b>${esc(t('th.name'))}</b><span>${esc(t('th.ep', { n:st.n }))} · ${esc(title)}</span></div>`;
   const c = thCtx(stage, tok);
@@ -602,4 +703,5 @@ function playTheater(onDone, forceId, forceBg){                         // force
 }
 $('#thSkip').addEventListener('click', () => { sfx.tap(); if (thEnd) thEnd(); });
 $('#theaterTest').addEventListener('click', () => { sfx.tap(); playTheater(() => { refreshHome(); show('home'); }); });
+$('#theaterV2').addEventListener('click', () => { sfx.tap(); playTheater(() => { renderSettings(); show('settings'); }, 'dream'); });   // v0.50.0 극장 2.0 시험판 (부모님 설정)
 if (TEST_MODE) window.__bjTheater = (id, bg) => playTheater(() => { refreshHome(); show('home'); }, id, bg);   // 자동 테스트용

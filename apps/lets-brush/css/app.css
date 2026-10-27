@@ -911,3 +911,14 @@ i.lz{display:block;width:84%;height:84%;border-radius:50%;background:#0000000a}
 .wg-soon{margin-top:14px;font-weight:800}
 .wg-links{margin-top:18px;font-size:14px}
 .wg-links a{color:var(--ink)}
+/* v0.50.0 극장 2.0: 카메라 층 · 말하기 · 표정 */
+.th-world{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+.th-a.talk .char .m-smile{display:none}
+.th-a.talk .char .m-open{display:inline;transform-box:fill-box;transform-origin:50% 0;animation:thTalk .26s ease-in-out infinite alternate}
+@keyframes thTalk{from{transform:scaleY(1)}to{transform:scaleY(.3)}}
+.th-a.talk:not(:has(.char)) .th-in{animation:thBob .3s ease-in-out infinite alternate}
+@keyframes thBob{from{transform:translateY(0) scale(1,1)}to{transform:translateY(-4%) scale(1.03,.97)}}
+.char.fx-happy .eyes,.char.fx-sleep .eyes{display:none}
+.char.fx-sad .m-smile,.char.fx-surprised .m-smile{display:none}
+.th-a.talk .char.fx-sad .th-face path:last-child,.th-a.talk .char.fx-surprised .th-face ellipse{display:none}
+.char.fx-surprised .eyes{animation:none;transform:scale(1.18)}
