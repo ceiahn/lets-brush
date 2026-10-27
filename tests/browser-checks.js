@@ -147,6 +147,24 @@ async function runLang(browser, base, code){
   return [...new Set(problems)];
 }
 
+// 반짝이 클럽 (구독 흉내 켬): 처음 열면 부모님 창 → 요금제 세 개 → 평생 이용권을 사면 늘 열림
+async function runSub(browser, base){
+  const problems = [], page = await browser.newPage({ viewport:{ width:390, height:800 } });
+  page.on('pageerror', e => problems.push('[sub] 오류: ' + e.message));
+  await page.addInitScript(() => { window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } }; localStorage.setItem('bj_lang', '"ko"'); localStorage.setItem('bj_country', '"KR"'); localStorage.setItem('bj_subSim', 'true'); });
+  await page.goto(base + '/index.html'); await page.waitForTimeout(1500);
+  const r = await page.evaluate(() => ({ shown:document.querySelector('#subIntro').classList.contains('show'), plans:document.querySelectorAll('#subPlans [data-plan]').length, price:subPrice('year') }));
+  if (!r.shown) problems.push('[sub] 처음 열 때 부모님 창이 안 뜸');
+  if (r.plans !== 3) problems.push(`[sub] 요금제 카드가 ${r.plans}개`);
+  if (!/29,000/.test(r.price)) problems.push('[sub] 한국 연 구독 가격이 이상함: ' + r.price);
+  await page.evaluate(() => { document.querySelector('[data-plan=life]').click(); document.querySelector('#subAgree').click(); document.querySelector('#subStart').click(); });
+  await page.waitForTimeout(400);
+  const st = await page.evaluate(() => subState().kind + ' ' + pro());
+  if (st !== 'life true') problems.push('[sub] 평생 이용권을 샀는데 상태가 ' + st);
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -162,6 +180,9 @@ async function runBrowser(){
       p.forEach(x => console.log('   ' + x));
       all.push(...p);
     }
+    const sp = await runSub(browser, base);
+    console.log(`${sp.length ? '✗' : '✓'} 반짝이 클럽 (구독 · 평생 이용권)${sp.length ? ` (${sp.length})` : ''}`);
+    sp.forEach(x => console.log('   ' + x)); all.push(...sp);
   } finally { await browser.close(); srv.close(); }
   return all;
 }
