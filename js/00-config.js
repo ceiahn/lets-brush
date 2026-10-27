@@ -23,7 +23,7 @@ const CONFIG = Object.assign({
             US:{ cur:'USD', month:3.99, year:29.99, life:59.99 }, GB:{ cur:'GBP', month:3.49, year:24.99, life:49.99 },
             CA:{ cur:'CAD', month:4.99, year:39.99, life:79.99 }, AU:{ cur:'AUD', month:5.99, year:44.99, life:89.99 },
             EU:{ cur:'EUR', month:3.99, year:29.99, life:59.99 }, other:{ cur:'USD', month:3.99, year:29.99, life:59.99 } } },
-  contact: 'letsbrush.official@gmail.com',   // v0.33.1 문의 이메일 (설정 부모님 칸 · 약관 · 처리방침 · 스토어)  // v0.30.0 오늘의 퀴즈: 맞히면 별 · 도장 1개, 도장 stampsForPet 개면 펫 한 마리
+  contact: 'tokkiyou.studio@gmail.com',     // v0.44.2 토끼유 스튜디오 메일 (v0.33.1 문의 이메일 (설정 부모님 칸 · 약관 · 처리방침 · 스토어)  // v0.30.0 오늘의 퀴즈: 맞히면 별 · 도장 1개, 도장 stampsForPet 개면 펫 한 마리
   popularFirst: true,             // v0.29.0 새 알 · 선물 펫은 아이들이 잘 아는 동물부터 (false = 전부 무작위)
   parentGate: true,               // v0.28.5 설정을 열 때 곱셈 문제로 어른 확인 (false = 안 물음)
   testParam: false,               // v0.44.0 출시 잠금: 주소(?test=1) · 기억 값을 무시. 내 폰에서 다시 시험하려면 잠깐 true 로 (docs/출시_준비.md)
