@@ -7,14 +7,16 @@
    테스트 모드는 BJ_RESOURCES 로 켬 (출시 잠금 testParam:false 여도 점검은 됨)
    ========================================================= */
 const http = require('http'), fs = require('fs'), path = require('path');
-const ROOT = path.join(__dirname, '..');
+const REPO = path.join(__dirname, '..');
+// v0.48.0 모듈화: 올라갈 모습(dist, tools/build-site.js 로 만듦)을 점검. 저장소 그대로(예전 주소 → apps/lets-brush 로 넘어감)도 따로 한 번
+const ROOT = path.join(REPO, 'dist');
 const TYPES = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.json':'application/json', '.png':'image/png',
   '.woff2':'font/woff2', '.txt':'text/plain', '.mp4':'video/mp4', '.svg':'image/svg+xml' };
 
-function serve(){
+function serve(root = ROOT){
   const srv = http.createServer((req, res) => {
-    const p = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
-    if (!p.startsWith(ROOT) || !fs.existsSync(p) || fs.statSync(p).isDirectory()){ res.writeHead(404); res.end(); return; }
+    const p = path.join(root, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+    if (!p.startsWith(root) || !fs.existsSync(p) || fs.statSync(p).isDirectory()){ res.writeHead(404); res.end(); return; }
     res.writeHead(200, { 'content-type':TYPES[path.extname(p).toLowerCase()] || 'application/octet-stream' });
     if (req.method === 'HEAD'){ res.end(); return; }
     fs.createReadStream(p).pipe(res);
@@ -240,11 +242,25 @@ async function runWebGate(browser, base){
   return problems;
 }
 
+// v0.48.0 저장소 그대로 열기 (지금 GitHub Pages): 맨 위 index.html → apps/lets-brush/index.html (?src=twa 유지) · ../../core 파일로 앱이 뜨는지
+async function runRepo(browser){
+  const problems = [], srv = await serve(REPO), page = await browser.newPage();
+  page.on('pageerror', e => problems.push('[repo] 오류: ' + e.message));
+  await page.addInitScript(() => { localStorage.setItem('bj_lang', '"ko"'); localStorage.setItem('bj_picked', 'true'); });
+  await page.goto('http://127.0.0.1:' + srv.address().port + '/index.html?src=twa'); await page.waitForTimeout(1500);
+  const r = await page.evaluate(() => ({ url:location.pathname + location.search, ok:typeof Billing === 'object' && typeof petArt === 'function' && !!document.querySelector('.screen.active') }));
+  if (r.url !== '/apps/lets-brush/index.html?src=twa') problems.push('[repo] 예전 주소가 앱으로 안 넘어감: ' + r.url);
+  if (!r.ok) problems.push('[repo] 저장소 그대로 열었을 때 앱이 안 뜸');
+  await page.close(); srv.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
   catch(e){ console.log('✗ 브라우저 점검: playwright 가 없음 (tests 폴더에서 npm install)'); return ['playwright 없음']; }
   fs.mkdirSync(path.join(__dirname, 'test-results'), { recursive:true });
+  require('child_process').execFileSync(process.execPath, [path.join(REPO, 'tools', 'build-site.js'), 'lets-brush'], { stdio:'inherit' });   // v0.48.0 dist 만들기
   const srv = await serve(), base = 'http://127.0.0.1:' + srv.address().port;
   const browser = await chromium.launch();
   const all = [];
@@ -264,6 +280,9 @@ async function runBrowser(){
     const se = await runSeason(browser, base);
     console.log(`${se.length ? '✗' : '✓'} 기간 한정 화 (명절 · 계절 편)${se.length ? ` (${se.length})` : ''}`);
     se.forEach(x => console.log('   ' + x)); all.push(...se);
+    const rp = await runRepo(browser);
+    console.log(`${rp.length ? '✗' : '✓'} 저장소 그대로 열기 (예전 주소 → apps/lets-brush)${rp.length ? ` (${rp.length})` : ''}`);
+    rp.forEach(x => console.log('   ' + x)); all.push(...rp);
     const wg = await runWebGate(browser, base);
     console.log(`${wg.length ? '✗' : '✓'} 웹 막기 (출시 설정)${wg.length ? ` (${wg.length})` : ''}`);
     wg.forEach(x => console.log('   ' + x)); all.push(...wg);
