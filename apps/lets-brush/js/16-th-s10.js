@@ -49,28 +49,6 @@ addText({
     'th.bus.4':'Only sparkly clean friends can ride this bus!', 'th.bus.5':'Brush clean, then off you go!',
     'th.hotair.t':'Hot Air Balloon Trip', 'th.hotair.1':'Up, up in a hot air balloon!', 'th.hotair.2':'Wow, the town looks like a toy!', 'th.hotair.3':"I'll poke a hole in your balloon!",
     'th.hotair.4':"Hold on! Let's patch it with foam!", 'th.hotair.5':'Stay calm up high, and stay calm while you brush.'
-  },
-  ja:{
-    'th.planet.t':'ロケットで はの ほしへ', 'th.planet.1':'ロケットに のって うちゅうへ ビューン!', 'th.planet.2':'しろい ほしが みえる! はの かたちの ほしだ!', 'th.planet.3':'この ほしは もう ばいきんの ほしだ!',
-    'th.planet.4':'うちゅうでも はみがきは かならず!', 'th.planet.5':'どこへ いくときも はぶらしと いっしょ。',
-    'th.robot.t':'はぶらし ロボット', 'th.robot.1':'あたらしい はぶらし ロボットが きたよ。', 'th.robot.2':'ピピッ! さいこう そくどで みがきます! ウィーン!', 'th.robot.3':'いたた、つよすぎ! やさしく して!',
-    'th.robot.4':'つよく みがいても おれは とれないぞ!', 'th.robot.5':'やさしく くるくる みがく ほうが きれいに なるよ!', 'th.robot.6':'はは つよくじゃなく、やさしく ていねいに みがこう。',
-    'th.paint.t':'まほうの ふで', 'th.paint.1':'ピピが まほうの ふでを みつけたよ。', 'th.paint.2':'ふでで かくと ほんものに なるの!', 'th.paint.3':'じゃあ おれは ばいきんを いっぱい かくぞ!',
-    'th.paint.4':'ぼくは おおきな はぶらしを かく!', 'th.paint.5':'いい ことを かくと、いい しゅうかんに なるよ。',
-    'th.penguin.t':'はが ない ペンギン', 'th.penguin.1':'こおりの くにで ペンギンに あったよ。', 'th.penguin.2':'ペンギンさんも はみがき するの?', 'th.penguin.3':'ぼくは はが ないの! さかなを ごくんと のむんだ。',
-    'th.penguin.4':'ペンギンの くちには おれの すむ ところが ない!', 'th.penguin.5':'ぼくたちは はが あるから、だいじに みがこう。',
-    'th.umbrella.t':'ばいきんの かさ', 'th.umbrella.1':'はの まちに あめが ふってきたよ。', 'th.umbrella.2':'かさが あれば すすぎの みずも へっちゃらだ!', 'th.umbrella.3':'かさの したに かくれるのは ずるい!',
-    'th.umbrella.4':'かぜさん ふいて、ヒューッ!', 'th.umbrella.5':'かくれた ばいきんまで しっかり すすごう。',
-    'th.camp.t':'キャンプの よる', 'th.camp.1':'きょうは おにわで キャンプ!', 'th.camp.2':'テントで ねるの たのしみ!', 'th.camp.3':'キャンプの ひは はみがき しなくて いいよね?',
-    'th.camp.4':'キャンプの かばんに はぶらしも いれたよ!', 'th.camp.5':'そとで ねる ひも、はみがき してから ねよう。',
-    'th.floss.t':'フロスの はし', 'th.floss.1':'はと はの あいだに せまい すきまが あるよ。', 'th.floss.2':'ここは はぶらしが はいれないぞ! ひひっ!', 'th.floss.3':'そんな ときは フロスの はしを スーッ!',
-    'th.floss.4':'うわっ、すきままで はいってくるなんて!', 'th.floss.5':'はの あいだは フロスで。おとなと いっしょに しよう。',
-    'th.wobbly.t':'ぐらぐらの は', 'th.wobbly.1':'キラリの はが ぐらぐら してるよ。', 'th.wobbly.2':'あれ? はが ゆれてる! こわい…', 'th.wobbly.3':'だいじょうぶ! あたらしい はが はえてくるんだよ。',
-    'th.wobbly.4':'ぽろっ! ぬけた! にゅうし さん、ありがとう。', 'th.wobbly.5':'あたらしい はも さいしょから しっかり みがこう。',
-    'th.bus.t':'シャカシャカ バス', 'th.bus.1':'シャカシャカ バスが ていりゅうじょに ついたよ。', 'th.bus.2':'つぎは はみがき むら です!', 'th.bus.3':'おれも のせて! ただで!',
-    'th.bus.4':'この バスは ピカピカの ともだちだけ のれるんだ!', 'th.bus.5':'きれいに みがいて たのしく しゅっぱつ!',
-    'th.hotair.t':'ききゅうの たび', 'th.hotair.1':'ききゅうに のって おそらの うえへ!', 'th.hotair.2':'わあ、まちが おもちゃみたいに ちいさい!', 'th.hotair.3':'ききゅうに あなを あけてやる!',
-    'th.hotair.4':'しっかり つかまって! あわで ふさごう!', 'th.hotair.5':'たかい ところでも おちついて、はみがきも おちついて。'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

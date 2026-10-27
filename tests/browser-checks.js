@@ -273,6 +273,28 @@ async function runHabit(browser, base){
   return problems;
 }
 
+// v0.52.0 받는 언어팩 (lang/<code>.json): 처음 여는 일본 폰은 저절로 일본어 · 예전에 받아 둔 낮은 버전 팩은 새로 받음
+async function runLangPack(browser, base){
+  const problems = [];
+  const ctx = await browser.newContext({ locale:'ja-JP' }), page = await ctx.newPage();
+  page.on('pageerror', e => problems.push('[langpack] 오류: ' + e.message));
+  await page.addInitScript(() => { window.BJ_RESOURCES = { config:{ testMode:true } }; });
+  await page.goto(base + '/index.html'); await page.waitForTimeout(3500);
+  const r = await page.evaluate(() => ({ lang, title:t('home.start'), th:t('th.owl.t'), v:packs.ja && packs.ja.meta.version, cat:PACK_CATALOG.find(e => e.code === 'ja').version }));
+  if (r.lang !== 'ja' || r.title === 'Start brushing!' || !/[\u3040-\u30ff]/.test(r.title)) problems.push('[langpack] 일본 폰인데 처음 열 때 일본어로 안 바뀜: ' + JSON.stringify(r));
+  if (!/[\u3040-\u30ff]/.test(r.th)) problems.push('[langpack] 극장 제목이 일본어가 아님: ' + r.th);
+  await ctx.close();
+  const ctx2 = await browser.newContext({ locale:'en-US' }), p2 = await ctx2.newPage();
+  await p2.addInitScript(() => { window.BJ_RESOURCES = { config:{ testMode:true } };
+    if (!sessionStorage.getItem('x')){ sessionStorage.setItem('x', '1'); localStorage.setItem('bj_packs', '["ja"]'); localStorage.setItem('bj_lang', '"ja"');
+      localStorage.setItem('bj_pack_ja', JSON.stringify({ meta:{ code:'ja', name:'日本語', version:1 }, strings:{ 'home.start':'OLD' } })); } });
+  await p2.goto(base + '/index.html'); await p2.waitForTimeout(3500);
+  const r2 = await p2.evaluate(() => ({ v:packs.ja.meta.version, s:t('home.start'), saved:store.get('pack_ja', {}).meta.version }));
+  if (r2.s === 'OLD' || r2.v < 2 || r2.saved !== r2.v) problems.push('[langpack] 예전 버전 팩이 새로 안 바뀜: ' + JSON.stringify(r2));
+  await ctx2.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -304,6 +326,9 @@ async function runBrowser(){
     const rp = await runRepo(browser);
     console.log(`${rp.length ? '✗' : '✓'} 저장소 그대로 열기 (예전 주소 → apps/lets-brush)${rp.length ? ` (${rp.length})` : ''}`);
     rp.forEach(x => console.log('   ' + x)); all.push(...rp);
+    const lp = await runLangPack(browser, base);
+    console.log(`${lp.length ? '✗' : '✓'} 받는 언어팩 (일본 폰 저절로 · 새 버전 받기)${lp.length ? ` (${lp.length})` : ''}`);
+    lp.forEach(x => console.log('   ' + x)); all.push(...lp);
     const wg = await runWebGate(browser, base);
     console.log(`${wg.length ? '✗' : '✓'} 웹 막기 (출시 설정)${wg.length ? ` (${wg.length})` : ''}`);
     wg.forEach(x => console.log('   ' + x)); all.push(...wg);

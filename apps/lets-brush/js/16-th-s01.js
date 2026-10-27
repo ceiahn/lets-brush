@@ -51,28 +51,6 @@ addText({
     'th.tongue.4':"Let's gently sweep the tongue forward.", 'th.tongue.5':'Brush your tongue gently, and bye-bye bad breath!',
     'th.oldbrush.t':'The Tired Toothbrush', 'th.oldbrush.1':"Sparkle's toothbrush looks all droopy.", 'th.oldbrush.2':"My bristles are all splayed… I'm so tired.", 'th.oldbrush.3':"A splayed brush can't catch me!",
     'th.oldbrush.4':'Thank you for everything, toothbrush.', 'th.oldbrush.5':'New toothbrush to the rescue! Nice straight bristles!', 'th.oldbrush.6':'When the bristles splay, get a new brush. About every three months!'
-  },
-  ja:{
-    'th.pipi.t':'ピピの おはな ガーデン', 'th.pipi.1':'まどべの おはなばたけに、ようせいの ピピが すんでいるよ。', 'th.pipi.2':'おはなが しょんぼり。げんきが ないみたい…', 'th.pipi.3':'ひひっ、おはなに ねばねば シロップを かけたぞ!',
-    'th.pipi.4':'{pet}、おはなも はも きれいに まもろう!', 'th.pipi.5':'わあ、おはなが また にっこり!', 'th.pipi.6':'おはなは まいにち おみず、はは まいにち はみがきが すき。',
-    'th.mongi.t':'モンイの しんじゅ', 'th.mongi.1':'うみの なかで、しずくの にんぎょ モンイに あったよ。', 'th.mongi.2':'たからものの しんじゅが ひからなくなっちゃった…', 'th.mongi.3':'しんじゅは おれの ねばねば あそびばだ!',
-    'th.mongi.4':'くるくる やさしく みがけば だいじょうぶ!', 'th.mongi.5':'ピカピカ! ありがとう、キラリ!', 'th.mongi.6':'はも くるくる やさしく みがくと、しんじゅみたいに ひかるよ。',
-    'th.coco.t':'ココと にじの はし', 'th.coco.1':'くもの くにには、こどもの ユニコーン ココが すんでいるよ。', 'th.coco.2':'にじの はしが はいいろに なっちゃった。わたれないよ!', 'th.coco.3':'いろは ぜんぶ おれが たべちゃった!',
-    'th.coco.4':'あさに いっかい、よるに いっかい! いろを かえして!', 'th.coco.5':'にじの はしを わたれた! やったー!', 'th.coco.6':'いちにち 2かい はみがきすると、えがおも にじみたいに かがやくよ。',
-    'th.duri.t':'ドゥリが うまれたよ', 'th.duri.1':'くさむらで おおきな たまごを みつけたよ。', 'th.duri.2':'あれ? たまごが うごいた!', 'th.duri.3':'こんにちは! ぼく ドゥリ。みて、はが 1ぽん はえたよ!',
-    'th.duri.4':'あたらしい はは おれの ものだ!', 'th.duri.5':'はじめての はは、ちいさい はぶらしで やさしく みがこう。', 'th.duri.6':'はが 1ぽん はえたら、その ひから はみがきを はじめよう。',
-    'th.hero.t':'キラリの だいへんしん', 'th.hero.1':'ばいきんの おやぶんが、なかまを たくさん よんだよ!', 'th.hero.2':'きょうは おれたちの かちだ!', 'th.hero.3':'はみがき ヒーロー、へんしん!',
-    'th.hero.4':'ピカピカ ヒーロー とうじょう!', 'th.hero.5':'ばいきんたちは みんな にげていったよ!', 'th.hero.6':'まいにち はみがきする きみも、はを まもる ヒーローだよ!',
-    'th.pea.t':'はみがきこは おまめ くらい', 'th.pea.1':'はみがきこを たっぷり つけたら、もっと きれいに なるかな?', 'th.pea.2':'うわあ、あわが あふれちゃう!', 'th.pea.3':'{pet}が あわに どぼん!',
-    'th.pea.4':'3さいを すぎたら、はみがきこは おまめ くらいで じゅうぶん。', 'th.pea.5':'あわが すくないと おれを つかまえられないだろう?', 'th.pea.6':'おまめ くらいでも ピカピカ!',
-    'th.sand.t':'すなどけいと いっしょに', 'th.sand.1':'キラリが すぐに おわりに しようと しているよ。', 'th.sand.2':'もう おしまい? ばいきんが まだ いるよ!', 'th.sand.3':'じゃあ すなどけいと いっしょに みがこうか?',
-    'th.sand.4':'すなが ぜんぶ おちるまで ゴシゴシ。', 'th.sand.5':'じっくり みがくと、すみずみまで きれいに なるよ。',
-    'th.spit.t':'ペッ! て だそう', 'th.spit.1':'みがけた! あわを ごっくん しても いい?', 'th.spit.2':'だめ! あわは ペッ!', 'th.spit.3':'あわの なかに かくれてたんだぞ!',
-    'th.spit.4':'ペッ!', 'th.spit.5':'はみがきの あわは ペッと だして、おみずで かるく すすごう。',
-    'th.tongue.t':'したも やさしく', 'th.tongue.1':'はは ぜんぶ みがけた! おしまい!', 'th.tongue.2':'したの うえは だれも みがかないぞ!', 'th.tongue.3':'したにも ばいきんが かくれてるよ!',
-    'th.tongue.4':'したも まえに むかって やさしく なでよう。', 'th.tongue.5':'したも やさしく みがくと、くちの においも バイバイ!',
-    'th.oldbrush.t':'つかれた はぶらし', 'th.oldbrush.1':'キラリの はぶらしが、ぐったり しているよ。', 'th.oldbrush.2':'けが ひらいちゃった… もう へとへと。', 'th.oldbrush.3':'ひらいた はぶらしじゃ おれは つかまらないぞ!',
-    'th.oldbrush.4':'いままで ありがとう、はぶらしさん。', 'th.oldbrush.5':'あたらしい はぶらし しゅつどう! けが まっすぐ!', 'th.oldbrush.6':'はぶらしの けが ひらいたら、あたらしいのに かえよう。3かげつ くらいで!'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

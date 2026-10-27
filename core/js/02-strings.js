@@ -5,7 +5,7 @@
       core 기능의 글: 반짝이 클럽(sub.*) · 아이 여럿(kids.*) · 부모 확인(gate.*) · 백업(bk.*) · 소리(audio.* · bgm.* · music.*)
                       자랑 카드(share.*) · 의견(fb.*) · 웹 막기(web.*) · 홈 화면 추가(home.tip*) · 스튜디오 이름(brand.*)
       앱 문구(apps/<앱>/js/02-lang.js)와 합쳐서 씀 (02-text.js 의 withCore). 같은 키가 앱에 있으면 앱 글이 이김
-      ★ 일본어를 고치면 앱의 SAMPLE_JA meta.version 도 올릴 것 (받아 둔 팩을 새 글로 바꾸게)
+      ★ 일본어를 고치면 앱의 lang/ja.json meta.version · PACK_CATALOG version 도 올릴 것 (받아 둔 팩을 새 글로 바꾸게)
       ★ 클럽 이름("반짝이 클럽")처럼 앱마다 달라질 글은 앱 02-lang.js 에 같은 키로 넣어 덮어씀
    ========================================================= */
 const CORE_TEXT = {

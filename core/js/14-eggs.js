@@ -32,12 +32,16 @@ if (RES.pets) Object.entries(RES.pets).forEach(([id, v]) => {     // resources.j
   Object.entries(v.def || {}).forEach(([c, x]) => { if (packs[c]) packs[c].strings['pet.' + id + '.def'] = x; });
 });
 // 이름: 동물 이름 + 기본 별명 (고양이 → 고고, 사자 → 사사)
-const defName = (c, nm) => { const w = String(nm).split(' ').pop(); return c === 'en' ? w : w.slice(0, 1) + w.slice(0, 1); };
+const defName = (c, nm) => { const w = String(nm).split(' ').pop(); return ['ko', 'ja', 'zh'].includes(c) ? w.slice(0, 1) + w.slice(0, 1) : w; };   // 기본 이름: 한 · 일 · 중은 첫 글자 두 번 (토토), 그 밖은 마지막 낱말
 function injectPetNames(){                                     // 언어팩을 새로 받았을 때도 다시 넣음
   Object.entries(PETS).forEach(([id, P]) => Object.entries(P.names || {}).forEach(([c, nm]) => {
     const pk = packs[c]; if (!pk || !nm) return;
     pk.strings['pet.' + id] = nm;
     if (pk.strings['pet.' + id + '.def'] === undefined) pk.strings['pet.' + id + '.def'] = defName(c, nm);
+  }));
+  Object.values(packs).forEach(pk => Object.keys(PETS).forEach(id => {      // v0.52.0 펫 이름을 언어팩(lang/<code>.json)이 가진 언어 (스페인어 등)
+    const nm = pk.strings['pet.' + id];
+    if (nm && pk.strings['pet.' + id + '.def'] === undefined) pk.strings['pet.' + id + '.def'] = defName(pk.meta.code, nm);
   }));
 }
 injectPetNames();

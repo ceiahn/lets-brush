@@ -49,28 +49,6 @@ addText({
     'th.talkmirror.4':"Shh! Don't tell, mirror!", 'th.talkmirror.5':'After brushing, check once more in the mirror.',
     'th.constel.t':'The Sparkle Constellation', 'th.constel.1':'The stars in the night sky connect one by one.', 'th.constel.2':"Wow, it's a toothbrush constellation!", 'th.constel.3':'They say friends who brush every night become sparkling stars.',
     'th.constel.4':'A constellation? Too bright~', 'th.constel.5':'Brush tonight, and you will sparkle like a star in the sky.'
-  },
-  ja:{
-    'th.fossil.t':'ドゥリの かせき さがし', 'th.fossil.1':'ドゥリが じめんを ほったら なにか みつけたよ。', 'th.fossil.2':'おおきな きょうりゅうの ほねだ! はも まだ じょうぶ!', 'th.fossil.3':'きょうりゅう おじいさんも はを だいじに してたんだね!',
-    'th.fossil.4':'ほねは おれが ねばねばで かくしてやる!', 'th.fossil.5':'じょうぶな はは ずっと いっしょだよ。',
-    'th.checkup.t':'はいしゃさんの けんしん', 'th.checkup.1':'きょうは はいしゃさんに いく ひ。', 'th.checkup.2':'ちょっと どきどき…', 'th.checkup.3':'あーん して。わあ、とっても ピカピカですね!',
-    'th.checkup.4':'おくばの うしろに かくれてたのに みつかった!', 'th.checkup.5':'いたく なくても はいしゃさんで みてもらおう。',
-    'th.cookiejar.t':'おかしの いれもの', 'th.cookiejar.1':'だいどころに おかしの いれものが あるよ。', 'th.cookiejar.2':'あけて おかしを ぜんぶ たべてやる!', 'th.cookiejar.3':'おかしは きまった ときに すこしだけ!',
-    'th.cookiejar.4':'おやつの じかんに ひとつ、たべたら おみずを ひとくち!', 'th.cookiejar.5':'おやつは きまった じかんに、たべたら くちを すすごう。',
-    'th.sleepover.t':'おとまりの ひ', 'th.sleepover.1':'きょうは ココの いえに おとまり!', 'th.sleepover.2':'まくら なげだ! ぽふぽふ!', 'th.sleepover.3':'あっ、はぶらしを わすれた!',
-    'th.sleepover.4':'はぶらしが なければ こんやは おれさまの せかいだ!', 'th.sleepover.5':'かばんに ぼくの はぶらし あるよ! よういしてたんだ!', 'th.sleepover.6':'おでかけの ひは じぶんの はぶらしを もっていこう。',
-    'th.flowerpaste.t':'ピピの はなの かおりの はみがきこ', 'th.flowerpaste.1':'ピピが はなの かおりの はみがきこを もってきたよ。', 'th.flowerpaste.2':'いい におい! これ たべちゃ だめ?', 'th.flowerpaste.3':'はみがきこは たべものじゃ ないよ。おわったら ぺっ!',
-    'th.flowerpaste.4':'はみがきこの においだけで くらくら〜', 'th.flowerpaste.5':'はみがきこは のみこまずに はきだそう。',
-    'th.tapoff.t':'モンイの みず せつやく', 'th.tapoff.1':'はみがきの あいだ、みずが じゃーじゃー ながれてる。', 'th.tapoff.2':'もったいない! コップに くんで つかおう。', 'th.tapoff.3':'みずが あふれたら おれの プールだ!',
-    'th.tapoff.4':'じゃぐちを しっかり しめよう!', 'th.tapoff.5':'コップに みずを くんで つかうと、みずも せつやく できるよ。',
-    'th.cocobrush.t':'ココの あたらしい はぶらし', 'th.cocobrush.1':'ココの はぶらしの けが ひらいちゃった。', 'th.cocobrush.2':'はぶらしが おはなみたいに ひらいてる!', 'th.cocobrush.3':'ひひっ、ふるい はぶらしじゃ つかまらないぞ!',
-    'th.cocobrush.4':'じゃーん! にじいろの あたらしい はぶらし!', 'th.cocobrush.5':'けが ひらいたら あたらしい はぶらしに かえよう。',
-    'th.twomin.t':'2ふんの すなどけい', 'th.twomin.1':'すなどけいを ひっくりかえしたよ。さらさら…', 'th.twomin.2':'すなが ぜんぶ おちるまで みがくんだよ!', 'th.twomin.3':'2ふんは ながすぎ! すぐ やめるだろう?',
-    'th.twomin.4':'うたえば 2ふんは あっという まだよ!', 'th.twomin.5':'2ふん かけて すみずみまで みがこう。',
-    'th.talkmirror.t':'しゃべる かがみ', 'th.talkmirror.1':'せんめんじょの かがみが しゃべったよ!', 'th.talkmirror.2':'かがみよ かがみ、いちばん ピカピカの はは だれ?', 'th.talkmirror.3':'うーん… ひだりの おくばに ばいきんが ひとつ のこってるよ?',
-    'th.talkmirror.4':'しーっ! かがみ、いわないで!', 'th.talkmirror.5':'みがいたら かがみで もう いちど たしかめよう。',
-    'th.constel.t':'キラリ せいざ', 'th.constel.1':'よぞらの ほしが ひとつずつ つながっていくよ。', 'th.constel.2':'わあ、はぶらしの かたちの せいざだ!', 'th.constel.3':'まいばん みがいた ともだちが ほしに なって ひかるんだって。',
-    'th.constel.4':'せいざだなんて、まぶしすぎる〜', 'th.constel.5':'こんやも みがいて ねたら、きみも ほしみたいに ピカピカ。'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

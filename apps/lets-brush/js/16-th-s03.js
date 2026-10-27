@@ -49,28 +49,6 @@ addText({
     'th.train.4':"Let me ride too! I didn't brush, though~", 'th.train.5':"No brushing, no riding!", 'th.train.6':'Finish brushing, and you can ride the dreamland train.',
     'th.pillow.t':'The Cloud Pillow', 'th.pillow.1':'A fluffy cloud pillow floated by.', 'th.pillow.2':"Yawn, I'm sleepy. Straight to bed.", 'th.pillow.3':'Sleep without brushing? Then the pillow is mine!',
     'th.pillow.4':'Brush, then lie down for cozy dreams!', 'th.pillow.5':'Zzz…', 'th.pillow.6':'Brush before bed and sleep as cozy as a cloud.'
-  },
-  ja:{
-    'th.milk.t':'ぎゅうにゅう いっぱい', 'th.milk.1':'キラリが ぎゅうにゅうを ごくごく のんだよ。', 'th.milk.2':'ぎゅうにゅうを のむと はが じょうぶに なるんだって!', 'th.milk.3':'ねる まえに ぎゅうにゅうを のんで そのまま ねたら、おれの ばんだ!',
-    'th.milk.4':'ぎゅうにゅうの あとも ゴシゴシ!', 'th.milk.5':'ぎゅうにゅうで じょうぶに、はみがきで きれいに!',
-    'th.water.t':'おみずが いちばん', 'th.water.1':'いっぱい あそんで のどが かわいたよ。', 'th.water.2':'あまい ジュース のむ? ひひっ!', 'th.water.3':'ぼくは つめたい おみずが すき!',
-    'th.water.4':'のどが かわいたら おみずが いちばん!', 'th.water.5':'のどが かわいたら、あまい のみものより おみずを のもう。',
-    'th.crumb.t':'おかしの くずと かくれんぼ', 'th.crumb.1':'おかしを たべたら、くずが ころころ。', 'th.crumb.2':'くずの なかに かくれたら だれにも わからないぞ!', 'th.crumb.3':'くんくん、おくばの みぞに かくれてる!',
-    'th.crumb.4':'おくばの みぞは まえうしろに シャカシャカ!', 'th.crumb.5':'おかしの あとは、おくばの みぞまで ていねいに。',
-    'th.veggie.t':'やさいの ともだち', 'th.veggie.1':'やさいの ともだちが あそびに きたよ。', 'th.veggie.2':'シャキシャキ かむと はも じょうぶに なるよ!', 'th.veggie.3':'やさいは いやだ〜 キャンディが いちばん!',
-    'th.veggie.4':'やさいも もぐもぐ、なんでも たべるよ!', 'th.veggie.5':'シャキシャキ やさいを いろいろ たべると、はが よろこぶよ。',
-    'th.snack.t':'おやつの じかんを まもろう', 'th.snack.1':'キラリが いちにちじゅう おやつを たべようと しているよ。', 'th.snack.2':'いつでも おやつ、いいね いいね!', 'th.snack.3':'ピピピ! おやつは きまった じかんに!',
-    'th.snack.4':'おやつの じかんを まもって、たべたら おみずを ひとくち!', 'th.snack.5':'おやつは きまった じかんだけ。',
-    'th.cheese.t':'チーズ ひとかけ', 'th.cheese.1':'キラリが きいろい チーズを みつけたよ。', 'th.cheese.2':'チーズは はを まもる おやつなんだって!', 'th.cheese.3':'チーズの あなは おれの ひみつきちだ!',
-    'th.cheese.4':'チーズを たべて はみがきも したら、2ばい じょうぶ!', 'th.cheese.5':'チーズも いいけど、たべた あとは はみがき!',
-    'th.soda.t':'たんさんの あわ さわぎ', 'th.soda.1':'キラリが たんさんの びんを ふっちゃった。', 'th.soda.2':'うわあ、あわが ぽこぽこ!', 'th.soda.3':'あわに のって はへ しゅっぱつ!',
-    'th.soda.4':'たんさんは ときどきだけ、のんだら おみずを ひとくち!', 'th.soda.5':'あまい のみものは ときどきだけ。',
-    'th.chef.t':'ドゥリの コックさん ぼうし', 'th.chef.1':'ドゥリが コックさんの ぼうしを かぶったよ。', 'th.chef.2':'きょうは ぼくが おいしい りょうりを つくるね!', 'th.chef.3':'たべて はみがきを わすれる、それが おれの りょうりさ!',
-    'th.chef.4':'りょうりも もぐもぐ、はみがきも ゴシゴシ!', 'th.chef.5':'コックさんの さいごの しごとは はみがき!', 'th.chef.6':'おいしく たべた あとの さいごは はみがきだよ。',
-    'th.train.t':'ゆめの くにの はぶらし れっしゃ', 'th.train.1':'シュッシュッポッポ、ゆめの くにの はぶらし れっしゃが きたよ。', 'th.train.2':'きっぷは どこで かうの?', 'th.train.3':'ピカピカに みがいた はが きっぷだよ!',
-    'th.train.4':'おれも のせて! はは みがいて ないけど〜', 'th.train.5':'はみがき しないと のれないよ!', 'th.train.6':'はみがきが おわったら、ゆめの くにの れっしゃに のれるよ。',
-    'th.pillow.t':'くもの まくら', 'th.pillow.1':'ふわふわの くもの まくらが ぷかぷか。', 'th.pillow.2':'ふあぁ、ねむい。もう ねる。', 'th.pillow.3':'よし、はみがき しないで ねたら まくらも おれの もの!',
-    'th.pillow.4':'はみがきしてから ねると、ゆめも ふかふか!', 'th.pillow.5':'すやすや…', 'th.pillow.6':'はみがきしてから ねると、くもみたいに ふかふか ねむれるよ。'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(
