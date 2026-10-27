@@ -943,6 +943,7 @@ function finishDone(){
   show('done'); confetti(40); refreshHome();
   giftTimers.push(setTimeout(openGift, CONFIG.giftAutoOpenMs));               // 안 눌러도 3초 뒤 자동으로 열림
   quizRefresh();                                                              // v0.30.0 오늘의 퀴즈 단추
+  if (typeof shareDoneRefresh === 'function') shareDoneRefresh();             // v0.45.0 연속 기록 3 · 7 · 14 · 30일 … 자랑하기
   $('#doneSpit').innerHTML = `${stickerSvg('<svg viewBox="0 0 44 44"><circle cx="16" cy="22" r="13" fill="#fff" stroke="#bfe3f7" stroke-width="2"/><circle cx="12" cy="19" r="1.8" fill="#24324a"/><circle cx="19" cy="19" r="1.8" fill="#24324a"/><ellipse cx="22" cy="27" rx="3" ry="2.5" fill="#8a2346"/><circle cx="31" cy="27" r="3" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="1.5"/><circle cx="37" cy="25" r="2.2" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="1.5"/></svg>', 2.2)}<span>${t('done.spit')}</span>`;
   setTimeout(() => Voice.play('done', callName() + t('done.title') + ' ' + t('done.spit') + ' ' + t('gift.say')), 600);
   };

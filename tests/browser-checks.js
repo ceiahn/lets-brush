@@ -165,6 +165,38 @@ async function runSub(browser, base){
   return problems;
 }
 
+// v0.45.0 스토어 앱 안 구글 Play 결제 (가짜 Play 를 끼워 넣음): Play 가격 표시 → 연 구독 결제 → 열림 → 구독 끝남 → 무료 / 자랑 카드 사진
+async function runPlay(browser, base){
+  const problems = [], page = await browser.newPage({ viewport:{ width:390, height:800 } });
+  page.on('pageerror', e => problems.push('[play] 오류: ' + e.message));
+  await page.addInitScript(() => {
+    window.BJ_RESOURCES = { config:{ parentGate:false } }; localStorage.setItem('bj_lang', '"ko"'); localStorage.setItem('bj_picked', 'true');
+    window.__owned = [];
+    window.getDigitalGoodsService = async () => ({
+      getDetails: async (ids) => ids.map(id => ({ itemId:id, price:{ currency:'KRW', value:{ club_month:'4400', club_year:'33000', club_life:'66000' }[id] } })),
+      listPurchases: async () => window.__owned.map(i => ({ itemId:i, purchaseToken:'t' })) });
+    window.PaymentRequest = function(m){ const sku = m[0].data.sku; this.show = async () => { window.__owned.push(sku); return { complete:async () => {} }; }; };
+  });
+  await page.goto(base + '/index.html?src=twa'); await page.waitForTimeout(1500);
+  const r = await page.evaluate(() => ({ on:subCfg().on, intro:document.querySelector('#subIntro').classList.contains('show'), price:subPrice('year') }));
+  if (r.on !== true || !r.intro) problems.push('[play] 스토어 앱 안인데 반짝이 클럽 안내가 안 뜸');
+  if (!/33,000/.test(r.price)) problems.push('[play] Play 가격 대신 ' + r.price);
+  await page.evaluate(() => { document.querySelector('[data-plan=year]').click(); document.querySelector('#subAgree').click(); document.querySelector('#subStart').click(); });
+  await page.waitForTimeout(600);
+  let st = await page.evaluate(() => subState().kind + ' ' + pro());
+  if (st !== 'active true') problems.push('[play] 연 구독을 샀는데 ' + st);
+  await page.evaluate(async () => { window.__owned = []; await Billing.restore(); });
+  st = await page.evaluate(() => subState().kind + ' ' + pro());
+  if (st !== 'free false') problems.push('[play] 구독이 끝났는데 ' + st);
+  const card = await page.evaluate(async () => { const c = await shareCard(); return c.blob ? c.blob.size : 0; });
+  if (card < 20000) problems.push('[play] 자랑 카드 사진이 이상함 (' + card + ' 바이트)');
+  await page.close();
+  const web = await browser.newPage(); await web.goto(base + '/index.html'); await web.waitForTimeout(800);
+  if (await web.evaluate(() => subCfg().on)) problems.push('[play] 웹 주소인데 반짝이 클럽이 켜짐');
+  await web.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -183,6 +215,9 @@ async function runBrowser(){
     const sp = await runSub(browser, base);
     console.log(`${sp.length ? '✗' : '✓'} 반짝이 클럽 (구독 · 평생 이용권)${sp.length ? ` (${sp.length})` : ''}`);
     sp.forEach(x => console.log('   ' + x)); all.push(...sp);
+    const pl = await runPlay(browser, base);
+    console.log(`${pl.length ? '✗' : '✓'} 구글 Play 결제 (스토어 앱 흉내) · 자랑 카드${pl.length ? ` (${pl.length})` : ''}`);
+    pl.forEach(x => console.log('   ' + x)); all.push(...pl);
   } finally { await browser.close(); srv.close(); }
   return all;
 }

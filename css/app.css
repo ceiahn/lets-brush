@@ -851,6 +851,7 @@ body.eve .brushC{background:radial-gradient(2px 2px at 14% 8%,#fff,#fff0),radial
 /* v0.30.0 오늘의 퀴즈 */
 .bday-sels{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .quiz-pill{background:var(--yellow);box-shadow:0 4px 0 var(--yellow-d);border-radius:999px;padding:10px 22px;font-size:20px;font-weight:800;color:var(--ink);animation:pop .4s}
+.share-pill{background:#ffb3cf;box-shadow:0 4px 0 #e98bb0;margin-left:6px}  /* v0.45.0 자랑하기 */
 #quiz{z-index:22}
 .quiz-pic{font-size:40px;line-height:1.25;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 6px;max-width:300px;min-height:56px}
 .quiz-pic .qp-plus{font-size:34px;font-weight:800;color:var(--title);padding:0 6px}

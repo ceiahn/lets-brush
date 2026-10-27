@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-title" content="Let's Brush" />
 <title>Let's Brush</title>
 <!--
-  Let's Brush (렛츠 브러시)  버전: v0.44.2  |  2026-10-27
+  Let's Brush (렛츠 브러시)  버전: v0.45.0  |  2026-10-27
   개발 안내 · 규칙 · 변경 기록은 docs/개발_인수인계.md 에 있음 (새로 이어서 작업한다면 그 파일부터 읽을 것)
   파일 나눔 (v0.36.0~): 이 파일 = 화면(HTML)만 · 모양 = css/app.css · 동작 = js/ 폴더 (아래 순서대로 읽힘, 순서 바꾸지 말 것)
 -->
@@ -60,7 +60,7 @@
       <button class="menu-btn" id="bookBtn"><span class="mi">📖</span><span data-i18n="menu.book"></span></button>
       <button class="menu-btn" id="mapBtn"><span class="mi">🗺️</span><span data-i18n="menu.map"></span><i class="mbadge" id="mapBadge"></i></button>
     </div>
-    <button class="ver" id="ver">v0.44.2</button>
+    <button class="ver" id="ver">v0.45.0</button>
   </div>
 </section>
 
@@ -198,6 +198,10 @@
       <p class="set-note" data-i18n="settings.parentTip"></p>
       <p class="set-note" data-i18n="settings.medNote"></p>
       <p class="set-note legal-links" id="legalLinks"></p>
+      <button class="listen-btn" id="shareMake" data-i18n="share.make"></button>
+      <p class="set-note" data-i18n="share.note"></p>
+      <button class="listen-btn" id="fbSend" data-i18n="fb.btn"></button>
+      <p class="set-note" id="fbNote" data-i18n="fb.note"></p>
       <div class="set-sub" data-i18n="week.title"></div>
       <div class="week" id="weekBox"></div>
     </div>
@@ -329,6 +333,7 @@
   </div>
   <p id="doneMsg"></p>
   <button class="quiz-pill" id="quizDone" hidden></button>
+  <button class="quiz-pill share-pill" id="shareDone" data-i18n="share.btn" hidden></button>
   <div class="bottom">
     <button class="stamp-btn" id="stampBtn"><span class="sb-txt"><span data-i18n="done.parentTip"></span><small data-i18n="stamp.hold"></small></span></button>
     <div class="done-btns">
@@ -452,5 +457,7 @@
 <script src="js/19-map.js"></script>
 <script src="js/20-dev.js"></script>
 <script src="js/21-home.js"></script>
+<script src="js/22-play.js"></script>
+<script src="js/23-share.js"></script>
 </body>
 </html>

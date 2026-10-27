@@ -144,10 +144,12 @@ const SP_SHORTS = [
   { id:'sp10', names:{ ko:'세균과 친구', en:'The Germ Friend', ja:'ばいきんと ともだち' } }
 ];
 const SP_DEFAULT = Array.from({ length:EP_MAX }, (_, i) => ({ id:'ep' + pad3(i + 1), ep:i + 1, names: i < EP_TITLES_KO.length ? { ko:EP_TITLES_KO[i] } : null })).concat(SP_SHORTS);
+// v0.45.0 영상 폴더: 비우면 앱 옆 specials/, CONFIG.specialBase 에 주소가 있으면 그 서버 (예: Cloudflare R2 · 그 서버에 CORS 허용 필요 → docs/스토어_앱_포장.md 5장)
+const SP_DIR = CONFIG.specialBase ? String(CONFIG.specialBase).replace(/\/?$/, '/') : 'specials/';
 const SPECIALS = (Array.isArray(RES.specials) && RES.specials.length ? RES.specials : SP_DEFAULT).map(v => {
   const files = Array.isArray(v.files) && v.files.length ? v.files.slice()
-    : v.parts > 1 ? Array.from({ length:v.parts }, (_, k) => 'specials/' + v.id + '_' + (k + 1) + '.mp4')
-    : [v.file || 'specials/' + v.id + '.mp4'];
+    : v.parts > 1 ? Array.from({ length:v.parts }, (_, k) => SP_DIR + v.id + '_' + (k + 1) + '.mp4')
+    : [v.file || SP_DIR + v.id + '.mp4'];
   return Object.assign({}, v, { files });
 });
 // 제목: 그 언어 이름이 있으면 그것, 없으면 에피소드는 "스페셜 N화" (한국어 제목만 있는 편을 다른 언어에서 보여 줄 때)
@@ -171,7 +173,7 @@ let spScanP = null;
    "먼저" 화 목록은 bj_spFirst 에 저장 (폴더를 확인하지 않는 날에도 씀) */
 async function spTitles(){
   let txt = ''; const first = [];
-  if (/^https?:/.test(location.protocol)) try{ const r = await fetch('specials/titles.txt', { cache:'no-store' }); if (r.ok) txt = await r.text(); }catch(e){}   // 파일로 바로 열면 못 읽음 (앱 안 제목 사용)
+  if (/^https?:/.test(location.protocol)) try{ const r = await fetch(SP_DIR + 'titles.txt', { cache:'no-store' }); if (r.ok) txt = await r.text(); }catch(e){}   // 파일로 바로 열면 못 읽음 (앱 안 제목 사용)
   txt.split(/\r?\n/).forEach(line => {
     const m = line.trim().match(/^(\d{1,3})(?:[\s.|:)\-]+(먼저|first|さき)(?=\s|$))?(?:[\s.|:)\-]+(?:(ko|en|ja)[\s:]+)?(.+))?$/i);
     if (!m || line.trim().startsWith('#')) return;
@@ -312,7 +314,7 @@ function spVariants(f){
   const n = dot > 0 ? b.slice(0, dot) : b, e = dot > 0 ? b.slice(dot) : '';
   const cap = (x) => x.charAt(0).toUpperCase() + x.slice(1);
   const m = n.match(/^ep(\d+)$/i), nums = m ? [n, 'ep' + String(+m[1]).padStart(2, '0')] : [n];   // ep007 · ep07 (v0.28)
-  const dirs = [d, cap(d)], names = [...new Set(nums.flatMap(x => [x, cap(x), x.toUpperCase()]))], exts = [e, e.toUpperCase()];
+  const dirs = /^https?:/i.test(d) ? [d] : [d, cap(d)], names = [...new Set(nums.flatMap(x => [x, cap(x), x.toUpperCase()]))], exts = [e, e.toUpperCase()];
   const out = [];
   dirs.forEach(dd => names.forEach(nn => exts.forEach(ee => out.push(dd + nn + ee))));
   return [...new Set(out)];
