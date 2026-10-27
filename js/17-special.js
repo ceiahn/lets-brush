@@ -225,7 +225,7 @@ function specialDue(list){
   if (nv) return { v:nv, why:'fresh' };                                       // v0.35.0 "먼저" 표시한 화
   if (!why) return null;
   const seen = (s && s.seen) || [], last = seen[seen.length - 1];
-  const ev = why === 'event' ? activeEvent() : null, evEp = ev && EP_EVENT[ev.id] ? list.find(v => v.ep === EP_EVENT[ev.id]) : null;
+  const ev = why === 'event' ? activeEvent() : null, evEp = ev && EP_EVENT[ev.text || ev.id] ? list.find(v => v.ep === EP_EVENT[ev.text || ev.id]) : null;
   if (evEp) return { v:evEp, why };                                         // 이벤트 날: 그 날을 위한 편 (봤어도 다시)
   let fresh = list.filter(v => !seen.includes(v.id));
   if (!fresh.length) fresh = list.length > 1 ? list.filter(v => v.id !== last) : list;   // 다 봤으면 다시 (방금 본 것만 빼고)
