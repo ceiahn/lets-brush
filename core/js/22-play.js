@@ -7,7 +7,7 @@
         · 앱을 열 때: 상품 가격(그 나라 돈) → bj_playPrice, 산 것 목록 → bj_sub ({ kind:'active'|'life'|'free', src:'play' })
         · 구독 · 체험 · 평생 이용권 → Play 결제 창. 무료 체험은 Play Console 의 연 · 월 구독 "체험 혜택"이 정함 (처음인 계정만)
         · 해지 · 바꾸기 → Play 구독 관리 화면
-      주의: 상품 ID 는 CONFIG.play.skus 와 Play Console 이 같아야 됨. 포장 · 상품 만들기 순서는 docs/스토어_앱_포장.md
+      주의: 상품 ID 는 CONFIG.play.skus 와 Play Console 이 같아야 됨. 포장 · 상품 만들기 순서는 apps/lets-brush/docs/스토어_앱_포장.md
             Play 는 결제를 3일 안에 "승인"하지 않으면 돈을 돌려줌 → 내부 테스트에서 라이선스 테스터로 꼭 확인 (같은 문서 4장)
    ========================================================= */
 const PLAY_BILLING = 'https://play.google.com/billing';

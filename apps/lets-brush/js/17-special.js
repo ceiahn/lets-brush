@@ -179,7 +179,7 @@ const SP_SHORTS = [
   { id:'sp10', names:{ ko:'세균과 친구', en:'The Germ Friend', ja:'ばいきんと ともだち' } }
 ];
 const SP_DEFAULT = Array.from({ length:EP_MAX }, (_, i) => ({ id:'ep' + pad3(i + 1), ep:i + 1, names: i < EP_TITLES_KO.length ? { ko:EP_TITLES_KO[i] } : null })).concat(SP_SHORTS);
-// v0.45.0 영상 폴더: 비우면 앱 옆 specials/, CONFIG.specialBase 에 주소가 있으면 그 서버 (예: Cloudflare R2 · 그 서버에 CORS 허용 필요 → docs/스토어_앱_포장.md 5장)
+// v0.45.0 영상 폴더: 비우면 앱 옆 specials/, CONFIG.specialBase 에 주소가 있으면 그 서버 (예: Cloudflare R2 · 그 서버에 CORS 허용 필요 → apps/lets-brush/docs/스토어_앱_포장.md 5장)
 const SP_DIR = CONFIG.specialBase ? String(CONFIG.specialBase).replace(/\/?$/, '/') : 'specials/';
 const SPECIALS = (Array.isArray(RES.specials) && RES.specials.length ? RES.specials : SP_DEFAULT).map(v => {
   const files = Array.isArray(v.files) && v.files.length ? v.files.slice()
