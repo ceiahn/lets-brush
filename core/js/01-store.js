@@ -13,7 +13,7 @@
          아이를 바꾸면 페이지를 새로 읽음 (메모리에 든 값이 섞이지 않게) */
 const KID_MAX = 3;
 const KID_KEYS = new Set(['stars', 'testGift', 'owned', 'look', 'brush', 'brushes', 'evGift', 'log', 'log2', 'covered', 'shields', 'fairyDay',
-  'pet', 'petOwned', 'book', 'map', 'roomOwned', 'roomOn', 'hab', 'goal', 'theater', 'special', 'quizDay', 'quizStamps',
+  'pet', 'petOwned', 'book', 'map', 'roomOwned', 'roomOn', 'hab', 'goal', 'theater', 'thLikes', 'special', 'quizDay', 'quizStamps',
   'kidName', 'bday', 'birthY', 'age', 'hand', 'technique', 'prep', 'tongue']);
 const kidList = () => { try{ const v = JSON.parse(localStorage.getItem('bj_kids')); if (Array.isArray(v) && v.length) return v.filter(x => x >= 1 && x <= KID_MAX); }catch(e){} return [1]; };
 const KID = (() => { try{ const v = JSON.parse(localStorage.getItem('bj_kid')); return kidList().includes(v) ? v : kidList()[0]; }catch(e){ return kidList()[0]; } })();

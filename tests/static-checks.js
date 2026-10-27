@@ -6,6 +6,7 @@
      2. 문법: core/js · characters/(이름)/js · apps/(앱)/js · sw.js 마다 node --check
      3. 파일 목록 (앱마다): core/js 와 앱 js/ 를 모두 부르는지 · <script> 순서 = 파일 번호 · sw.js APP 목록과 같은지
      4. 버전: apps/lets-brush 의 index.html 머리 주석 · #ver 단추 · sw.js CACHE · README · 인수인계 문서가 같은 버전인지
+     5. 언어팩 (v0.52.0): apps/lets-brush/lang/*.json 이 깨지지 않았는지 · 자리표시({pet} 등)가 영어와 같은지 · 목록 version 과 같은지 (tools/lang.js)
    결과: 문제 목록을 돌려줌 (빈 목록 = 통과)
    ========================================================= */
 const fs = require('fs'), path = require('path'), { execFileSync } = require('child_process');
@@ -97,8 +98,13 @@ function checkVersions(){
   return problems;
 }
 
+function checkLangPacks(){
+  try{ const L = require('../tools/lang.js'); return L.check(L.loadSources()).errors; }
+  catch(e){ return ['언어팩 점검을 못 함: ' + e.message]; }
+}
+
 function runStatic(){
-  const groups = [['금지 글자', checkBannedText], ['문법', checkSyntax], ['파일 목록', checkFileLists], ['버전', checkVersions]];
+  const groups = [['금지 글자', checkBannedText], ['문법', checkSyntax], ['파일 목록', checkFileLists], ['버전', checkVersions], ['언어팩', checkLangPacks]];
   const all = [];
   for (const [name, fn] of groups){
     const p = fn();

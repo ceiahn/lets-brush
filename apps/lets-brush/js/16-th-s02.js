@@ -51,28 +51,6 @@ addText({
     'th.xmas.4':'Brush before bed, and Santa will smile!', 'th.xmas.5':'A Christmas full of sparkly smiles!',
     'th.newyear.t':'A Sparkly New Year', 'th.newyear.1':"Three, two, one! It's a new year!", 'th.newyear.2':"What's our promise for this year?", 'th.newyear.3':"You'll forget your promise in no time!",
     'th.newyear.4':"Brushing morning and night, that's my promise!", 'th.newyear.5':'Sparkly all year long!', 'th.newyear.6':'New Year promise: brush twice a day!'
-  },
-  ja:{
-    'th.seollal.t':'ソルラルの トックク', 'th.seollal.1':'かんこくの おしょうがつの あさ、キラリは トッククを たべたよ。', 'th.seollal.2':'トッククを たべると ひとつ おにいさんに なるんだって!', 'th.seollal.3':'おもちが はに ねばねば くっついたぞ!',
-    'th.seollal.4':'しんねん はじめての はみがき、いっしょに しよう!', 'th.seollal.5':'あけまして おめでとう!', 'th.seollal.6':'おいしく たべた あとは かならず はみがき。',
-    'th.picnic.t':'はるの えんそく おべんとう', 'th.picnic.1':'あたたかい はるの ひ、みんなで えんそくに いったよ。', 'th.picnic.2':'おべんとう もぐもぐ、おいしい!', 'th.picnic.3':'ここには はぶらしが ないだろう? ひひっ!',
-    'th.picnic.4':'はぶらしが ない ときは、おみずで くちを すすげば いいよ!', 'th.picnic.5':'おうちに かえって はみがきしたら かんぺき!',
-    'th.kidsday.t':'こどもの ひの プレゼント', 'th.kidsday.1':'きょうは こどもの ひ! プレゼントの はこが とどいたよ。', 'th.kidsday.2':'ドキドキ、なにが はいってるかな?', 'th.kidsday.3':'じゃーん! プレゼントの かわりに おれさまだ!',
-    'th.kidsday.4':'ほんものの プレゼントは ぼくたちが まもる!', 'th.kidsday.5':'ピカピカの あたらしい はぶらしだ!', 'th.kidsday.6':'じょうぶな はは、じぶんへの プレゼントだよ。',
-    'th.summer.t':'なつの うみあそび', 'th.summer.1':'あつい なつ、うみで ばしゃばしゃ!', 'th.summer.2':'キラリ、いっしょに みずあそび しよう!', 'th.summer.3':'つめたい アイスも たべたけど…',
-    'th.summer.4':'なつは あまい おやつ パーティーだ!', 'th.summer.5':'なみが ばいきんを つれていったよ!', 'th.summer.6':'つめたい おやつの あとも はみがきを わすれずに。',
-    'th.firefly.t':'なつの よるの ほたる', 'th.firefly.1':'なつの よる、くさむらで ほたるが ひかったよ。', 'th.firefly.2':'くらくて ばいきんが みえない。', 'th.firefly.3':'まっくらは かくれるのに ぴったりだ!',
-    'th.firefly.4':'ほたるさん、てらして!', 'th.firefly.5':'あかるい ところで ていねいに みがくと、かくれた ばいきんも みつかるよ。',
-    'th.chuseok.t':'チュソクの まんげつ', 'th.chuseok.1':'チュソクの よる、まんまるの おつきさまが でたよ。', 'th.chuseok.2':'おつきさまで うさぎが おもちを ついてるんだって!', 'th.chuseok.3':'おもちを たべて みがかなければ おれの せかいだ!',
-    'th.chuseok.4':'おつきさまに おねがいして、はみがきも しよう!', 'th.chuseok.5':'かぞく みんなの はが じょうぶで ありますように!', 'th.chuseok.6':'おいしい ごちそうの あとも はみがきは かならず!',
-    'th.halloween.t':'ハロウィンの おかし かご', 'th.halloween.1':'ハロウィンの よる、おかしの かごが いっぱいに なったよ。', 'th.halloween.2':'おかし くれたら いたずら しないぞ〜 ひひっ!', 'th.halloween.3':'おかしは すこしだけ、そして はみがきは かならず!',
-    'th.halloween.4':'{pet}も かそう したよ!', 'th.halloween.5':'おかしを たべた ひは、もっと ていねいに みがこう。',
-    'th.snow.t':'はつゆきが ふったよ', 'th.snow.1':'しろい はつゆきが ふわふわ ふってきたよ。', 'th.snow.2':'ゆきだるま つくろう!', 'th.snow.3':'ゆきだるまみたいに はも まっしろ ピカピカ!',
-    'th.snow.4':'さむいから はみがきは あしたで いいよ〜', 'th.snow.5':'さむい ひは ぬるい おみずで みがけば いいよ!', 'th.snow.6':'さむい ひも はみがきは おやすみ しないよ。',
-    'th.xmas.t':'クリスマスの はみがき', 'th.xmas.1':'クリスマスイブ、ツリーの あかりが キラキラ。', 'th.xmas.2':'サンタさんが くる まえに なにを しようか?', 'th.xmas.3':'くつしたに ねばねば キャンディを いっぱい いれたぞ!',
-    'th.xmas.4':'ねる まえに はみがきしたら、サンタさんも にっこり!', 'th.xmas.5':'ピカピカの はで にっこり クリスマス!',
-    'th.newyear.t':'ピカピカの しんねん', 'th.newyear.1':'さん、に、いち! あたらしい としが きたよ!', 'th.newyear.2':'ことしの やくそくは なんに しよう?', 'th.newyear.3':'やくそくなんて すぐ わすれるさ!',
-    'th.newyear.4':'あさと よるの はみがき、ぜったい まもる!', 'th.newyear.5':'ことしも ピカピカ!', 'th.newyear.6':'しんねんの やくそく: いちにち 2かい はみがき!'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

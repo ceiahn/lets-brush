@@ -25,7 +25,7 @@ store.get('packs', []).forEach(code => {
   const p = store.get('pack_' + code, null);
   if (p && p.meta && p.strings) packs[code] = withCore(p);
 });
-// 받은 언어팩보다 새 버전이 있으면 갱신 (샘플은 바로 교체, 서버 팩은 나중에 다시 내려받기)
+// 받은 언어팩보다 새 버전이 있으면 갱신 (샘플은 바로 교체, 서버 팩은 아래 packUpdate 가 다시 받음)
 PACK_CATALOG.forEach(e => {
   const p = packs[e.code];
   if (p && e.sample && !e.url && (p.meta.version || 1) < (e.sample.meta.version || 1)){
@@ -92,6 +92,24 @@ async function installPack(entry){
   if (!list.includes(pack.meta.code)) store.set('packs', list.concat(pack.meta.code));
   return pack;
 }
+
+/* v0.52.0 받는 언어팩 (lang/<code>.json) 저절로 챙기기: 앱을 연 뒤 한 번
+   · 받아 둔 팩이 목록(PACK_CATALOG)의 version 보다 낮으면 새로 받음 (번역을 고치면 기기에도 반영)
+   · 처음 여는 기기(언어를 고른 적 없음)인데 기기 언어 팩이 목록에 있으면 받아서 그 언어로 바꿈 (일본 폰 → 일본어)
+   앱과의 약속: 바꾼 뒤 화면을 다시 그리는 setLang(code) */
+async function packUpdate(){
+  const nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  for (const e of PACK_CATALOG){
+    if (!e.url) continue;
+    const p = packs[e.code], old = p && (p.meta.version || 1) < (e.version || 1), first = !p && e.code === nav && !store.get('lang', null);
+    if (!old && !first) continue;
+    try{
+      await installPack(e);
+      if (typeof setLang === 'function' && (first ? !store.get('lang', null) : lang === e.code)) setLang(e.code);
+    }catch(err){}                                                          // 인터넷이 없으면 다음에
+  }
+}
+setTimeout(packUpdate, 1200);
 
 const loadedFonts = new Set();
 function applyFont(){

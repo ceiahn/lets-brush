@@ -70,38 +70,6 @@ addText({
     'thg.cat.t':'Sleepy Buddy', 'thg.cat.1':'{pet}, wake up!', 'thg.cat.2':'Zzz…', 'thg.cat.3':'The brushing sound woke them right up!',
     'thg.drop.t':'Drip Drop', 'thg.drop.1':'Drip, drip, drip…', 'thg.drop.2':'Always turn off the tap!', 'thg.drop.3':'Save water and sparkle!',
     'thg.highfive.t':'High Five', 'thg.highfive.1':'All brushed!', 'thg.highfive.2':'High five!', 'thg.highfive.3':"Let's start a great day!"
-  },
-  ja:{
-    'thg.yawn.t':'おおあくび', 'thg.yawn.1':'ふああああ〜', 'thg.yawn.2':'くちを あけた ついでに シャカシャカ!',
-    'thg.bedhair.t':'ねぐせ', 'thg.bedhair.1':'かがみよ かがみ、ぼくの あたま どうしたの?', 'thg.bedhair.2':'あたまは ぼさぼさ、はは ピカピカ!',
-    'thg.sneeze.t':'はっくしょん!', 'thg.sneeze.1':'はなが むずむず…', 'thg.sneeze.2':'はっくしょん! あわが ぽんぽん!',
-    'thg.twins.t':'かがみの ともだち', 'thg.twins.1':'まねしないで!', 'thg.twins.2':'きみが まねしたんでしょ!', 'thg.twins.3':'…ふたりとも ピカピカだね。',
-    'thg.paste.t':'はみがきこ ばくはつ', 'thg.paste.1':'はみがきこを ぎゅーっ', 'thg.paste.2':'わあっ、だしすぎた!', 'thg.paste.3':'はみがきこは おまめ くらい!',
-    'thg.sock.t':'それは はぶらしじゃない', 'thg.sock.1':'{pet}、はぶらし とって!', 'thg.sock.2':'はい!', 'thg.sock.3':'これ くつしただよ!',
-    'thg.beard.t':'あわの おひげ', 'thg.beard.1':'ぶくぶく あわが いっぱい!', 'thg.beard.2':'ほっほっほ、あわ じいさんだ!',
-    'thg.gargle.t':'ガラガラ', 'thg.gargle.1':'おみずを ひとくち ふくんで…', 'thg.gargle.2':'ガラガラガラ〜', 'thg.gargle.3':'ぺっ! すっきり!',
-    'thg.sleepygerm.t':'ねぼすけ ばいきん', 'thg.sleepygerm.1':'ぐうぐう… まだ よるだよね?', 'thg.sleepygerm.2':'おはよう! はみがきの じかんだよ!', 'thg.sleepygerm.3':'あさから!?',
-    'thg.tonguebrush.t':'したも ゴシゴシ', 'thg.tonguebrush.1':'はだけ みがけば おしまい?', 'thg.tonguebrush.2':'したも やさしく ゴシゴシ!', 'thg.tonguebrush.3':'べー! きれいに なった?',
-    'thg.smile.t':'ピカピカ スマイル', 'thg.smile.1':'みがき おわったら かがみを みて…', 'thg.smile.2':'にかっ!', 'thg.smile.3':'まぶしい!',
-    'thg.banana.t':'つるっ!', 'thg.banana.1':'せんめんじょへ しゅっぱつ!', 'thg.banana.2':'つるっ!', 'thg.banana.3':'ちゃくち せいこう! はぶらしも はなさなかった!',
-    'thg.stretch.t':'あさの のび', 'thg.stretch.1':'うーん、のびーっ', 'thg.stretch.2':'おれも のびーっ', 'thg.stretch.3':'あれ? いつ きたの?',
-    'thg.weather.t':'きょうの おてんき', 'thg.weather.1':'きょうの おてんきを おしらせします。', 'thg.weather.2':'くちの なかは ばいきん ぐもり…', 'thg.weather.3':'はみがきの あとは ピカピカ はれ!',
-    'thg.foamball.t':'あわ ふうせん', 'thg.foamball.1':'ふう〜 あわ ふうせん!', 'thg.foamball.2':'どんどん おおきく…', 'thg.foamball.3':'ぱーん!',
-    'thg.petbrush.t':'ぼくも はみがき', 'thg.petbrush.1':'ぼくも みがく!', 'thg.petbrush.2':'はぶらし さかさまだよ〜', 'thg.petbrush.3':'えへへ、もう いっかい!',
-    'thg.alarm.t':'ジリリリ', 'thg.alarm.1':'ジリリリ! ジリリリ!', 'thg.alarm.2':'あと 5ふん…', 'thg.alarm.3':'はみがきすると めが さめるよ!',
-    'thg.milkbeard.t':'ミルクの おひげ', 'thg.milkbeard.1':'ごくごく、ミルク おいしい!', 'thg.milkbeard.2':'ぷはっ、しろい おひげが できた!', 'thg.milkbeard.3':'くちも ふいて、はも みがこう!',
-    'thg.crunch.t':'シャキッ りんご', 'thg.crunch.1':'シャキッ!', 'thg.crunch.2':'りんごは はの おそうじを てつだう ともだち。', 'thg.crunch.3':'でも はみがきは はぶらしで!',
-    'thg.dance.t':'はみがき ダンス', 'thg.dance.1':'うえに ゴシゴシ!', 'thg.dance.2':'したに ゴシゴシ!', 'thg.dance.3':'くるくる まるまる!',
-    'thg.peek.t':'かくれんぼ', 'thg.peek.1':'どこに かくれたかな?', 'thg.peek.2':'ひひっ、ここには いないよ〜', 'thg.peek.3':'みつけた! うしろに いたのか!',
-    'thg.counting.t':'10まで かぞえよう', 'thg.counting.1':'いち、に、さん…', 'thg.counting.2':'なな、ご、じゅうに?', 'thg.counting.3':'{pet}、かずが めちゃくちゃ!',
-    'thg.fast.t':'いなずま はみがき', 'thg.fast.1':'いなずまみたいに シュシュシュ!', 'thg.fast.2':'はやすぎ! ゆっくり ていねいに!', 'thg.fast.3':'はあはあ… わかった。',
-    'thg.greet.t':'おはよう', 'thg.greet.1':'おはよう!', 'thg.greet.2':'おはよう!', 'thg.greet.3':'わるい あさ…',
-    'thg.wrongbrush.t':'だれの はぶらし?', 'thg.wrongbrush.1':'これ ぼくの はぶらし かな?', 'thg.wrongbrush.2':'それは パパの はぶらしだよ!', 'thg.wrongbrush.3':'はぶらしは かならず じぶんのを!',
-    'thg.hat.t':'はぶらし さがし', 'thg.hat.1':'ぼくの はぶらし どこ?', 'thg.hat.2':'てに もってるよ!', 'thg.hat.3':'えへへ、わすれてた!',
-    'thg.skybrush.t':'はぶらし ぐも', 'thg.skybrush.1':'あの くもを みて!', 'thg.skybrush.2':'はぶらしの かたちだ!', 'thg.skybrush.3':'おそらも はみがき してるのかな!',
-    'thg.cat.t':'ねむい ともだち', 'thg.cat.1':'{pet}、おきて!', 'thg.cat.2':'ぐう…', 'thg.cat.3':'シャカシャカの おとで ぱっちり!',
-    'thg.drop.t':'ぽたぽた', 'thg.drop.1':'ぽた、ぽた、ぽた…', 'thg.drop.2':'じゃぐちは しっかり しめようね!', 'thg.drop.3':'おみずも たいせつに、ピカピカ!',
-    'thg.highfive.t':'ハイタッチ', 'thg.highfive.1':'みがき おわった!', 'thg.highfive.2':'ハイタッチ!', 'thg.highfive.3':'きょうも すてきな いちにちの はじまり!'
   }
 });
 (function(){

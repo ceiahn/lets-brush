@@ -37,22 +37,6 @@ addText({
     'th.festival.4':"Great! Let's all do the brushing dance!", 'th.festival.5':'All of Tooth Town smiled bright.', 'th.festival.6':'When everyone brushes, the whole town sparkles.',
     'th.hundred.t':'The 100th Sparkle', 'th.hundred.1':"Today is Sparkle Theater's 100th story!", 'th.hundred.2':'Hooray! Thank you for coming all this way with us!', 'th.hundred.3':'We are celebrating too!',
     'th.hundred.4':'You brushed every day, so YOU are the real star!', 'th.hundred.5':'Here is a Sparkle medal for you!', 'th.hundred.6':"Tomorrow and the day after, let's sparkle together!"
-  },
-  ja:{
-    'th.tall.t':'ドゥリの せが のびたよ', 'th.tall.1':'ドゥリが せの たかさを はかったよ。', 'th.tall.2':'わあ! まえより ぐんと のびた!', 'th.tall.3':'よく かんで たべて、はも みがいてるからね!',
-    'th.tall.4':'ふん、それでも おれの ほうが おおきいぞ!', 'th.tall.5':'じょうぶな はで よく かむと、からだも ぐんぐん そだつよ。',
-    'th.msong.t':'モンイの ひみつの うた', 'th.msong.1':'うみべで モンイが そっと うたっているよ。', 'th.msong.2':'これは だれにも おしえてない ひみつの うた。', 'th.msong.3':'ぶくぶく あわ、すすぎは ざぶーん〜 はが わらうよ、ピカピカ〜',
-    'th.msong.4':'うう、その うたを きくと ちからが ぬける〜', 'th.msong.5':'これで みんなの うたに なったね!', 'th.msong.6':'すきな うたと いっしょに はみがきしよう。',
-    'th.wish.t':'ココの ねがいごと', 'th.wish.1':'よぞらを ながれぼしが とおったよ!', 'th.wish.2':'はやく ねがいごとを しよう!', 'th.wish.3':'ともだち みんなの はが ピカピカに なりますように!',
-    'th.wish.4':'その ねがいは おれが じゃま してやる!', 'th.wish.5':'まいにち みがけば ねがいは かなうよ!', 'th.wish.6':'まいにちの はみがきが ねがいを かなえるよ。',
-    'th.diary.t':'キラリの にっき', 'th.diary.1':'キラリが にっきを かいているよ。', 'th.diary.2':'きょうは あさに 1かい、よるに 1かい みがいた。', 'th.diary.3':'ぼくの ことも かいて!',
-    'th.diary.4':'きょう ばいきんが きたけど、ゴシゴシ みがいて かった!', 'th.diary.5':'みがいた ことを かいておくと、あしたも したく なるよ。',
-    'th.paradeprep.t':'あわの パレードの じゅんび', 'th.paradeprep.1':'あしたは あわの パレードの ひ!', 'th.paradeprep.2':'ふうせんを ふくらませて はたを かざろう!', 'th.paradeprep.3':'ふうせん ぜんぶ わってやる!',
-    'th.paradeprep.4':'みんな、いっしょに とめよう!', 'th.paradeprep.5':'じゅんび かんりょう! あしたが たのしみ。', 'th.paradeprep.6':'いっしょに じゅんびすると なんでも たのしいね。',
-    'th.festival.t':'はの まちの おおまつり', 'th.festival.1':'はの まちで おおまつりが はじまったよ!', 'th.festival.2':'ともだちが みんな あつまった!', 'th.festival.3':'おれも まぜて! こんどは はぶらしも もってきたよ!',
-    'th.festival.4':'いいね! みんなで シャカシャカ ダンス!', 'th.festival.5':'はの まちの みんなが ピカピカに わらったよ。', 'th.festival.6':'みんなで みがくと まちじゅうが ピカピカ。',
-    'th.hundred.t':'100かいめの キラリ', 'th.hundred.1':'きょうは キラリ げきじょう 100わめの おはなし!', 'th.hundred.2':'わーい! ここまで いっしょに きてくれて ありがとう!', 'th.hundred.3':'ぼくたちも おいわい!',
-    'th.hundred.4':'まいにち みがいた きみが ほんとうの しゅやくだよ!', 'th.hundred.5':'キラリ メダルを きみに あげるね!', 'th.hundred.6':'あしたも その つぎの ひも、ピカピカ いっしょに!'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

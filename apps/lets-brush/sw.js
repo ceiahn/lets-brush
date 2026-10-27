@@ -1,6 +1,6 @@
 /*
   Let's Brush – 홈 화면 앱(PWA) 저장 도우미 (sw.js)
-  버전: v0.51.0  |  2026-10-27   (index.html v0.51.0 와 짝)
+  버전: v0.52.0  |  2026-10-27   (index.html v0.52.0 와 짝)
   ------------------------------------------------------------
   의도: 웹 주소(https)로 연 앱을 폰에 저장해 두고, 인터넷이 없어도 열리게 함
    · index.html (화면) · css/ · js/ (v0.36.0 부터 나눈 앱 코드): 인터넷 먼저 → 새 버전을 올리면 바로 반영. 인터넷이 없으면 저장해 둔 것으로 엶
@@ -9,11 +9,12 @@
    · 영상(specials/*.mp4 · webm)은 건드리지 않음 → 영상은 부분씩 받는 방식이라 여기서 저장하면 재생이 꼬일 수 있음
      (v0.43.0 부터 앱이 다음 영상 2편을 폰 안(IndexedDB)에 미리 받아 둠 → 인터넷 없이도 그 2편은 나옴)
    · 글꼴(fonts/)은 v0.35.0 부터 같은 주소 → 저장해 둔 것 먼저 (한 번 쓴 글자 조각만 받아서 저장)
+   · v0.52.0 받는 언어팩(lang/*.json): 미리 저장해 둠 (처음 열 때 인터넷이 없어도 기기 언어로) + 앱 코드처럼 인터넷 먼저 (번역을 고치면 바로 반영)
    · 다른 주소는 건드리지 않음
   ★ index.html 을 새 버전으로 올릴 때 아래 CACHE 이름의 버전도 같이 바꿀 것 (예전 저장본이 정리됨)
   ★ js/ 에 파일을 더하거나 이름을 바꾸면 아래 APP 목록도 index.html 의 <script> 줄과 똑같이 맞출 것
 */
-const CACHE = 'lets-brush-v0.51.0';   // v0.48.0 이름 앞부분을 앱 이름으로 (예전 banjjak- 저장본은 지움)
+const CACHE = 'lets-brush-v0.52.0';   // v0.48.0 이름 앞부분을 앱 이름으로 (예전 banjjak- 저장본은 지움)
 const APP = ['./index.html', './css/app.css',
   '../../core/js/00-base.js',
   '../../core/js/00-club.js',
@@ -41,6 +42,7 @@ const APP = ['./index.html', './css/app.css',
   './js/15-game.js',
   './js/16-th-art.js',
   './js/16-th-gags.js',
+  './js/16-th-gags2.js',
   './js/16-th-s01.js',
   './js/16-th-s02.js',
   './js/16-th-s03.js',
@@ -62,9 +64,11 @@ const APP = ['./index.html', './css/app.css',
   '../../core/js/20-webgate.js',
   './js/21-home.js',
   '../../core/js/22-play.js',
-  '../../core/js/23-share.js'];
+  '../../core/js/23-share.js',
+  '../../core/js/24-stats.js'];
 const CORE = ['./', ...APP, './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png'];
-const OPTIONAL = ['./resources.js', '../../core/fonts/jua.css', './privacy.html', './terms.html'];   // 없어도 됨
+const LANGS = ['./lang/ja.json'];                                                         // v0.52.0 받는 언어팩 (tools/sync-files.js 가 채움)
+const OPTIONAL = ['./resources.js', '../../core/fonts/jua.css', './privacy.html', './terms.html', ...LANGS];   // 없어도 됨
 
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
@@ -91,7 +95,7 @@ self.addEventListener('fetch', (e) => {
   if (req.headers.has('range') || /\.(mp4|webm|mov|m4v)$/i.test(url.pathname)) return;   // 영상은 그대로
   if (/\/specials\/[^/]*\.txt$/i.test(url.pathname)) return;                   // v0.35.0 영상 제목 목록은 늘 새로 (저장본 안 씀)
   const isPage = req.mode === 'navigate' || /\/(index\.html)?$/.test(url.pathname);
-  const isCode = /\/(js|css)\/[^/]+\.(js|css)$/.test(url.pathname);            // v0.36.0 나눈 앱 코드 (fonts/ 는 아님)
+  const isCode = /\/(js|css)\/[^/]+\.(js|css)$/.test(url.pathname) || /\/lang\/[^/]+\.json$/.test(url.pathname);   // v0.36.0 나눈 앱 코드 (fonts/ 는 아님) · v0.52.0 언어팩
   if (isPage || isCode){                                                   // 화면 · 앱 코드: 인터넷 먼저
     const key = isPage ? './index.html' : req;
     e.respondWith((async () => {

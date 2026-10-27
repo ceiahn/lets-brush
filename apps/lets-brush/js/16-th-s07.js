@@ -49,28 +49,6 @@ addText({
     'th.caramel.4':"Let's melt the stickiness with foam!", 'th.caramel.5':'After sticky snacks, brush extra carefully.',
     'th.choco.t':'The Chocolate Forest Path', 'th.choco.1':'The chocolate forest path smells so sweet.', 'th.choco.2':'Chocolate trees! Just one bite…', 'th.choco.3':'Wait! If you eat some, brush right after!',
     'th.choco.4':'Nobody brushes in the chocolate forest!', 'th.choco.5':"On chocolate days, don't forget to brush."
-  },
-  ja:{
-    'th.snail.t':'カタツムリの ゆっくり はみがき', 'th.snail.1':'カタツムリが とっても ゆっくり はみがきしているよ。', 'th.snail.2':'のろま! そんなんじゃ いつ おわるんだ?', 'th.snail.3':'ゆっくり、1ぽんも わすれずに みがいてるんだよ。',
-    'th.snail.4':'ぼくも 1ぽんずつ じっくり!', 'th.snail.5':'ゆっくりでも、わすれずに みがくのが いちばん。',
-    'th.rain.t':'あめつぶ シャワー', 'th.rain.1':'おにわに しとしと あめが ふってきたよ。', 'th.rain.2':'あめつぶ シャワーだ! おはなが きれいに なる!', 'th.rain.3':'おれは しげみの したで がんばるぞ!',
-    'th.rain.4':'はみがきの あとの すすぎみたいに ざーっ!', 'th.rain.5':'はみがきして おみずで すすぐと、くちの なかが すっきり。',
-    'th.ladybug.t':'テントウムシの てんを かぞえよう', 'th.ladybug.1':'テントウムシの てんを かぞえよう。ひとつ、ふたつ、みっつ。', 'th.ladybug.2':'ぼくの はは なんぼん かな?', 'th.ladybug.3':'こどもの はは ぜんぶで 20ぽん なんだって!',
-    'th.ladybug.4':'20ぽんも? 1ぽんくらい かくしてやる!', 'th.ladybug.5':'20ぽんの はを 1ぽんも わすれずに みがこう。',
-    'th.dandelion.t':'タンポポの わたげの たび', 'th.dandelion.1':'タンポポの わたげが かぜに のって とんでいくよ。', 'th.dandelion.2':'わたげみたいに、はみがきの しゅうかんも ともだちに ひろげよう!', 'th.dandelion.3':'ひろがるのは おれさまだ! ねばねば〜',
-    'th.dandelion.4':'いっしょに みがこうって ともだちに いうね!', 'th.dandelion.5':'いい しゅうかんは ともだちと いっしょに。',
-    'th.dew.t':'クモの すの つゆの ネックレス', 'th.dew.1':'あさの クモの すに つゆが キラキラ。', 'th.dew.2':'つゆが しんじゅの ネックレスみたい!', 'th.dew.3':'クモの すに ひっかかった! だして〜',
-    'th.dew.4':'きれいに して だして あげるね!', 'th.dew.5':'あさつゆみたいに、あさの はも ピカピカに みがこう。',
-    'th.tea.t':'はなびらの おちゃ', 'th.tea.1':'ピピが はなびらの おちゃを いれたよ。', 'th.tea.2':'いい かおりの おちゃ、のんでみて!', 'th.tea.3':'おさとうを 10こ いれよう! ひひっ!',
-    'th.tea.4':'おさとう なしでも いい かおり!', 'th.tea.5':'のみものの おさとうは すこしだけ、のんだら おみずを ひとくち。',
-    'th.concert.t':'おにわの おんがくかい', 'th.concert.1':'おにわで おんがくかいが はじまったよ。', 'th.concert.2':'きょうの うたは はみがきの うた!', 'th.concert.3':'ねばねばの リズムで わりこんでやる!',
-    'th.concert.4':'シャカシャカ リズムに あわせて ゴシゴシ!', 'th.concert.5':'うたいながら みがくと、はみがきの じかんが あっという まだよ。',
-    'th.candyisle.t':'キャンディ じまに とうちゃく', 'th.candyisle.1':'ふねに のって キャンディ じまに ついたよ!', 'th.candyisle.2':'わあ、きが ぜんぶ ぺろぺろ キャンディだ!', 'th.candyisle.3':'キャンディ じまへ ようこそ。ここは おれの ふるさとさ!',
-    'th.candyisle.4':'キャンディ じまでは はぶらしを わすれずに!', 'th.candyisle.5':'あまい ところに いく ときほど、はぶらしを もっていこう。',
-    'th.caramel.t':'キャンディ じまの ねばねば はし', 'th.caramel.1':'キャンディ じまの はしは キャラメルで できているよ。', 'th.caramel.2':'わあっ、あしが ぺたぺた くっつく!', 'th.caramel.3':'ねばねば はしからは にげられないぞ!',
-    'th.caramel.4':'あわで ねばねばを とかそう!', 'th.caramel.5':'ねばねばの おやつの あとは、もっと ていねいに みがこう。',
-    'th.choco.t':'チョコの もりの こみち', 'th.choco.1':'チョコの もりの こみちは あまい においが するよ。', 'th.choco.2':'チョコの きだ! ひとくち だけ…', 'th.choco.3':'まって! たべたら すぐ はみがき!',
-    'th.choco.4':'チョコの もりでは だれも はみがき しないぞ!', 'th.choco.5':'チョコを たべた ひは、はみがきを わすれずに。'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

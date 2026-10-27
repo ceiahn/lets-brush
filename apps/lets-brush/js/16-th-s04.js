@@ -49,28 +49,6 @@ addText({
     'th.coral.4':"If we clean every corner, it'll be quick!", 'th.coral.5':'Clean every corner of your teeth, and they look as pretty as coral.',
     'th.turtle.t':"Grandpa Turtle's Teeth", 'th.turtle.1':'At the beach, they met Grandpa Turtle.', 'th.turtle.2':"I'm over a hundred years old, but I brush every day.", 'th.turtle.3':'Wow, really?',
     'th.turtle.4':"Grandpa's teeth are mine now!", 'th.turtle.5':'The secret to teeth that last is brushing every day.', 'th.turtle.6':'Brush every day like Grandpa, and your teeth stay strong for a long, long time.'
-  },
-  ja:{
-    'th.stars.t':'おほしさまを かぞえて ねんね', 'th.stars.1':'キラリが ねころんで ほしを かぞえるよ。ひとつ、ふたつ、みっつ…', 'th.stars.2':'あれ? ほしが ひとつ ねばねば!', 'th.stars.3':'ほしも ねばねばに してやる!',
-    'th.stars.4':'ピカピカに みがこう!', 'th.stars.5':'きれいに みがいて ねると、ほしみたいに キラキラ ねむれるよ。',
-    'th.lullaby.t':'おつきさまの こもりうた', 'th.lullaby.1':'おつきさまが ねんねこ うたを うたっているよ。', 'th.lullaby.2':'がやがや! みんな おこしてやる!', 'th.lullaby.3':'しーっ! はみがきして しずかに ねる じかんだよ。',
-    'th.lullaby.4':'はみがきが おわると、おつきさまの こもりうたが きこえるよ。',
-    'th.dreamsea.t':'ゆめの うみの なか', 'th.dreamsea.1':'ゆめの なかで うみを ぷかぷか およいだよ。', 'th.dreamsea.2':'キラリ、ゆめの うみへ ようこそ!', 'th.dreamsea.3':'ゆめの なかでも ねばねば いたずらだ!',
-    'th.dreamsea.4':'ゆめでも はみがき ヒーロー!', 'th.dreamsea.5':'ねる まえに みがくと、ゆめの なかでも ピカピカ。',
-    'th.count.t':'ひつじの かわりに はぶらしを かぞえよう', 'th.count.1':'ねむれない よる、ひつじを かぞえてみよう。', 'th.count.2':'ひつじが いっぴき、にひき… それでも ねむれない。', 'th.count.3':'じゃあ はぶらしを かぞえてみる?',
-    'th.count.4':'はぶらしが いっぱいだ! にげろ!', 'th.count.5':'すやすや…', 'th.count.6':'はぶらし ひとつ、はみがき いっかい。そして すやすや。',
-    'th.pajama.t':'パジャマ パーティー', 'th.pajama.1':'きょうは ともだちと パジャマ パーティー!', 'th.pajama.2':'まくら なげ しよう!', 'th.pajama.3':'パーティーの あとは はみがき しないで ねよう〜',
-    'th.pajama.4':'パーティーの さいごは みんなで はみがき!', 'th.pajama.5':'ともだちと いっしょなら、はみがきも パーティーみたいに たのしいね。',
-    'th.bubble.t':'ゆめの しゃぼんだま', 'th.bubble.1':'ゆめの なかで しゃぼんだまを ふーっ。', 'th.bubble.2':'しゃぼんだま ひとつに ひとつずつ ゆめが はいってる!', 'th.bubble.3':'この しゃぼんだまは ねばねば こわい ゆめだぞ!',
-    'th.bubble.4':'はやく わっちゃおう!', 'th.bubble.5':'はみがきして ねると、ゆめの しゃぼんだまも ピカピカ。',
-    'th.walk.t':'しずかな よるの さんぽ', 'th.walk.1':'そーっと そーっと、よるの さんぽに でたよ。', 'th.walk.2':'しーっ、みんな ねてるよ。', 'th.walk.3':'こそこそ… みがいてない はを さがそうかな?',
-    'th.walk.4':'ぼくたちの まちの はは みんな ピカピカ!', 'th.walk.5':'みんなが はみがきして ねた よるは、しずかで へいわだよ。',
-    'th.tomorrow.t':'また あした', 'th.tomorrow.1':'きょうも ともだちと たくさん あそんだよ。', 'th.tomorrow.2':'キラリ、また あしたね!', 'th.tomorrow.3':'あしたこそ かってやる!',
-    'th.tomorrow.4':'あしたの あさも ゴシゴシ まってるよ!', 'th.tomorrow.5':'こんや はみがきして、あしたの あさ また あおうね。',
-    'th.coral.t':'さんごの むらの おおそうじ', 'th.coral.1':'うみの さんごの むらが ねばねばに よごれちゃった。', 'th.coral.2':'みんなで おおそうじ しよう!', 'th.coral.3':'そうじは めんどう〜 そのままで いいよ!',
-    'th.coral.4':'すみずみまで みがけば すぐ おわるよ!', 'th.coral.5':'はも すみずみまで きれいに すると、さんごみたいに きれいだよ。',
-    'th.turtle.t':'カメの おじいさんの は', 'th.turtle.1':'うみべで カメの おじいさんに あったよ。', 'th.turtle.2':'わしは 100さいを こえたが、まいにち はを みがいておる。', 'th.turtle.3':'わあ、ほんとう?',
-    'th.turtle.4':'おじいさんの はは おれの ものだ!', 'th.turtle.5':'ながく じょうぶな はの ひけつは、まいにちの はみがきじゃよ。', 'th.turtle.6':'おじいさんみたいに まいにち みがくと、はも ずっと じょうぶだよ。'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

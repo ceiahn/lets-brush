@@ -50,28 +50,6 @@ addText({
     'th.firstbrush.4':'Up and down, round and round!', 'th.firstbrush.5':"Wow, so fresh! I'm all sparkly!", 'th.firstbrush.6':'One toothbrush per person. Brush with your very own.',
     'th.album.t':'The Friends Album', 'th.album.1':'Sparkle opened the friends album.', 'th.album.2':'Pipi the flower sprite! Brushes fresh as a flower.', 'th.album.3':'Mongi the water-drop mermaid! The rinsing champ.',
     'th.album.4':'Coco the baby unicorn! Makes rainbow foam.', 'th.album.5':'Duri the baby dino! The chewing champ.', 'th.album.6':'And {pet}! My buddy, always by my side!', 'th.album.7':'With friends, brushing is so much fun.'
-  },
-  ja:{
-    'th.owl.t':'チョコの もりの フクロウ', 'th.owl.1':'チョコの もりの おくに フクロウが すんでいるよ。', 'th.owl.2':'ホーホー… こんや はを みがいたのは だれかな?', 'th.owl.3':'はーい! ねる まえに かならず みがくよ!',
-    'th.owl.4':'しーっ、おれは みがいてないぞ。こっそり かくれよう!', 'th.owl.5':'フクロウの めは ぜんぶ みえるのさ!', 'th.owl.6':'よるの はみがきが いちにちで いちばん だいじ。',
-    'th.sail.t':'あわの うみの こうかい', 'th.sail.1':'ふねに のって あわの うみへ しゅっぱつ!', 'th.sail.2':'うみが ぜんぶ ぶくぶく あわだ!', 'th.sail.3':'はみがきこを ぜんぶ しぼって あわの なみを つくるぞ!',
-    'th.sail.4':'はみがきこは おまめ くらいで じゅうぶん!', 'th.sail.5':'はみがきこは おまめ くらい、みがくのは ていねいに。',
-    'th.lighthouse.t':'あわの うみの とうだい', 'th.lighthouse.1':'よるの うみで とうだいの あかりが くらく なったよ。', 'th.lighthouse.2':'とうだいの ガラスに ばいきんが いっぱい!', 'th.lighthouse.3':'まっくらだと ふねが まいごに なるぞ! ひひっ!',
-    'th.lighthouse.4':'ピカピカに みがいて あかりを つけよう!', 'th.lighthouse.5':'とうだいが また うみを あかるく てらしたよ。', 'th.lighthouse.6':'きれいな はは わらうと とうだいみたいに ひかるよ。',
-    'th.starisle.t':'ほしの しまの よる', 'th.starisle.1':'ほしの しまに よるが きたよ。', 'th.starisle.2':'ほしが ひとつ、ふたつ、みっつ… きれい!', 'th.starisle.3':'ほしを かぞえてたら はみがきを わすれるだろう?',
-    'th.starisle.4':'ほしを かぞえる まえに はみがき!', 'th.starisle.5':'ねむる まえの はみがきは さきに しようね。',
-    'th.observatory.t':'ほしの しまの てんもんだい', 'th.observatory.1':'てんもんだいに おおきな ぼうえんきょうが あるよ。', 'th.observatory.2':'ぼうえんきょうで みたら、あの ほしに ばいきんが かくれてる!', 'th.observatory.3':'とおくに いれば だれにも みつからないぞ!',
-    'th.observatory.4':'よーく みれば ぜんぶ みえるよ!', 'th.observatory.5':'かがみで くちの おくまで よく みてみよう。',
-    'th.rbgate.t':'にじの おしろの もん', 'th.rbgate.1':'にじの おしろの まえに ついたよ。', 'th.rbgate.2':'もんが ねばねばで しまってる!', 'th.rbgate.3':'あいことばを いわないと あけないぞ!',
-    'th.rbgate.4':'あいことばは… シャカシャカ ピカピカ!', 'th.rbgate.5':'ピンポーン! もんが ひらいたよ。', 'th.rbgate.6':'いい しゅうかんは どんな もんも ひらくよ。',
-    'th.rbfest.t':'にじの おしろの おまつり', 'th.rbfest.1':'にじの おしろで おまつりが はじまったよ!', 'th.rbfest.2':'ふうせんと はたが いっぱい!', 'th.rbfest.3':'おまつりの ケーキを ねばねばに してやる!',
-    'th.rbfest.4':'おまつりの あとは みんなで はみがき!', 'th.rbfest.5':'たのしく たべた ひほど、はみがきは ていねいに。',
-    'th.sorry.t':'ばいきん たいしょうの ごめんね', 'th.sorry.1':'きょうは {boss}が ひとりで しょんぼり。', 'th.sorry.2':'どうして そんなに かなしそうなの?', 'th.sorry.3':'ずっと はを いじめて… ごめんね。',
-    'th.sorry.4':'あやまって くれて ありがとう! ともだちに なろう!', 'th.sorry.5':'ほんと? ともだちに なって くれるの?', 'th.sorry.6':'ごめんねと ありがとうで、こころも ピカピカ。',
-    'th.firstbrush.t':'ばいきん たいしょうの はじめての はぶらし', 'th.firstbrush.1':'{boss}に プレゼントを あげる ことに したよ。', 'th.firstbrush.2':'じゃーん! きみだけの はぶらしだよ!', 'th.firstbrush.3':'これ、どうやって つかうの?',
-    'th.firstbrush.4':'うえ したに ゴシゴシ、くるくる!', 'th.firstbrush.5':'わあ、すっきり! ピカピカに なった!', 'th.firstbrush.6':'はぶらしは ひとり ひとつ。じぶんの はぶらしで みがこう。',
-    'th.album.t':'ともだち しょうかい アルバム', 'th.album.1':'キラリが ともだちの アルバムを ひらいたよ。', 'th.album.2':'はなの ようせい ピピ! おはなみたいに いい かおり。', 'th.album.3':'しずくの にんぎょ モンイ! すすぎの めいじん。',
-    'th.album.4':'あかちゃん ユニコーン ココ! にじいろの あわを つくるよ。', 'th.album.5':'あかちゃん きょうりゅう ドゥリ! かみかみ めいじん。', 'th.album.6':'そして {pet}! いつも いっしょの なかよし!', 'th.album.7':'ともだちと いっしょだと はみがきが たのしいね。'
   }
 });
 (window.TH_EPS = window.TH_EPS || []).push(

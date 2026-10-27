@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-title" content="Let's Brush" />
 <title>Let's Brush</title>
 <!--
-  Let's Brush (렛츠 브러시)  버전: v0.51.0  |  2026-10-27
+  Let's Brush (렛츠 브러시)  버전: v0.52.0  |  2026-10-27
   개발 안내 · 규칙 · 변경 기록은 apps/lets-brush/docs/개발_인수인계.md 에 있음 (새로 이어서 작업한다면 그 파일부터 읽을 것)
   파일 나눔 (v0.36.0~): 이 파일 = 화면(HTML)만 · 모양 = css/app.css · 동작 = js/ 폴더 (아래 순서대로 읽힘, 순서 바꾸지 말 것)
 -->
@@ -71,7 +71,7 @@
       <button class="menu-btn" id="bookBtn"><span class="mi">📖</span><span data-i18n="menu.book"></span></button>
       <button class="menu-btn" id="mapBtn"><span class="mi">🗺️</span><span data-i18n="menu.map"></span><i class="mbadge" id="mapBadge"></i></button>
     </div>
-    <button class="ver" id="ver">v0.51.0</button>
+    <button class="ver" id="ver">v0.52.0</button>
   </div>
 </section>
 
@@ -200,6 +200,8 @@
       <label class="set-row"><span data-i18n="settings.tongue"></span><input type="checkbox" class="tgl" id="tongueTgl"></label>
       <label class="set-row"><span data-i18n="settings.theater"></span><input type="checkbox" class="tgl" id="theaterTgl"></label>
       <button class="listen-btn" id="theaterV2" data-i18n="settings.theaterV2"></button>
+      <label class="set-row" id="statsRow" hidden><span data-i18n="settings.stats"></span><input type="checkbox" class="tgl" id="statsTgl"></label>
+      <p class="set-note" id="statsNote" data-i18n="settings.statsNote" hidden></p>
       <label class="set-row"><span data-i18n="settings.quiz"></span><input type="checkbox" class="tgl" id="quizTgl"></label>
       <label class="set-row"><span data-i18n="settings.special"></span><input type="checkbox" class="tgl" id="specialTgl"></label>
       <button class="listen-btn" id="spLoad" data-i18n="sp.load"></button>
@@ -291,6 +293,7 @@
   <div class="th-head" id="thHead"></div>
   <div class="th-stage" id="thStage"></div>
   <button class="th-skip" id="thSkip" data-i18n="th.skip"></button>
+  <button class="th-like" id="thLike" hidden>♡</button>
 </section>
 
 <!-- ④-4 스페셜 영상: 특별한 날 · 일주일에 한 번 (v0.22.0) -->
@@ -473,6 +476,7 @@
 <script src="js/15-game.js"></script>
 <script src="js/16-th-art.js"></script>
 <script src="js/16-th-gags.js"></script>
+<script src="js/16-th-gags2.js"></script>
 <script src="js/16-th-s01.js"></script>
 <script src="js/16-th-s02.js"></script>
 <script src="js/16-th-s03.js"></script>
@@ -495,5 +499,6 @@
 <script src="js/21-home.js"></script>
 <script src="../../core/js/22-play.js"></script>
 <script src="../../core/js/23-share.js"></script>
+<script src="../../core/js/24-stats.js"></script>
 </body>
 </html>
