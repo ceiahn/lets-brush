@@ -6,7 +6,9 @@
      파일: index.html 옆 specials 폴더. 시리즈 에피소드 ep001.mp4 ~ ep999.mp4 (한 편 = 장면 A + B 를 사용자가 이어 붙인 20초 파일)
            + 지난 10초 단편 sp01.mp4 ~ sp10.mp4. 영상 만드는 기준은 Docs "Let's Brush 영상 바이블"
      고르기: 에피소드를 1화부터 차례로 (안 본 것 중 번호가 가장 작은 것). 다 보면 단편, 그다음 처음부터 다시
-             이벤트 첫날은 그 날을 위한 편 (EP_EVENT: 생일 7화 · 설날 21화 · 어린이날 23화 · 추석 26화 · 핼러윈 27화 · 크리스마스 29화 · 새해 30화)
+             v0.46.0 기간 한정 화: 정해진 기간에만 나오고 평소 순서에서는 빠짐 (기간 안 첫 양치에 한 번, 해마다 다시)
+               기본: EP_EVENT (생일 7화 · 설날 21화 · 어린이날 23화 · 추석 26화 · 핼러윈 27화 · 크리스마스 29화 · 새해 30화) = 그 이벤트 기간
+               더하기 · 바꾸기: titles.txt 에 "27 기간 10-25~10-31", "40 기간 2026-12-01~2026-12-25", "21 기간 설날", "7 기간 없음"(평소 순서로)
      제목: 1~100화는 EP_TITLES_KO (바이블 100편 계획). 101화부터와 다른 언어는 "스페셜 N화" (sp.epN)
      확인(spScan): 번호 순서로 살짝 열어 보고, 10편 연속 없으면 그 뒤는 확인 안 함 (999편을 다 두드리지 않게)
      (v0.27 의 여러 부 이어 틀기는 resources.js 의 parts:2 / files:[…] 로만 남아 있음)
@@ -129,7 +131,40 @@ const EP_TITLES_KO = [
   '100번째 반짝'
 ];
 const EP_MAX = 999;
-const EP_EVENT = { birthday:7, seollal:21, childrensday:23, chuseok:26, halloween:27, xmas:29, newyear:30 };   // 이벤트 날 보여 줄 편 (바이블 시즌 3 등)
+const EP_EVENT = { birthday:7, seollal:21, childrensday:23, chuseok:26, halloween:27, xmas:29, newyear:30 };   // 이벤트 기간에만 보여 줄 편 (바이블 시즌 3 등, v0.46.0 평소 순서에서는 빠짐)
+/* v0.46.0 기간 한정 화
+   의도: 번호는 ep001 부터 차례로 매기되, 명절 · 계절 편은 평소 순서에 섞이지 않고 그 기간에만 (여름에 설날 편이 나오지 않게)
+   titles.txt 한 줄: <화 번호> 기간 <기간> [제목]
+     · 10-25~10-31            해마다 10월 25일 ~ 31일 (12-20~01-05 처럼 해를 넘겨도 됨)
+     · 2026-12-01~2026-12-25  그해 한 번만
+     · 설날 · 추석 · 어린이날 · 핼러윈 · 크리스마스 · 새해 · 생일 (또는 앱 이벤트 이름 seollal · xmas …)  앱의 그 이벤트 기간 (음력이어도 됨)
+     · 없음                   기본 기간을 끄고 평소 순서로
+   나오는 법: 기간 안 첫 양치에 한 번 (하루 한 편 · 반짝이 클럽 규칙은 그대로). 기간이 겹치면 번호가 작은 것부터 하루에 하나씩
+             처음 쓰는 아이는 1화를 먼저 보고, 다음 양치부터. 본 기록 bj_special.sw = ['ep027@2026-1025', …]
+   저장: titles.txt 로 정한 기간 bj_spSeason (폴더를 확인하지 않는 날에도 씀) */
+const EV_WORD = { '설날':'seollal', '추석':'chuseok', '어린이날':'childrensday', '핼러윈':'halloween', '할로윈':'halloween', '크리스마스':'xmas', '새해':'newyear', '생일':'birthday' };
+function spWin(w){
+  if (/^(없음|none|なし)$/i.test(w)) return { off:true };
+  const m = w.match(/^(?:(\d{4})-)?(\d{1,2})-(\d{1,2})~(?:(\d{4})-)?(\d{1,2})-(\d{1,2})$/);
+  if (m){
+    const from = +m[2] * 100 + +m[3], to = +m[5] * 100 + +m[6], y1 = m[1] ? +m[1] : 0;
+    return { from, to, y1, y2:m[4] ? +m[4] : y1 && to < from ? y1 + 1 : y1 };
+  }
+  const ev = EV_WORD[w] || w.toLowerCase();
+  return EVENTS.some(e => e.id === ev || e.text === ev) ? { ev } : null;
+}
+const spSeasons = () => Object.assign(Object.fromEntries(Object.entries(EP_EVENT).map(([ev, n]) => ['ep' + pad3(n), { ev }])), store.get('spSeason', {}) || {});
+const spSeasonal = (id) => { const w = spSeasons()[id]; return !!w && !w.off; };
+function spSeasonKey(id){                                                    // 지금 그 화의 기간이면 이번 기간 이름, 아니면 null
+  const w = spSeasons()[id]; if (!w || w.off) return null;
+  const d = new Date(), md = mmdd(d), y = d.getFullYear();
+  if (w.ev){ const e = activeEvent(); return e && (e.id === w.ev || e.text === w.ev) ? id + '@' + spEvKey() : null; }
+  if (w.y1){ const n = y * 10000 + md; return n >= w.y1 * 10000 + w.from && n <= w.y2 * 10000 + w.to ? id + '@' + w.y1 + '-' + w.from : null; }
+  const wrap = w.from > w.to, inside = wrap ? (md >= w.from || md <= w.to) : (md >= w.from && md <= w.to);
+  return inside ? id + '@' + (wrap && md <= w.to ? y - 1 : y) + '-' + w.from : null;
+}
+const spSeasonDue = (list, s) => list.filter(v => v.ep && spSeasonal(v.id)).sort((a, b) => a.ep - b.ep)
+  .find(v => { const k = spSeasonKey(v.id); return k && !((s && s.sw) || []).includes(k); }) || null;
 const pad3 = (n) => String(n).padStart(3, '0');
 const SP_SHORTS = [
   { id:'sp01', names:{ ko:'거품 서핑', en:'Foam Surfing', ja:'あわの サーフィン' } },
@@ -172,16 +207,18 @@ let spScanP = null;
      14 반짝이의 겨울잠          ← 안 붙이면 차례대로 (지금 보던 화 다음으로, 맨 뒤에 붙음)
    "먼저" 화 목록은 bj_spFirst 에 저장 (폴더를 확인하지 않는 날에도 씀) */
 async function spTitles(){
-  let txt = ''; const first = [];
+  let txt = ''; const first = [], season = {};
   if (/^https?:/.test(location.protocol)) try{ const r = await fetch(SP_DIR + 'titles.txt', { cache:'no-store' }); if (r.ok) txt = await r.text(); }catch(e){}   // 파일로 바로 열면 못 읽음 (앱 안 제목 사용)
   txt.split(/\r?\n/).forEach(line => {
+    const sm = line.trim().match(/^(\d{1,3})[\s.|:)\-]+(?:기간|period|きかん)[\s:]+(\S+)\s*(.*)$/i);   // v0.46.0 기간 한정 화
+    if (sm && !line.trim().startsWith('#')){ const w = spWin(sm[2]); if (w) season['ep' + pad3(+sm[1])] = w; line = sm[1] + (sm[3] ? ' ' + sm[3] : ''); }
     const m = line.trim().match(/^(\d{1,3})(?:[\s.|:)\-]+(먼저|first|さき)(?=\s|$))?(?:[\s.|:)\-]+(?:(ko|en|ja)[\s:]+)?(.+))?$/i);
     if (!m || line.trim().startsWith('#')) return;
     const v = SPECIALS.find(x => x.ep === +m[1]); if (!v) return;
     if (m[2]) first.push(v.id);
     if (m[4]) v.names = Object.assign({}, v.names || {}, { [(m[3] || 'ko').toLowerCase()]:m[4].trim().slice(0, 40) });
   });
-  if (txt || /^https?:/.test(location.protocol)) store.set('spFirst', [...new Set(first)]);
+  if (txt || /^https?:/.test(location.protocol)){ store.set('spFirst', [...new Set(first)]); store.set('spSeason', season); }
 }
 let spScanDone = false;
 function spScan(){                                                          // 에피소드는 번호 순서로, 10편 연속 없으면 그 뒤는 확인 안 함
@@ -204,7 +241,7 @@ function spScan(){                                                          // �
    하루 한 번(bj_spCheck) 폴더와 titles.txt 를 다시 확인. 주의: 번호는 이어서 올릴 것 (10개 넘게 비면 그 뒤는 못 찾음) */
 const spDone = (s) => [].concat((s && s.newDone) || []);
 const spNewFor = () => { const s = store.get('special', null); if (!s) return null;
-  return (store.get('spFirst', []) || []).find(id => !spDone(s).includes(id) && !(s.seen || []).includes(id)) || null; };
+  return (store.get('spFirst', []) || []).find(id => !spSeasonal(id) && !spDone(s).includes(id) && !(s.seen || []).includes(id)) || null; };
 async function specialPick(){
   if (!pro() || !specialOn) return null;
   const check = store.get('spCheck', '') !== todayKey();                     // 하루 한 번은 새 화가 올라왔는지 확인
@@ -223,6 +260,8 @@ function specialDue(list){
   if (!specialOn || !list.length) return null;
   const s = store.get('special', null), today = todayKey(), dn = dayNum(new Date());
   if (s && s.day === today) return null;                                      // 하루에 한 번까지
+  const sv = s && spSeasonDue(list, s);                                       // v0.46.0 기간 한정 화 (처음 쓰는 아이는 1화 먼저)
+  if (sv) return { v:sv, why:'season' };
   let why = null;
   if (!s) why = 'new';
   else if (spEvKey() && s.ev !== spEvKey()) why = 'event';                  // 이벤트 기간엔 첫날 한 번만 (v0.25: 기간 내내 매일 나오던 것)
@@ -232,10 +271,10 @@ function specialDue(list){
   if (nv) return { v:nv, why:'fresh' };                                       // v0.35.0 "먼저" 표시한 화
   if (!why) return null;
   const seen = (s && s.seen) || [], last = seen[seen.length - 1];
-  const ev = why === 'event' ? activeEvent() : null, evEp = ev && EP_EVENT[ev.text || ev.id] ? list.find(v => v.ep === EP_EVENT[ev.text || ev.id]) : null;
-  if (evEp) return { v:evEp, why };                                         // 이벤트 날: 그 날을 위한 편 (봤어도 다시)
-  let fresh = list.filter(v => !seen.includes(v.id));
-  if (!fresh.length) fresh = list.length > 1 ? list.filter(v => v.id !== last) : list;   // 다 봤으면 다시 (방금 본 것만 빼고)
+  const reg = list.filter(v => !spSeasonal(v.id));                            // v0.46.0 기간 한정 화는 평소 순서에서 뺌
+  if (!reg.length) return null;
+  let fresh = reg.filter(v => !seen.includes(v.id));
+  if (!fresh.length) fresh = reg.length > 1 ? reg.filter(v => v.id !== last) : reg;   // 다 봤으면 다시 (방금 본 것만 빼고)
   const eps = fresh.filter(v => v.ep).sort((a, b) => a.ep - b.ep);           // 에피소드는 1화부터 차례로 (v0.28)
   return { v: eps.length ? eps[0] : pick(fresh), why };
 }
@@ -249,10 +288,11 @@ function markSpecial(id, played){                                          // pl
   const s = store.get('special', null) || { seen:[] };
   let seen = (s.seen || []).filter(x => SPECIALS.some(v => v.id === x) && x !== id);
   seen.push(id);
-  const ok = SPECIALS.filter(v => !SP_BAD[v.id]);                           // 틀 수 있는 것을 다 봤으면 처음부터 (방금 본 것만 남김)
+  const ok = SPECIALS.filter(v => !SP_BAD[v.id] && !spSeasonal(v.id));      // 틀 수 있는 것을 다 봤으면 처음부터 (방금 본 것만 남김, 기간 한정 화는 빼고 셈)
   if (ok.length && ok.every(v => seen.includes(v.id))) seen = [id];
   const newDone = [...new Set(spDone(s).concat((store.get('spFirst', []) || []).includes(id) ? [id] : []))];   // "먼저" 화를 봤으면 다시 안 띄움
-  store.set('special', played ? { last:dayNum(new Date()), day:todayKey(), seen, ev:spEvKey() || s.ev || null, newDone } : Object.assign({}, s, { seen, last:s.last || 0, newDone }));
+  const sw = ((s.sw || []).concat(played ? [spSeasonKey(id)] : [])).filter(Boolean).slice(-40);   // v0.46.0 이번 기간에 본 기간 한정 화
+  store.set('special', played ? { last:dayNum(new Date()), day:todayKey(), seen, ev:spEvKey() || s.ev || null, newDone, sw } : Object.assign({}, s, { seen, last:s.last || 0, newDone, sw }));
 }
 // 파일 이름 대소문자가 달라도 찾기 (sp01.mp4 · Sp01.mp4 · SP01.mp4 · sp01.MP4 …, 폴더 specials · Specials)
 // 의도: 휴대폰 · 웹 서버는 대문자 · 소문자를 다른 이름으로 봄 → 이름을 바꾸다 첫 글자가 대문자가 되는 일이 흔함 (v0.22.1)
@@ -445,9 +485,10 @@ async function pfLoad(){
 function pfTargets(){                                                        // 다음에 볼 화 (최대 PF_N 편)
   const s = store.get('special', null) || { seen:[] }, seen = s.seen || [], out = [];
   const ok = (v) => v && v.ep && !SP_BAD[v.id] && (SP_URLS[v.id] || []).length;
+  const sv = spSeasonDue(SPECIALS.filter(ok), s); if (sv) out.push(sv);       // v0.46.0 지금 기간인 기간 한정 화가 먼저
   const first = spNewFor(), fv = first && SPECIALS.find(x => x.id === first);
-  if (ok(fv)) out.push(fv);
-  SPECIALS.filter(v => ok(v) && !seen.includes(v.id) && !out.includes(v)).sort((a, b) => a.ep - b.ep).forEach(v => out.push(v));
+  if (ok(fv) && !out.includes(fv)) out.push(fv);
+  SPECIALS.filter(v => ok(v) && !spSeasonal(v.id) && !seen.includes(v.id) && !out.includes(v)).sort((a, b) => a.ep - b.ep).forEach(v => out.push(v));
   return out.slice(0, PF_N);
 }
 let pfBusy = false;
