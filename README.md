@@ -4,7 +4,7 @@
 
 앱 이름은 아이가 지어 줬어요.
 
-- 버전: v0.36.0 (2026-10-27)
+- 버전: v0.37.0 (2026-10-27)
 - 언어: 한국어 · English · 日本語(앱 안에서 받기)
 - 화면: 세로 기준
 
@@ -24,6 +24,8 @@ specials/             스페셜 영상 (시리즈 ep001.mp4 ~ ep999.mp4 세 자�
 resources.example.js  그림 · 아이템 · 음악 · 숫자를 코드 수정 없이 바꾸는 예시
 docs/개발_인수인계.md  다음 작업을 위한 안내 (규칙 · 구조 · 변경 기록)
 docs/video/           영상 참고 이미지 (sparkle · sparkle_faces · boss_germ · pipi · mongi · coco · duri) + 1~10화 프롬프트 (첫 화면 그림 · 장면 A · 장면 B)
+tests/                자동 점검 (GitHub에 올리면 Actions 탭에서 ✓ / ✗, 앱에는 안 들어감)
+tools/                버전 올리기 도구
 ```
 
 ## 써 보기

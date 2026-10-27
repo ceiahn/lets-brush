@@ -1,0 +1,25 @@
+# 자동 점검: GitHub 에 올릴 때마다 tests/run.js 를 돌림 (저장소 Actions 탭에서 ✓ / ✗ 확인)
+name: check
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 점검 도구 설치
+        working-directory: tests
+        run: npm install && npx playwright install --with-deps chromium
+      - name: 점검
+        run: node tests/run.js
+      - name: 완료 화면 사진
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: tests/test-results/
