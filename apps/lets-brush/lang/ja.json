@@ -4,7 +4,7 @@
   "name": "日本語",
   "dir": "ltr",
   "tts": "ja-JP",
-  "version": 55,
+  "version": 56,
   "font": {
    "family": "'Kosugi Maru'",
    "url": "../../core/fonts/kosugi-maru.css"
@@ -682,7 +682,7 @@
   "sp.check": "動画ファイルを確認中…",
   "sp.checkOk": "動画{n}本すべて見つかりました",
   "sp.checkBad": "動画{n}本のうち{ok}本OK · 見つからない: {list}",
-  "sp.checkNone": "動画が見つかりません。設定の「📥 スペシャル動画を入れる」で、まとめて追加してください",
+  "sp.checkNone": "動画が見つかりません。動画サーバー(specialBase)・specials フォルダを確認するか、開発者メニューの「📥 スペシャル動画を入れる」で入れてください",
   "sp.load": "📥 スペシャル動画を入れる(まとめて選択)",
   "sp.clear": "入れた動画をすべて削除",
   "sp.stored": "このスマホに入れた動画: {n}本",

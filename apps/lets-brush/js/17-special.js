@@ -312,6 +312,7 @@ async function spLoadBlobs(){
   spInfo();
 }
 const spStoredAll = (v) => v.files.every(f => SP_BLOB[spKey(f)]);
+const spAny = () => SPECIALS.some(v => !SP_BAD[v.id] || v.files.every(f => SP_BLOB[spKey(f)] || PF_BLOB[spKey(f)]));   // v0.52.2 틀 수 있는 영상이 하나라도 있나
 function spInfo(){
   const n = SPECIALS.filter(spStoredAll).length;
   const pf = SPECIALS.filter(v => v.files.every(f => PF_BLOB[spKey(f)])).length;
