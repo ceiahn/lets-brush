@@ -181,8 +181,10 @@ async function spTitles(){
   });
   if (txt || /^https?:/.test(location.protocol)) store.set('spFirst', [...new Set(first)]);
 }
+let spScanDone = false;
 function spScan(){                                                          // 에피소드는 번호 순서로, 10편 연속 없으면 그 뒤는 확인 안 함
   if (!spScanP) spScanP = (async () => {
+    spScanDone = false;
     await spTitles();
     let miss = 0;
     for (const v of SPECIALS){
@@ -191,6 +193,7 @@ function spScan(){                                                          // �
       if (r){ delete SP_BAD[v.id]; SP_URLS[v.id] = r; if (v.ep) miss = 0; }
       else { SP_BAD[v.id] = 1; if (v.ep) miss++; }
     }
+    spScanDone = true;
   })();
   return spScanP;
 }
@@ -204,9 +207,11 @@ async function specialPick(){
   if (!pro() || !specialOn) return null;
   const check = store.get('spCheck', '') !== todayKey();                     // 하루 한 번은 새 화가 올라왔는지 확인
   if (!specialDue(SPECIALS) && !check && !spNewFor()) return null;            // 오늘은 스페셜 날이 아님 (확인할 필요도 없음)
-  try{ await spScan(); }catch(e){ return null; }
-  if (check) store.set('spCheck', todayKey());
-  const sp = specialDue(SPECIALS.filter(v => !SP_BAD[v.id]));
+  // v0.43.0 양치를 마친 아이를 오래 기다리게 하지 않게: 영상 확인은 3초까지만 기다리고, 그때까지 확인된 것(또는 폰에 받아 둔 것)만 고름
+  try{ await Promise.race([spScan(), new Promise(r => setTimeout(r, 3000))]); }catch(e){ return null; }
+  if (check && spScanDone) store.set('spCheck', todayKey());
+  const local = (v) => v.files.every(f => SP_BLOB[spKey(f)] || PF_BLOB[spKey(f)]);
+  const sp = specialDue(SPECIALS.filter(v => !SP_BAD[v.id] && (spScanDone || SP_URLS[v.id] || local(v))));
   if (sp) sp.urls = SP_URLS[sp.v.id];
   return sp;
 }
@@ -267,7 +272,8 @@ async function spLoadBlobs(){
 const spStoredAll = (v) => v.files.every(f => SP_BLOB[spKey(f)]);
 function spInfo(){
   const n = SPECIALS.filter(spStoredAll).length;
-  $('#spInfo').textContent = n ? t('sp.stored', { n }) : t('sp.storedNone');
+  const pf = SPECIALS.filter(v => v.files.every(f => PF_BLOB[spKey(f)])).length;
+  $('#spInfo').textContent = (n ? t('sp.stored', { n }) : t('sp.storedNone')) + (pf ? ' · ' + t('sp.prefetched', { n:pf }) : '');
   $('#spClear').hidden = !SP_KEYS.some(k => SP_BLOB[k]);
 }
 async function spImport(files){
@@ -331,6 +337,7 @@ async function spExists(path){
 async function spFindPart(f){
   const k = spKey(f);
   if (SP_BLOB[k]) return SP_BLOB[k];
+  if (PF_BLOB[k]) return PF_BLOB[k];                                         // v0.43.0 미리 받아 둔 영상 (인터넷 없어도 됨)
   if (SP_OK[k]) return SP_OK[k];
   const cands = spVariants(f), has = await Promise.all(cands.map(spExists));   // 이름 후보를 한꺼번에 물어봄 (순서는 그대로 지킴)
   for (let i = 0; i < cands.length; i++){ if (has[i] !== false && await spProbe(cands[i])){ SP_OK[k] = cands[i]; return cands[i]; } }
@@ -345,7 +352,10 @@ function playSpecial(sp, onDone, preview){
   const v = sp.v, title = spTitle(v);
   const box = $('#spStage'), vid = $('#spVideo'), badge = $('#spPart');
   // 부마다 시도할 주소: 확인된 주소가 있으면 그것, 없으면 휴대폰에 넣은 것 → 대소문자 바꾼 이름들
-  const parts = v.files.map((f, i) => sp.urls && sp.urls[i] ? [sp.urls[i]] : SP_BLOB[spKey(f)] ? [SP_BLOB[spKey(f)]] : SP_OK[spKey(f)] ? [SP_OK[spKey(f)]] : spVariants(f));
+  // v0.43.0 후보 순서: 넣은 영상 → 미리 받은 영상 → 확인된 서버 주소 → 이름 바꾼 후보들 (앞 것이 안 되면 onerror 로 다음)
+  const live = (u) => u && (!/^blob:/.test(u) || Object.values(SP_BLOB).includes(u) || Object.values(PF_BLOB).includes(u));
+  const parts = v.files.map((f, i) => { const k = spKey(f);
+    return [...new Set([SP_BLOB[k], PF_BLOB[k], sp.urls && sp.urls[i], SP_OK[k]].filter(live).concat(spVariants(f)))]; });
   let finished = false, started = false, pi = 0, ci = 0, wantPlay = false;
   const cleanup = () => { vid.onerror = vid.onplaying = vid.onended = null; try{ vid.pause(); }catch(e){} vid.removeAttribute('src'); try{ vid.load(); }catch(e){} box.className = 'sp-stage'; badge.className = 'sp-part'; $('#spSound').hidden = true; spEnd = null; };
   const end = () => {
@@ -355,6 +365,7 @@ function playSpecial(sp, onDone, preview){
       store.set('special', Object.assign({}, s0, { last:dayNum(new Date()), day:todayKey(), seen:s0.seen || [], ev:spEvKey() || s0.ev || null }));
     }
     cleanup(); Voice.stop(); onDone();
+    if (!preview) setTimeout(pfSync, 2500);                                     // v0.43.0 본 영상은 지우고 다음 영상을 미리 받기
   };
   const closeEnd = () => { if (finished) return; box.classList.remove('open'); setTimeout(end, 900); };   // 막 닫고 끝
   const fallback = () => {                                                    // 1부부터 안 됨 → 반짝이 극장
@@ -397,7 +408,7 @@ function playSpecial(sp, onDone, preview){
   };
   vid.onplaying = () => {                                                     // 진짜로 나오기 시작하면 막을 엶 (그 전엔 제목)
     if (finished) return;
-    const k = spKey(v.files[pi]); if (!SP_BLOB[k]) SP_OK[k] = parts[pi][ci];
+    const k = spKey(v.files[pi]); if (!/^blob:/.test(parts[pi][ci])) SP_OK[k] = parts[pi][ci];
     if (started) return;
     started = true; box.classList.add('open');
     if (!preview) markSpecial(v.id, true);
@@ -415,7 +426,51 @@ function playSpecial(sp, onDone, preview){
 $('#spLoad').addEventListener('click', () => { sfx.tap(); $('#spFile').click(); });
 $('#spFile').addEventListener('change', (e) => { spImport(e.target.files); e.target.value = ''; });
 $('#spClear').addEventListener('click', () => { sfx.tap(); spClearAll(); });
-spLoadBlobs().then(() => setTimeout(() => { if (specialOn) spScan(); }, 2500));   // 앱이 다 뜬 뒤 영상 확인
+/* ---------- v0.43.0 다음 영상 2편 미리 받아 두기 ----------
+   의도: 양치가 끝났을 때 영상이 바로 나오게 + 인터넷이 없어도 보게. 늘 "다음에 볼 2편"만 폰에 둠 (본 것은 지움)
+   다음 2편: titles.txt 에 "먼저"라고 적은 화 → 아직 안 본 화를 번호 순서로. 저장: IndexedDB bj_db/files 의 pf:<파일 키>
+   안 받는 때: 파일로 바로 연 때 · 데이터 절약 모드 · 2G · 구독 전(스페셜 영상은 반짝이 클럽) · 설정에서 스페셜 영상을 끈 때
+   넣은 영상(sp:)과 따로: 부모님이 넣은 영상은 그대로 두고, 미리 받은 영상(pf:)만 앱이 알아서 바꿈 */
+const PF_N = 2, PF_BLOB = {};
+async function pfKeys(){
+  try{ const db = await BgmStore.open();
+    return await new Promise((res) => { const q = db.transaction('files').objectStore('files').getAllKeys(); q.onsuccess = () => res((q.result || []).filter(k => typeof k === 'string' && k.indexOf('pf:') === 0).map(k => k.slice(3))); q.onerror = () => res([]); });
+  }catch(e){ return []; }
+}
+async function pfLoad(){
+  for (const k of await pfKeys()){ if (PF_BLOB[k]) continue; try{ const b = await RecStore.get('pf:' + k); if (b) PF_BLOB[k] = URL.createObjectURL(b); }catch(e){} }
+}
+function pfTargets(){                                                        // 다음에 볼 화 (최대 PF_N 편)
+  const s = store.get('special', null) || { seen:[] }, seen = s.seen || [], out = [];
+  const ok = (v) => v && v.ep && !SP_BAD[v.id] && (SP_URLS[v.id] || []).length;
+  const first = spNewFor(), fv = first && SPECIALS.find(x => x.id === first);
+  if (ok(fv)) out.push(fv);
+  SPECIALS.filter(v => ok(v) && !seen.includes(v.id) && !out.includes(v)).sort((a, b) => a.ep - b.ep).forEach(v => out.push(v));
+  return out.slice(0, PF_N);
+}
+let pfBusy = false;
+async function pfSync(){
+  if (pfBusy || !/^https?:/.test(location.protocol) || !pro() || !specialOn || !spScanDone) return;
+  const cn = navigator.connection; if (cn && (cn.saveData || /(^|-)2g$/.test(cn.effectiveType || ''))) return;
+  pfBusy = true;
+  try{
+    const want = pfTargets(), keep = new Set(want.flatMap(v => v.files.map(spKey)));
+    for (const k of await pfKeys()) if (!keep.has(k)){                         // 다음 차례가 아닌 것(본 것)은 지움
+      try{ await RecStore.del('pf:' + k); }catch(e){}
+      if (PF_BLOB[k]){ URL.revokeObjectURL(PF_BLOB[k]); delete PF_BLOB[k]; }
+    }
+    for (const v of want) for (let i = 0; i < v.files.length; i++){
+      const k = spKey(v.files[i]), url = (SP_URLS[v.id] || [])[i];
+      if (SP_BLOB[k] || PF_BLOB[k] || !url || /^blob:/.test(url)) continue;
+      try{
+        const r = await fetch(url); if (!r.ok) continue;
+        const b = await r.blob(); if (!b.size) continue;
+        await RecStore.put('pf:' + k, b); PF_BLOB[k] = URL.createObjectURL(b);
+      }catch(e){}
+    }
+  }finally{ pfBusy = false; if (current === 'settings') spInfo(); }
+}
+spLoadBlobs().then(pfLoad).then(() => setTimeout(() => { if (specialOn) spScan().then(pfSync); }, 2500));   // 앱이 다 뜬 뒤 영상 확인 → 다음 2편 받기
 $('#spSkip').addEventListener('click', () => { sfx.tap(); if (spEnd) spEnd(); });
 $('#spSound').addEventListener('click', () => { const vid = $('#spVideo'); vid.muted = false; vid.play().catch(() => {}); $('#spSound').hidden = true; });
 // 미리 보기 단추: 먼저 영상 파일을 모두 확인해서 몇 편이 되는지 알려 주고, 되는 것 하나를 틀어 줌

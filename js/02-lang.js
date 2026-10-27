@@ -302,6 +302,7 @@ const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, 
   'sub.goPlans':'요금제 보기',
   'sub.lifeDone':'평생 이용권이 열렸어요! ⭐',
   'sub.lifeNote':'구독 중에 평생 이용권을 사면, 스토어에서 구독을 꼭 해지해 주세요.',
+  'sp.prefetched_other':'다음 영상 {n}편을 미리 받아 뒀어요 (인터넷 없이도 볼 수 있어요)',
 })};
 
 const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, strings: withItems('en', {
@@ -545,10 +546,12 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
   'sub.goPlans':'See plans',
   'sub.lifeDone':'Lifetime unlocked! ⭐',
   'sub.lifeNote':'If you buy lifetime while subscribed, please cancel the subscription in the store.',
+  'sp.prefetched_one':'Next video saved ahead (watchable offline)',
+  'sp.prefetched_other':'Next {n} videos saved ahead (watchable offline)',
 })};
 
 // ▼ 받는 언어팩 샘플 (출시 때는 서버에 JSON 파일로 올리고 url만 적으면 됨)
-const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:48,
+const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', version:49,
     font:{ family:"'Kosugi Maru'", url:'fonts/kosugi-maru.css' } },
   strings: withItems('ja', {
   'app.title':"Let's Brush",
@@ -798,6 +801,7 @@ const SAMPLE_JA = { meta:{ code:'ja', name:'日本語', dir:'ltr', tts:'ja-JP', 
   'sub.goPlans':'プランを見る',
   'sub.lifeDone':'買い切りが有効になりました! ⭐',
   'sub.lifeNote':'加入中に買い切りを購入した場合は、ストアで定期購入を解約してください。',
+  'sp.prefetched_other':'次の動画{n}本を先に保存しました(オフラインでも見られます)',
 })};
 
 const PACK_CATALOG = [
