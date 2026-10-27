@@ -197,6 +197,29 @@ async function runPlay(browser, base){
   return problems;
 }
 
+// v0.46.0 기간 한정 화: titles.txt "기간" 줄 → 그 기간에만, 평소 순서에서는 빠짐 (영상 파일 없이 고르는 규칙만)
+async function runSeason(browser, base){
+  const problems = [], page = await browser.newPage();
+  page.on('pageerror', e => problems.push('[season] 오류: ' + e.message));
+  await page.route('**/specials/titles.txt', r => r.fulfill({ body:'40 기간 07-01~07-31 여름 특집\n23 기간 없음\n', contentType:'text/plain; charset=utf-8' }));
+  await page.addInitScript(() => { localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_country', '"KR"');
+    localStorage.setItem('bj_special', JSON.stringify({ last:1, day:'x', seen:Array.from({ length:20 }, (_, i) => 'ep' + String(i + 1).padStart(3, '0')) })); });
+  await page.clock.install({ time:new Date('2026-07-10T20:00:00+09:00') });
+  await page.goto(base + '/index.html'); await page.clock.runFor(2000);
+  await page.evaluate(() => spTitles());
+  const pickN = (date, n) => page.evaluate(([d, n]) => { const got = [];
+    for (let i = 0; i < n; i++){ const s = store.get('special'); s.last = 1; s.day = 'x'; store.set('special', s);
+      const r = specialDue(SPECIALS.filter(v => v.ep && v.ep <= 45)); if (r){ markSpecial(r.v.id, true); got.push(r.v.ep); } }
+    return got.join(','); }, [date, n]);
+  let got = await pickN('', 6);
+  if (got !== '40,22,23,24,25,28') problems.push('[season] 7월: 여름 특집(40) 먼저, 그다음 22 · 23 · 24 · 25 · 28 (21 · 26 · 27 은 명절 편이라 빠짐) 이어야 되는데 ' + got);
+  await page.clock.setSystemTime(new Date('2026-10-26T20:00:00+09:00'));
+  got = await pickN('', 1);
+  if (got !== '27') problems.push('[season] 핼러윈 기간에 27화가 아니라 ' + got);
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -218,6 +241,9 @@ async function runBrowser(){
     const pl = await runPlay(browser, base);
     console.log(`${pl.length ? '✗' : '✓'} 구글 Play 결제 (스토어 앱 흉내) · 자랑 카드${pl.length ? ` (${pl.length})` : ''}`);
     pl.forEach(x => console.log('   ' + x)); all.push(...pl);
+    const se = await runSeason(browser, base);
+    console.log(`${se.length ? '✗' : '✓'} 기간 한정 화 (명절 · 계절 편)${se.length ? ` (${se.length})` : ''}`);
+    se.forEach(x => console.log('   ' + x)); all.push(...se);
   } finally { await browser.close(); srv.close(); }
   return all;
 }
