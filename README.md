@@ -26,6 +26,7 @@ docs/개발_인수인계.md  다음 작업을 위한 안내 (규칙 · 구조 ·
 docs/시장_언어_가격.md  나라 · 언어 · 가격 정리 (어디에 먼저 낼지, 어떤 언어를 더할 수 있는지)
 docs/출시_준비.md      출시 준비 (끝낸 것 · 영상/음악 권리 · 법 점검 · 남은 일)
 docs/스토어_앱_포장.md  스토어 앱 포장 (Bubblewrap) · 구글 Play 결제 · 영상 서버 (R2) 순서
+docs/명예의_전당_구상.md  나중에 만들 명예의 전당 · 선물 이벤트 구상 (아이 개인정보 없이)
 android/              스토어 앱 포장 설정 (twa-manifest.json · assetlinks 예시)
 LICENSE               저작권 (모든 권리 보유, 글꼴만 각자 라이선스)
 docs/video/           영상 참고 이미지 (sparkle · sparkle_faces · boss_germ · pipi · mongi · coco · duri) + 1~20화 프롬프트 (첫 화면 그림 · 장면 A · 장면 B)
