@@ -806,16 +806,22 @@ const PetGen = (() => {
   function build(){
     const out = {};
     SPECIES.forEach(([id, ko, en, ja, kind, o]) => {
-      const r = draw(kind, o);
-      if (o.sc){                                                           // v0.38.0 키 큰 동물은 바닥 기준으로 조금 작게 (그림 칸 안에 들어오게)
-        const k = o.sc, Y = (v) => v * k + 44 * (1 - k);
-        r.svg = `<g transform="translate(0 ${f1(44 * (1 - k))}) scale(${k})">${r.svg}</g>`;
-        r.top = Y(r.top); r.eye = Y(r.eye); r.neck = Y(r.neck); r.ex = r.ex * k; if (r.ecx) r.ecx *= k;
-      }
+      let r = null;                                                        // v0.41.0 그림은 처음 쓸 때 만듦 (앱을 열 때 252종을 다 그리지 않게)
+      const R = () => {
+        if (r) return r;
+        r = draw(kind, o);
+        if (o.sc){                                                         // v0.38.0 키 큰 동물은 바닥 기준으로 조금 작게 (그림 칸 안에 들어오게)
+          const k = o.sc, Y = (v) => v * k + 44 * (1 - k);
+          r.svg = `<g transform="translate(0 ${f1(44 * (1 - k))}) scale(${k})">${r.svg}</g>`;
+          r.top = Y(r.top); r.eye = Y(r.eye); r.neck = Y(r.neck); r.ex = r.ex * k; if (r.ecx) r.ecx *= k;
+        }
+        return r;
+      };
       const rep = ['salamander', 'chameleon', 'iguana', 'gecko', 'komodo', 'frilledlizard', 'trex', 'triceratops', 'stegosaurus', 'brachiosaurus', 'ankylosaurus', 'pteranodon'].includes(id);
       const sea = ['octopus', 'squid', 'jellyfish', 'starfish', 'crab', 'lobster', 'shrimp', 'hermitcrab', 'seahorse', 'urchin', 'clam'].includes(o.x);
       const base = o.m || '#ffcf5a';
-      out[id] = { svg:r.svg, top:r.top, eye:r.eye, ex:r.ex, ecx:r.ecx || 0, neck:r.neck, special:!!o.special,
+      out[id] = { get svg(){ return R().svg; }, get top(){ return R().top; }, get eye(){ return R().eye; }, get ex(){ return R().ex; },
+        get ecx(){ return R().ecx || 0; }, get neck(){ return R().neck; }, special:!!o.special,
         group: o.special ? 'legend' : rep ? 'reptile' : (sea ? 'sea' : GROUP[kind]), names:{ ko, en, ja },
         egg:[shade(base, .82), base === '#ffffff' || base === '#fff' ? '#d8dee8' : base] };
     });

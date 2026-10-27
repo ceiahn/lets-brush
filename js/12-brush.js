@@ -62,7 +62,8 @@ function setZone(i){
 /* ---------- 양치 화면 C: 클로즈업 장면 ----------
    좌표: 입 중심 (500,360), 입안 타원 390×210. 거울 기준(화면 왼쪽 = 아이 왼쪽)
    칫솔 자세는 오른쪽 기준 [x, y, 회전, 가로배율, 세로배율] → 왼쪽은 좌우 반전 */
-const CScene = (() => {
+// v0.41.0 양치 장면(입 · 이 · 세균 그림)은 앱을 열 때가 아니라 처음 양치할 때 만듦 (느린 폰에서 시작이 빨라지게)
+function makeCScene(){
   const svg = $('#cScene');
   const CX = 500, CY = 360, IRX = 390, IRY = 170;
   let seed = 11;
@@ -473,7 +474,10 @@ const CScene = (() => {
       setTimeout(() => svg.querySelector('.c-sparkles').classList.add('show'), 500);
     }
   };
-})();
+}
+let cscene = null;
+const CScene = new Proxy({}, { get(_, k){ if (!cscene) cscene = makeCScene(); return cscene[k]; } });
+setTimeout(() => (window.requestIdleCallback || ((f) => f()))(() => { if (!cscene && !running) cscene = makeCScene(); }), 2500);   // 앱이 한가할 때 미리 만들어 둠 (첫 양치 시작이 바로 되게)
 function techHint(){
   const sf = SURF[surfIdx], z = ZONES[Math.max(0, zoneIdx)];
   if (sf === 'chew') return t('hint.chew');

@@ -63,11 +63,14 @@ const detectCountry = () => {
 };
 let country = store.get('country', null) || detectCountry();
 
-let lunarFmt = null;
-try{ lunarFmt = new Intl.DateTimeFormat('en-u-ca-chinese', { month:'numeric', day:'numeric' }); }catch(e){}
-// v0.28.4 음력 달력을 모르는 브라우저는 말없이 양력으로 계산함 → 1월 1일을 설날로 착각하지 않게 그땐 음력 행사를 끔
-try{ if (lunarFmt && lunarFmt.resolvedOptions().calendar !== 'chinese') lunarFmt = null; }catch(e){ lunarFmt = null; }
+let lunarFmt;   // v0.41.0 처음 쓸 때 만듦 (음력 행사가 없는 나라는 안 만듦)
 function lunarMD(d){
+  if (lunarFmt === undefined){
+    lunarFmt = null;
+    try{ lunarFmt = new Intl.DateTimeFormat('en-u-ca-chinese', { month:'numeric', day:'numeric' }); }catch(e){}
+    // v0.28.4 음력 달력을 모르는 브라우저는 말없이 양력으로 계산함 → 1월 1일을 설날로 착각하지 않게 그땐 음력 행사를 끔
+    try{ if (lunarFmt && lunarFmt.resolvedOptions().calendar !== 'chinese') lunarFmt = null; }catch(e){ lunarFmt = null; }
+  }
   if (!lunarFmt) return null;
   const parts = lunarFmt.formatToParts(d);
   const m = (parts.find(p => p.type === 'month') || {}).value, dd = (parts.find(p => p.type === 'day') || {}).value;

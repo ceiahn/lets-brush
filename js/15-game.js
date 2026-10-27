@@ -18,26 +18,29 @@ function bookPet(p, count = true){
 allPets().forEach(p => bookPet(p, false));
 let bookTab = 'boss', bookList = [];
 function bookEntries(tab){
-  if (tab === 'boss') return BOSSES.map(b => ({ name:t('boss.' + b.id), n:book.boss[b.id], art:germSVG(b.col, b), tip:t('boss.' + b.id + '.tip') }));
-  if (tab === 'germ') return ['0', '1', '2', '3', 'gold'].map(c => ({ name:t('germ.' + c), n:(book.germ || {})[c], art:germSVG(c === 'gold' ? 'gold' : +c), tip:t('germ.' + c + '.tip') }));
+  // art 는 그림을 만드는 함수 (v0.41.0: 숫자만 셀 때는 그림을 안 만듦)
+  if (tab === 'boss') return BOSSES.map(b => ({ name:t('boss.' + b.id), n:book.boss[b.id], art:() => germSVG(b.col, b), tip:t('boss.' + b.id + '.tip') }));
+  if (tab === 'germ') return ['0', '1', '2', '3', 'gold'].map(c => ({ name:t('germ.' + c), n:(book.germ || {})[c], art:() => germSVG(c === 'gold' ? 'gold' : +c), tip:t('germ.' + c + '.tip') }));
   if (tab === 'team') return TEAMS.map(tm => {
     const h = haveSp(), k = tm.m.filter(sp => h.has(sp)).length, dn = teamDone(tm);
-    return { name:t('team.' + tm.id), n:dn ? 1 : 0, always:true, team:tm, art:teamArt(tm), tag:dn ? '🤝 ' + t('team.done') : `${k} / ${tm.m.length}` };
+    return { name:t('team.' + tm.id), n:dn ? 1 : 0, always:true, team:tm, art:() => teamArt(tm), tag:dn ? '🤝 ' + t('team.done') : `${k} / ${tm.m.length}` };
   });
   const fs = featSp();
   return Object.keys(PETS).filter(sp => !!PETS[sp].special === (tab === 'legend')).map(sp =>
-    ({ name:t('pet.' + sp), n:(book.pet || {})[sp], art:petArt({ sp, st:3 }), shiny:!!PETS[sp].special, tip:PETS[sp].special ? t('book.special') : '', hint:sp === fs ? t('book.feat') : '',
+    ({ name:t('pet.' + sp), n:(book.pet || {})[sp], art:() => petArt({ sp, st:3 }), shiny:!!PETS[sp].special, tip:PETS[sp].special ? t('book.special') : '', hint:sp === fs ? t('book.feat') : '',
        tag:(() => { const p = petState.pets.find(x => x.sp === sp); return p ? t('pet.stage' + p.st) : ' '; })() }));     // 펫은 한 번만 만나니 횟수 대신 자란 정도
 }
 function renderBook(){
   $('#bookTabs').innerHTML = ['boss', 'germ', 'pet', 'legend', 'team'].map(k => `<button class="tab ${k === bookTab ? 'active' : ''}" data-tab="${k}">${t('book.' + k)}</button>`).join('');
   bookList = bookEntries(bookTab);
   $('#bookGrid').classList.toggle('teams', bookTab === 'team');
+  const L = lazyArt();
   $('#bookGrid').innerHTML = bookList.map((e, i) => { const open = e.n || e.always; return `
       <button class="item ${open ? '' : 'unseen'} ${e.shiny && e.n ? 'shinyc' : ''} ${e.team ? 'team-c' : ''} ${e.team && e.n ? 'done' : ''}" data-i="${i}">
-        <div class="thumb">${e.art}</div>
+        <div class="thumb">${L.ph(e.art)}</div>
         <span class="name">${open ? e.name : '???'}</span><span class="tag">${open ? (e.tag || t('book.count', { n:e.n })) : (e.hint || '')}</span>
       </button>`; }).join('');
+  L.watch($('#bookGrid'));
   const all = ['boss', 'germ', 'pet', 'legend', 'team'].flatMap(k => bookEntries(k));
   $('#bookCount').textContent = `${all.filter(e => e.n).length} / ${all.length}`;
 }
@@ -368,7 +371,7 @@ $('#goalPill').addEventListener('click', () => {
 });
 const eggName = () => t(petState.egg.special ? 'pet.specialEgg' : petState.egg.feat ? 'pet.featEgg' : 'pet.eggCard');
 function renderRoom(){
-  const pets = allPets(), pal = companion();
+  const pets = allPets(), pal = companion(), L = lazyArt();
   if ((selPet !== 'egg' && !selectedPet()) || (selPet === 'egg' && !petState.egg)) selPet = pal ? pal.id : (petState.egg ? 'egg' : null);
   if (roomHouse !== 'home' && !habOf(roomHouse)) roomHouse = 'home';
   $('#roomTabs').innerHTML = ['friends', 'dress', 'room'].map(k => `<button class="tab ${k === roomTab ? 'active' : ''}" data-tab="${k}">${t('ptab.' + k)}</button>`).join('');
@@ -410,11 +413,11 @@ function renderRoom(){
   } else if (roomTab === 'friends' && selPet === 'egg'){
     tools = `<p>${eggLine()}</p>`;
   } else if (roomTab === 'dress' && pets.length > 1){
-    tools = `<div class="pet-strip">${pets.map(p => `<button class="${sp && sp.id === p.id ? 'on' : ''}" data-pid="${p.id}">${petArt(p)}</button>`).join('')}</div>`;
+    tools = `<div class="pet-strip">${pets.map(p => `<button class="${sp && sp.id === p.id ? 'on' : ''}" data-pid="${p.id}">${L.ph(() => petArt(p))}</button>`).join('')}</div>`;
   } else if (roomTab === 'room'){
     tools = houseChips();
   }
-  $('#petTools').innerHTML = tools; $('#petTools').hidden = !tools;
+  $('#petTools').innerHTML = tools; $('#petTools').hidden = !tools; L.watch($('#petTools'));
   // 아래 목록
   let grid = '';
   if (roomTab === 'friends'){
@@ -422,7 +425,7 @@ function renderRoom(){
       const on = pal && pal.id === p.id, lv = loveOf(p);
       return `<button class="item ${sp && sp.id === p.id ? 'equipped' : ''} ${isRare(p) ? 'shinyc' : ''}" data-pid="${p.id}">
           ${lv ? `<i class="lv">${lv >= LOVE_MAX ? '✨' : '♥' + lv}</i>` : ''}
-          <div class="thumb">${petArt(p)}</div><span class="name">${esc(petName(p))}</span><span class="tag">${on ? '🐾 ' + t('pet.palNow') : t('pet.stage' + p.st)}</span></button>`;
+          <div class="thumb">${L.ph(() => petArt(p))}</div><span class="name">${esc(petName(p))}</span><span class="tag">${on ? '🐾 ' + t('pet.palNow') : t('pet.stage' + p.st)}</span></button>`;
     }).join('');
     if (petState.egg) grid += `<button class="item egg-card ${selPet === 'egg' ? 'equipped' : ''}" data-pid="egg"><div class="thumb">${eggNow()}</div>
           <span class="name">${eggName()}</span><span class="tag">🥚 ${petState.egg.p}/${PET_CFG.hatch}</span></button>`;
@@ -450,7 +453,7 @@ function renderRoom(){
           <span class="name">${t('room.' + id)}</span><span class="tag">${on ? t('room.placed') : has ? t('closet.owned') : '⭐ ' + ROOM[id].cost}</span></button>`;
     }).join('');
   }
-  $('#roomGrid').innerHTML = grid;
+  $('#roomGrid').innerHTML = grid; L.watch($('#roomGrid'));
 }
 function roomPlace(id, on){
   const sl = ROOM[id].slot;
