@@ -28,9 +28,7 @@ function decideTestMode(){
 const TEST_MODE = decideTestMode();
 if (TEST_MODE) document.documentElement.classList.add('test-mode');
 const TEST_STARS = CONFIG.testStars;
-const firstRun = store.get('stars', null) === null;
-let stars       = store.get('stars', CONFIG.firstGiftStars);
-let log         = store.get('log', []);
+// v0.49.0 별 · 양치한 날(log) · firstRun 은 core/js/04-habit.js
 let soundOn     = store.get('sound', true);      // 효과음
 let musicOn     = store.get('music', true);      // 배경음악
 let bgm         = store.get('bgm', 'sunny');

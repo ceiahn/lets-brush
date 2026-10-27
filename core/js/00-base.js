@@ -8,6 +8,7 @@ const $ = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 // 날짜 · 시간대 도우미
+const todayKey = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
 const dkey = (d) => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
 const slotOf = (d = new Date()) => d.getHours() < 15 ? 'am' : 'pm';            // 오후 3시 전 = 아침 양치
 const isWeekend = (d = new Date()) => d.getDay() === 0 || d.getDay() === 6;
