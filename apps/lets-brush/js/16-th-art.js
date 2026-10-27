@@ -81,6 +81,14 @@ const TH_BG_EXTRA = {
     '<rect x="120" y="120" width="80" height="60" rx="8" fill="#ffffff"/><path data-noink="1" d="M130 140 H190 M130 156 H176" stroke="#cfe3f0" stroke-width="5" stroke-linecap="round"/>' +
     '<rect y="196" width="400" height="64" fill="#cdefe4"/>'
 };
+TH_BG_EXTRA.candy = '<rect width="400" height="260" fill="#ffe0f0"/>' + cloud(90, 40, .8) + cloud(300, 30, .7) +
+  '<rect y="130" width="400" height="40" fill="#9fd8f5"/><path data-noink="1" d="M0 140 Q40 134 80 140 T160 140 T240 140 T320 140 T400 140" stroke="#ffffff" stroke-width="3" fill="none"/>' +
+  '<g><ellipse cx="60" cy="176" rx="70" ry="22" fill="#ffc8de"/><ellipse cx="330" cy="172" rx="80" ry="24" fill="#c9f0d8"/></g>' +
+  [[70, 92, '#ff8fb4'], [180, 80, '#ffd27a'], [300, 96, '#8fd3ff']].map(([x, y, c]) => `<rect x="${x - 3}" y="${y}" width="6" height="${200 - y}" fill="#ffffff"/><circle cx="${x}" cy="${y}" r="22" fill="${c}"/><path d="M${x - 14} ${y} A14 14 0 0 1 ${x + 14} ${y} A9 9 0 0 1 ${x - 4} ${y}" stroke="#ffffff" stroke-width="4" fill="none"/>`).join('') +
+  '<rect y="196" width="400" height="64" fill="#ffd6e6"/><g data-noink="1" fill="#ffffff"><circle cx="40" cy="226" r="3"/><circle cx="150" cy="240" r="3"/><circle cx="260" cy="222" r="3"/><circle cx="360" cy="236" r="3"/></g>';
+TH_BG_EXTRA.choco = '<rect width="400" height="260" fill="#f6e3cc"/>' +
+  [[30, 70], [110, 50], [200, 64], [290, 46], [370, 72]].map(([x, y]) => `<rect x="${x - 10}" y="${y + 40}" width="20" height="${190 - y}" fill="#8a5a32"/><path d="M${x - 34} ${y + 44} Q${x - 36} ${y} ${x} ${y - 6} Q${x + 36} ${y} ${x + 34} ${y + 44} Q${x + 24} ${y + 56} ${x + 18} ${y + 44} Q${x + 8} ${y + 60} ${x} ${y + 46} Q${x - 10} ${y + 58} ${x - 18} ${y + 44} Q${x - 26} ${y + 56} ${x - 34} ${y + 44}Z" fill="#6b3f22"/>`).join('') +
+  '<rect y="196" width="400" height="64" fill="#c99868"/><g fill="#e8c890">' + [40, 120, 200, 280, 360].map(x => `<ellipse cx="${x}" cy="226" rx="26" ry="9"/>`).join('') + '</g>';
 const thBgExtra = (id) => TH_BG_EXTRA[id] ? inkScene(TH_BG_EXTRA[id], 3.5) : null;
 
 /* ---------- 소품 ---------- */
