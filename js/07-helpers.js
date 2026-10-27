@@ -43,6 +43,22 @@ window.addEventListener('popstate', () => {
 $('#dlgOk').addEventListener('click', () => { closeDialog(); const f = dlgOk; dlgOk = dlgCancel = null; if (f) f(); });
 $('#dlgCancel').addEventListener('click', () => { closeDialog(); const f = dlgCancel; dlgOk = dlgCancel = null; if (f) f(); });
 
+/* v0.41.0 느린 폰: 긴 목록(펫 252마리 등)의 그림은 화면에 보일 때 그림
+   쓰는 법: const L = lazyArt(); html 안에 L.ph(() => 그림 문자열) → 화면에 넣은 뒤 L.watch(넣은 곳)
+   의도: 도감 · 펫 방 · 펫 꾸미기가 그림 252장을 한 번에 그리느라 느린 폰에서 1~3초 멈추던 것 */
+const lazyIO = 'IntersectionObserver' in window ? new IntersectionObserver((ents) => ents.forEach(en => {
+  if (!en.isIntersecting) return;
+  const el = en.target; lazyIO.unobserve(el);
+  const f = el._lz; el._lz = null; if (f && el.isConnected) el.outerHTML = f();
+}), { rootMargin:'300px 0px' }) : null;
+function lazyArt(){
+  const fns = [];
+  return {
+    ph(fn){ if (!lazyIO) return fn(); fns.push(fn); return `<i class="lz" data-lz="${fns.length - 1}"></i>`; },
+    watch(root){ if (!lazyIO) return; root.querySelectorAll('i.lz').forEach(el => { el._lz = fns[+el.dataset.lz]; lazyIO.observe(el); }); }
+  };
+}
+
 let toastT = 0;
 function toast(msg, ms){
   const el = $('#toast'); el.textContent = msg; el.classList.add('show');

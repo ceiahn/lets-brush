@@ -86,6 +86,7 @@ function tryBuyBrush(id, card){
     text: t('closet.buyQ', { cost, item:name }),
     ok: t('closet.buyOk'), cancel: t('closet.buyCancel'),
     onOk(){
+      if (stars < cost){ sfx.nope(); toast(t('closet.needMore', { n:cost - stars })); return; }   // v0.37.1 창이 떠 있는 동안 별이 줄었으면
       setStars(stars - cost);
       myBrushes = myBrushes.concat(id); store.set('brushes', myBrushes);
       sfx.buy(); buzz(60); confetti(30);
@@ -148,6 +149,7 @@ function tryBuy(id, card){
     text: t('closet.buyQ', { cost:it.cost, item:name }),
     ok: t('closet.buyOk'), cancel: t('closet.buyCancel'),
     onOk(){
+      if (stars < it.cost){ sfx.nope(); toast(t('closet.needMore', { n:it.cost - stars })); return; }
       setStars(stars - it.cost);
       owned = owned.concat(id); store.set('owned', owned);
       sfx.buy(); buzz(60); confetti(30);

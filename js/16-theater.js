@@ -2,7 +2,7 @@
 
 /* =========================================================
    14-4. 반짝이 극장 (v0.21.0)
-     양치가 끝나면 약 20초짜리 짧은 이야기 (v0.35.0: 줄거리 있는 10편으로 새로 씀, 예전 개그 12편은 뺌). 아이 의견: "미미자우르처럼 끝나고 영상이 나왔으면, 매번 다르게"
+     양치가 끝나면 약 20초짜리 짧은 이야기 (v0.35.0: 줄거리 있는 10편으로 새로 씀, 예전 개그 12편은 뺌. v0.39.1: 20편). 아이 의견: "미미자우르처럼 끝나고 영상이 나왔으면, 매번 다르게"
      의도: "내일 또 닦고 싶게" — 다음 화가 궁금하게. 진짜 영상 파일이 아니라 코드 애니메이션이라
            그림체 B 그대로, 파일 크기가 거의 늘지 않고, 언어를 바꾸면 대사도 바뀜
      매번 다르게: 이야기(THEATER) × 배경(THEATER_BGS) × 데리고 다니는 펫 × 오늘의 대장 세균 × 마무리 말 × 아침/저녁
@@ -176,6 +176,19 @@ const TH_ART2 = {
   flag: stickerSvg('<svg viewBox="-6 -40 30 44" aria-hidden="true"><rect x="-2" y="-38" width="4" height="42" fill="#8a5a32"/><path d="M2 -38 H24 L18 -30 L24 -22 H2Z" fill="#e8455f"/></svg>', 2),
   zzz: '<svg viewBox="-12 -14 24 24" aria-hidden="true"><text x="0" y="8" text-anchor="middle" font-size="22" font-weight="800" fill="#8fa8ff" stroke="#24324a" stroke-width="1.2" font-family="sans-serif">Z</text></svg>',
   brushMini: () => brushThumb(brush)
+};
+// v0.39.1 이야기 11~20 소품
+const TH_ART3 = {
+  tooth: stickerSvg('<svg viewBox="-20 -25 40 50" aria-hidden="true"><path d="M-16 -14 Q-17 -24 -6 -22 Q0 -18 6 -22 Q17 -24 16 -14 Q15 2 11 14 Q8 23 5 16 Q2 8 0 8 Q-2 8 -5 16 Q-8 23 -11 14 Q-15 2 -16 -14Z" fill="#ffffff"/><path d="M-11 -14 Q-9 -19 -3 -18" stroke="#e8eef6" stroke-width="3" fill="none" stroke-linecap="round"/></svg>', 2.4),
+  apple: stickerSvg('<svg viewBox="-14 -16 28 30" aria-hidden="true"><path d="M0 -8 Q-12 -14 -12 -2 Q-12 12 0 12 Q12 12 12 -2 Q12 -14 0 -8Z" fill="#ff5d5d"/><path d="M0 -8 Q1 -13 3 -15" stroke="#8a5a32" stroke-width="2" fill="none"/><path d="M2 -12 Q8 -16 10 -11 Q5 -9 2 -12Z" fill="#6cc46a"/><ellipse cx="-6" cy="-3" rx="2.4" ry="4" fill="#fff" opacity=".45"/></svg>', 1.6),
+  sun: stickerSvg('<svg viewBox="-26 -26 52 52" aria-hidden="true"><circle r="15" fill="#ffd54a"/>' + Array.from({ length:8 }, (_, i) => `<path transform="rotate(${i * 45})" d="M0 -18 L3 -24 L-3 -24Z" fill="#ffb347"/>`).join('') + '</svg>', 2),
+  cloudGray: stickerSvg('<svg viewBox="-50 -30 100 60" aria-hidden="true"><g fill="#a8b0c0"><ellipse cx="0" cy="8" rx="44" ry="16"/><circle cx="-18" cy="-2" r="16"/><circle cx="8" cy="-10" r="20"/><circle cx="28" cy="2" r="13"/></g><circle cx="-6" cy="2" r="3" fill="#24324a"/><circle cx="10" cy="2" r="3" fill="#24324a"/><path d="M-6 12 Q2 8 10 12" stroke="#24324a" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>', 3),
+  cloudWhite: '<svg viewBox="-50 -30 100 60" aria-hidden="true"><g fill="#ffffff" stroke="#24324a" stroke-width="3"><ellipse cx="0" cy="8" rx="44" ry="16"/><circle cx="-18" cy="-2" r="16"/><circle cx="8" cy="-10" r="20"/><circle cx="28" cy="2" r="13"/></g><g fill="#ffffff"><ellipse cx="0" cy="8" rx="42" ry="14"/><circle cx="-18" cy="-2" r="14"/><circle cx="8" cy="-10" r="18"/><circle cx="28" cy="2" r="11"/></g><circle cx="-6" cy="2" r="3" fill="#24324a"/><circle cx="10" cy="2" r="3" fill="#24324a"/><path d="M-6 9 Q2 15 10 9" stroke="#24324a" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="-16" cy="8" rx="4" ry="2.4" fill="#ffb3c7"/><ellipse cx="20" cy="8" rx="4" ry="2.4" fill="#ffb3c7"/></svg>',
+  rainbow: '<svg viewBox="-60 -40 120 60" aria-hidden="true"><g fill="none" stroke-width="8" stroke-linecap="round">' + [['#ff8a8a', 50], ['#ffd27a', 42], ['#a8e6a0', 34], ['#8fc8ff', 26], ['#c9a8ff', 18]].map(([cl, r]) => `<path d="M${-r} 16 A${r} ${r} 0 0 1 ${r} 16" stroke="${cl}"/>`).join('') + '</g></svg>',
+  mirror: stickerSvg('<svg viewBox="-10 -20 20 32" aria-hidden="true"><rect x="-1.6" y="-4" width="3.2" height="16" rx="1.6" fill="#9aa8bd"/><circle cy="-11" r="8" fill="#cfefff"/><ellipse cx="-3" cy="-14" rx="2" ry="3" fill="#fff"/></svg>', 1.6),
+  mirrorBig: stickerSvg('<svg viewBox="-40 -50 80 100" aria-hidden="true"><ellipse rx="34" ry="44" fill="#ffd27a"/><ellipse rx="28" ry="38" fill="#e6f7ff"/><path d="M-18 -24 Q-12 -32 -4 -32" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/></svg>', 3),
+  cake: stickerSvg('<svg viewBox="-24 -30 48 44" aria-hidden="true"><rect x="-20" y="-6" width="40" height="18" rx="4" fill="#ffd6e6"/><path d="M-20 -2 Q-14 4 -8 -2 Q-2 4 4 -2 Q10 4 16 -2 Q18 0 20 -2 V-6 H-20Z" fill="#ffffff"/><rect x="-22" y="10" width="44" height="4" rx="2" fill="#ffd54a"/>' + [-10, 0, 10].map(x => `<rect x="${x - 1.6}" y="-18" width="3.2" height="12" rx="1" fill="#8fc8ff"/><path class="flame" d="M${x} -26 Q${x + 3} -21 ${x} -18 Q${x - 3} -21 ${x} -26Z" fill="#ffb347"/>`).join('') + '</svg>', 2),
+  cakeOut: stickerSvg('<svg viewBox="-24 -30 48 44" aria-hidden="true"><rect x="-20" y="-6" width="40" height="18" rx="4" fill="#ffd6e6"/><path d="M-20 -2 Q-14 4 -8 -2 Q-2 4 4 -2 Q10 4 16 -2 Q18 0 20 -2 V-6 H-20Z" fill="#ffffff"/><rect x="-22" y="10" width="44" height="4" rx="2" fill="#ffd54a"/>' + [-10, 0, 10].map(x => `<rect x="${x - 1.6}" y="-18" width="3.2" height="12" rx="1" fill="#8fc8ff"/><path d="M${x} -20 q2 -3 0 -6" stroke="#c8ccd8" stroke-width="1.4" fill="none" opacity=".45"/>`).join('') + '</svg>', 2)
 };
 const P_TINY = [{ transform:'translateY(0)' }, { transform:'translateY(-14%)' }, { transform:'translateY(0)' }];
 const P_LOOK = [{ transform:'scaleX(1)' }, { transform:'scaleX(-1)' }, { transform:'scaleX(-1)' }, { transform:'scaleX(1)' }];
@@ -377,6 +390,170 @@ const THEATER = [
     await Promise.all([c.go(rk, 44, 5, 1200, 'ease-out'), c.go(c.hero, 44, 22, 1200, 'ease-out')]);
     c.snd('thud'); await c.go(c.hero, 30, 5, 500);
     await Promise.all([c.line(c.hero, 'th.moon.5'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  /* ---------- v0.39.1 이야기 11~20 (양치 습관 한 가지씩: 이 사이 · 간식 · 거품 · 치과 · 자기 전 · 어금니 안쪽 · 마무리는 어른과 · 같은 순서 · 먹고 나서 · 거울 확인) ---------- */
+  { id:'gap', bg:'bath', setup(c){ c.place(c.hero, 22, 5); c.place(c.pet, 8, 5); }, run: async (c) => {
+    const t1 = c.prop(TH_ART3.tooth, 16, 60, 5, 2, 1.25), t2 = c.prop(TH_ART3.tooth, 16, 77, 5, 2, 1.25);
+    const g = c.prop(germSVG(2), 9, 68.5, 12, 1);
+    c.snd('boing');
+    await Promise.all([c.line(null, 'th.gap.1'), c.pose(t1, P_GROW, 700), c.pose(t2, P_GROW, 700)]);
+    await Promise.all([c.line(g, 'th.gap.2'), c.pose(g, P_WIG, 380, 4)]);
+    await Promise.all([c.go(c.hero, 44, 5, 800), c.pose(c.hero, P_WALK, 330, 3)]);
+    c.brush(c.hero, true); c.snd('swish');
+    await Promise.all([c.line(c.hero, 'th.gap.3'), c.pose(c.hero, P_SHAKE, 280, 4)]);
+    await Promise.all([c.line(c.pet, 'th.gap.4'), c.pose(c.pet, P_HOP, 380, 3)]);
+    c.say(c.hero, 'th.gap.5'); c.snd('swish');
+    await Promise.all([c.morph(c.hero, 'rotate(-14deg)', 400), c.pose(t1, P_WIG, 300, 3), c.pose(t2, P_WIG, 300, 3)]);
+    c.snd('pop'); c.burst(g, 8); c.say(g, 'th.gap.6');
+    c.pose(g, P_SPIN, 400, 3).catch(() => {}); await c.go(g, 100, 80, 900, 'ease-in');
+    c.brush(c.hero, false); await c.morph(c.hero, 'none', 300);
+    await Promise.all([c.line(null, 'th.gap.7'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  { id:'apple', bg:'safari', setup(c){ c.place(c.hero, 24, 5); c.place(c.pet, 46, 5); }, run: async (c) => {
+    await Promise.all([c.line(c.pet, 'th.apple.1'), c.pose(c.pet, P_YAWN, 700, 2)]);
+    const b = c.boss(118, 5), cd = c.prop(TH_ART2.candy, 12, 118, 26, 3, .53);
+    await Promise.all([c.go(b, 76, 5, 1200), c.go(cd, 70, 24, 1200), c.pose(b, P_WALK, 330, 4)]);
+    await Promise.all([c.line(b, 'th.apple.2'), c.pose(cd, P_TINY, 400, 4)]);
+    const ap = c.prop(TH_ART3.apple, 11, 24, 30, 4);
+    c.snd('magic'); await c.pose(ap, P_GROW, 600);
+    await Promise.all([c.line(c.hero, 'th.apple.3'), c.go(ap, 46, 22, 900)]);
+    ap.remove(); c.snd('pop'); c.burst(c.pet, 6);
+    await Promise.all([c.line(c.pet, 'th.apple.4'), c.pose(c.pet, P_HOP, 360, 3)]);
+    await Promise.all([c.line(b, 'th.apple.5'), c.morph(b, 'scale(.6)', 900), c.go(cd, 118, 40, 900)]);
+    c.pose(b, P_SPIN, 400, 2).catch(() => {}); await c.go(b, 120, 5, 900, 'ease-in');
+    await Promise.all([c.line(null, 'th.apple.6'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  { id:'cloud', bg:'bird', setup(c){ c.place(c.hero, 30, 5); c.place(c.pet, 12, 5); }, run: async (c) => {
+    const sun = c.prop(TH_ART3.sun, 14, 74, 66, 1), cl = c.prop(TH_ART3.cloudGray, 34, 70, 60, 3, .6);
+    await Promise.all([c.line(null, 'th.cloud.1'), c.go(cl, 72, 60, 1200)]);
+    await Promise.all([c.line(cl, 'th.cloud.2'), c.pose(cl, P_WIG, 420, 3)]);
+    for (let i = 0; i < 4; i++) c.floatProp(TH_ART.tear, 4, 60 + i * 6, 40);
+    await Promise.all([c.line(c.pet, 'th.cloud.3'), c.pose(c.pet, P_SHAKE, 300, 3)]);
+    c.brush(c.hero, true);
+    await Promise.all([c.line(c.hero, 'th.cloud.4'), c.go(c.hero, 54, 22, 900, 'ease-out')]);
+    const bub = c.prop(TH_ART.bubble, 44, 72, 50, 5); c.snd('blow');
+    await Promise.all([c.line(null, 'th.cloud.5'), c.pose(bub, P_GROW, 900), c.pose(c.hero, P_SHAKE, 260, 4)]);
+    c.snd('pop'); bub.remove(); cl.firstChild.innerHTML = TH_ART3.cloudWhite; c.burst(cl, 10);
+    const rb = c.prop(TH_ART3.rainbow, 60, 50, 30, 0, .5); c.snd('fanfare');
+    c.brush(c.hero, false);
+    await Promise.all([c.line(null, 'th.cloud.6'), c.pose(rb, P_GROW, 900), c.go(c.hero, 34, 5, 700)]);
+    await Promise.all([c.line(c.hero, 'th.cloud.7'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2), c.pose(sun, P_SPIN, 1200)]);
+  } },
+  { id:'dentist', bg:'room', setup(c){ c.place(c.hero, 30, 5); c.place(c.pet, 66, 5); }, run: async (c) => {
+    c.floatProp(TH_ART.tear, 4, 70, 30);
+    await Promise.all([c.line(c.pet, 'th.dentist.1'), c.pose(c.pet, P_SHAKE, 260, 5)]);
+    await Promise.all([c.line(c.hero, 'th.dentist.2'), c.pose(c.hero, P_HOP, 380, 2)]);
+    const mr = c.prop(TH_ART3.mirror, 10, 40, 22, 5, 1.6);
+    await Promise.all([c.go(c.hero, 48, 5, 700), c.go(mr, 58, 22, 700)]);
+    for (let i = 0; i < 3; i++){ c.snd('ding', i); await c.pose(mr, P_TINY, 300); }
+    c.say(c.hero, 'th.dentist.3'); await c.wait(1600);
+    const g = c.prop(germSVG(1), 9, 68, 18, 6); c.snd('boing');
+    await Promise.all([c.line(g, 'th.dentist.4'), c.pose(g, P_WIG, 330, 4)]);
+    c.brush(c.hero, true); c.snd('swish');
+    await Promise.all([c.line(c.hero, 'th.dentist.5'), c.pose(c.hero, P_SHAKE, 260, 4)]);
+    c.snd('pop'); c.burst(g, 8); mr.remove(); c.pose(g, P_SPIN, 400, 3).catch(() => {}); c.go(g, 110, 90, 900, 'ease-in').catch(() => {});
+    c.brush(c.hero, false);
+    await Promise.all([c.line(c.pet, 'th.dentist.6'), c.pose(c.pet, P_BIG, 800)]);
+    await Promise.all([c.line(null, 'th.dentist.7'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  { id:'night', bg:'room', night:true, setup(c){ c.place(c.hero, 28, 5); c.place(c.pet, 72, 5); }, run: async (c) => {
+    c.floatProp(TH_ART2.zzz, 6, 32, 34); c.floatProp(TH_ART2.zzz, 6, 76, 30);
+    await Promise.all([c.line(null, 'th.night.1'), c.pose(c.hero, P_YAWN, 900, 2)]);
+    const b = c.boss(50, 70, 16);
+    c.snd('music'); await c.go(b, 50, 30, 900, 'ease-out');
+    await Promise.all([c.line(b, 'th.night.2'), c.pose(b, P_HOP, 380, 4)]);
+    c.snd('boing');
+    await Promise.all([c.line(c.pet, 'th.night.3'), c.pose(c.pet, P_BIG, 800)]);
+    await Promise.all([c.line(c.hero, 'th.night.4'), c.pose(c.hero, P_HOP, 380, 2)]);
+    c.brush(c.hero, true); c.snd('swish');
+    await Promise.all([c.go(c.hero, 42, 5, 500), c.pose(c.hero, P_SHAKE, 260, 4)]);
+    c.snd('pop'); c.burst(b, 8);
+    await Promise.all([c.line(b, 'th.night.5'), c.morph(b, 'scale(.5)', 900)]);
+    c.go(b, 50, 110, 900, 'ease-in').catch(() => {}); c.brush(c.hero, false);
+    await Promise.all([c.line(null, 'th.night.6'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  { id:'hide', bg:'bug', setup(c){ c.place(c.hero, 18, 5); c.place(c.pet, 6, 5); }, run: async (c) => {
+    const bs = [44, 64, 84].map(x => c.prop(TH_ART.bush, 22, x, 3, 4, .5));
+    const gs = [0, 1, 3].map((k, i) => c.prop(germSVG(k), 9, 40 + i * 20, 30, 3));
+    await Promise.all([c.line(null, 'th.hide.1'), ...gs.map(g => c.pose(g, P_HOP, 360, 3))]);
+    c.say(gs[2], 'th.hide.2');
+    await Promise.all(gs.map((g, i) => c.go(g, 44 + i * 20, 8, 900)));
+    await Promise.all([c.line(c.hero, 'th.hide.3'), c.pose(c.hero, P_LOOK, 1400)]);
+    await Promise.all([c.go(c.pet, 72, 5, 1000), c.pose(c.pet, P_WALK, 330, 3)]);
+    await Promise.all([c.line(c.pet, 'th.hide.4'), c.pose(c.pet, P_TINY, 300, 4)]);
+    c.brush(c.hero, true);
+    for (let i = 0; i < 3; i++){
+      await c.go(c.hero, 38 + i * 20, 5, 450); c.snd('swish');
+      if (i === 0) c.say(c.hero, 'th.hide.5');
+      await c.pose(bs[i], P_SHAKE, 220, 3);
+      c.snd('pop'); c.burst(gs[i], 6); c.go(gs[i], gs[i].pos.x + 20, 100, 900, 'ease-in').catch(() => {});
+    }
+    c.brush(c.hero, false);
+    await Promise.all([c.line(null, 'th.hide.6'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+    await c.line(null, 'th.hide.7');
+  } },
+  { id:'croc', bg:'swamp', setup(c){ c.place(c.hero, 16, 5); c.place(c.pet, 4, 5); }, run: async (c) => {
+    const cr = c.prop(petArt({ sp:'crocodile', st:2, wear:{} }), 34, 66, 3, 2);
+    c.snd('boing');
+    await Promise.all([c.line(null, 'th.croc.1'), c.pose(cr, P_SQ, 600, 2)]);
+    await Promise.all([c.line(cr, 'th.croc.2'), c.pose(cr, P_WIG, 450, 3)]);
+    const bd = c.prop(petArt({ sp:'sparrow', st:2, wear:{} }), 12, 110, 60, 4);
+    await c.go(bd, 66, 34, 1000, 'ease-out');
+    await Promise.all([c.line(bd, 'th.croc.3'), c.pose(bd, P_TINY, 200, 6)]);
+    c.brush(c.hero, true);
+    await Promise.all([c.go(c.hero, 44, 5, 800), c.pose(c.hero, P_WALK, 330, 3)]);
+    c.say(c.hero, 'th.croc.4'); c.snd('swish');
+    await Promise.all([c.pose(c.hero, P_SHAKE, 260, 4), c.pose(bd, P_TINY, 200, 6)]);
+    c.snd('magic'); c.burst(cr, 10); c.brush(c.hero, false);
+    await Promise.all([c.line(cr, 'th.croc.5'), c.pose(cr, P_HOP, 420, 2), c.go(bd, 70, 56, 600)]);
+    await Promise.all([c.line(null, 'th.croc.6'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  { id:'shark', bg:'sea', setup(c){ c.place(c.hero, 22, 5); c.place(c.pet, 8, 5); }, run: async (c) => {
+    const sh = c.prop(petArt({ sp:'shark', st:2, wear:{} }), 30, 68, 24, 2);
+    c.floatProp(TH_ART.tear, 4, 60, 40);
+    await Promise.all([c.line(null, 'th.shark.1'), c.pose(sh, P_WIG, 450, 3)]);
+    await Promise.all([c.line(sh, 'th.shark.2'), c.pose(sh, P_SHAKE, 300, 3)]);
+    await Promise.all([c.line(c.hero, 'th.shark.3'), c.go(c.hero, 42, 5, 700), c.pose(c.hero, P_WALK, 330, 2)]);
+    for (let i = 0; i < 3; i++){ c.snd('ding', i); await c.pose(c.pet, P_TINY, 280); }
+    await Promise.all([c.line(c.pet, 'th.shark.4'), c.pose(c.pet, P_HOP, 360, 2)]);
+    c.brush(c.hero, true); c.say(null, 'th.shark.5');
+    for (const [x, y] of [[48, 30], [56, 30], [56, 18], [48, 18]]){ c.snd('swish'); await Promise.all([c.go(c.hero, x, y - 18 > 5 ? y - 18 : 5, 420), c.pose(c.hero, P_SHAKE, 200, 2)]); }
+    c.snd('magic'); c.burst(sh, 10); c.brush(c.hero, false);
+    await Promise.all([c.line(sh, 'th.shark.6'), c.pose(sh, P_HOP, 420, 2), c.go(c.hero, 40, 5, 500)]);
+    await Promise.all([c.line(null, 'th.shark.7'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  { id:'party', bg:'room', setup(c){ c.place(c.hero, 26, 5); c.place(c.pet, 60, 5); }, run: async (c) => {
+    const ck = c.prop(TH_ART3.cake, 16, 44, 5, 4, .9);
+    c.snd('music');
+    await Promise.all([c.line(null, 'th.party.1'), c.pose(ck, P_GROW, 700)]);
+    c.snd('blow');
+    await Promise.all([c.line(c.pet, 'th.party.2'), c.pose(c.pet, P_TINY, 300, 3)]);
+    ck.firstChild.innerHTML = TH_ART3.cakeOut;
+    const b = c.boss(118, 5, 16), gs = [0, 2].map((k, i) => c.prop(germSVG(k), 9, 120 + i * 8, 30 + i * 10, 3));
+    await Promise.all([c.go(b, 80, 5, 1000), ...gs.map((g, i) => c.go(g, 74 + i * 12, 28 + i * 6, 1000)), c.pose(b, P_WALK, 330, 3)]);
+    await Promise.all([c.line(b, 'th.party.3'), ...gs.map(g => c.pose(g, P_HOP, 340, 3))]);
+    await Promise.all([c.line(c.hero, 'th.party.4'), c.pose(c.hero, P_HOP, 380, 2)]);
+    c.brush(c.hero, true); c.brush(c.pet, true); c.snd('music');
+    for (let i = 0; i < 4; i++) c.floatProp(TH_ART.note, 5, 20 + i * 14, 30);
+    await Promise.all([c.line(null, 'th.party.5'), c.pose(c.hero, P_WIG, 360, 4), c.pose(c.pet, P_WIG, 360, 4)]);
+    await Promise.all([c.line(b, 'th.party.6'), c.pose(b, P_SPIN, 500, 2)]);
+    c.snd('pop'); c.burst(b, 9); [b, ...gs].forEach(x => c.go(x, 120, 90, 900, 'ease-in').catch(() => {}));
+    c.brush(c.hero, false); await c.wait(300);
+    await Promise.all([c.line(null, 'th.party.7'), c.pose(c.hero, P_HOP, 420, 2), c.pose(c.pet, P_HOP, 420, 2)]);
+  } },
+  { id:'mirror', bg:'bath', setup(c){ c.place(c.hero, 30, 5); c.place(c.pet, 10, 5); }, run: async (c) => {
+    const mr = c.prop(TH_ART3.mirrorBig, 28, 66, 16, 1, 1.25);
+    const me = c.prop(Character.art(Object.assign({}, effectiveLook())), 18, 66, 22, 2, 250 / 220); c.flip(me, true);
+    await Promise.all([c.line(null, 'th.mirror.1'), c.go(c.hero, 44, 5, 800), c.pose(c.hero, P_WALK, 330, 3)]);
+    await Promise.all([c.line(c.hero, 'th.mirror.2'), c.pose(me, P_TINY, 400, 2), c.pose(c.hero, P_TINY, 400, 2)]);
+    const g = c.prop(germSVG(3), 6, 69, 40, 3); c.snd('boing');
+    await Promise.all([c.line(g, 'th.mirror.3'), c.pose(g, P_WIG, 330, 4)]);
+    await Promise.all([c.line(c.pet, 'th.mirror.4'), c.pose(c.pet, P_HOP, 360, 3)]);
+    c.brush(c.hero, true); c.say(c.hero, 'th.mirror.5'); c.snd('swish');
+    await Promise.all([c.pose(c.hero, P_SHAKE, 260, 4), c.pose(me, P_SHAKE, 260, 4)]);
+    c.snd('pop'); c.burst(g, 7); g.remove(); c.brush(c.hero, false); c.snd('magic'); c.burst(mr, 10);
+    await Promise.all([c.line(null, 'th.mirror.6'), c.pose(c.hero, P_HOP, 420, 2), c.pose(me, P_HOP, 420, 2)]);
+    await Promise.all([c.line(null, 'th.mirror.7'), c.pose(c.pet, P_HOP, 420, 2)]);
   } }
 ];
 function playTheater(onDone, forceId, forceBg){                         // force…: 개발자 미리 보기용

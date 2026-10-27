@@ -5,13 +5,31 @@
       의도: 반짝이 + 알(왼쪽) + 데리고 다니는 펫(오른쪽). 별 옆 목표 막대, 오늘 몇 번 닦았는지, 메뉴 4개
    ========================================================= */
 /* ---------- v0.32.0 반짝이 클럽: 부모님께 체험 안내 · 설정 칸 · 끝나기 전 알림 ---------- */
-function subIntroOpen(){
+/* v0.42.0 요금제 고르기: 연 구독(기본) · 월 구독 · 평생 이용권
+   체험은 구독(월 · 연)에만. 평생 이용권은 바로 결제. 이미 체험을 끝낸 집은 체험 없이 구독 */
+let subPlan = 'year';
+const subPer = (plan) => t('sub.per.' + plan, { price:subPrice(plan) });                // "매달 ₩3,900" · "매년 ₩29,000"
+function subPlansDraw(){
+  const c = subCfg(), d = c.trialDays, trialOk = subState().kind === 'none', sv = subSave();
+  $('#subPlans').innerHTML = SUB_PLANS.map(pl => {
+    const note = pl === 'life' ? t('sub.planNote.life') : pl === 'year' ? t(trialOk ? 'sub.planNote.year' : 'sub.planNote.yearNoTrial', { d, pm:subPerMonth() }) : t(trialOk ? 'sub.planNote.month' : 'sub.planNote.monthNoTrial', { d });
+    return `<button class="sub-plan ${pl === subPlan ? 'on' : ''}" data-plan="${pl}" role="radio" aria-checked="${pl === subPlan}">
+      <span class="sp-name">${esc(t('sub.plan.' + pl))}${pl === 'year' && sv > 0 ? ` <i class="sp-best">${esc(t('sub.best', { p:sv }))}</i>` : ''}</span>
+      <b class="sp-price">${esc(subPrice(pl))}</b><small>${esc(note)}</small></button>`;
+  }).join('');
+  const life = subPlan === 'life';
+  $('#subConsent').textContent = life ? t('sub.consentLife', { price:subPrice('life') }) : trialOk ? t('sub.consent', { per:subPer(subPlan) }) : t('sub.consentNoTrial', { per:subPer(subPlan) });
+  $('#subStart').textContent = life ? t('sub.buyLife', { price:subPrice('life') }) : trialOk ? t('sub.start', { d }) : t('sub.subNow', { per:subPer(subPlan) });
+  $('#subAgree').checked = false; $('#subStart').disabled = true;
+}
+$('#subPlans').addEventListener('click', (e) => { const b = e.target.closest('[data-plan]'); if (!b) return; sfx.tap(); subPlan = b.dataset.plan; subPlansDraw(); });
+function subIntroOpen(plan){
   const c = subCfg(), d = c.trialDays, fp = Math.min(c.freePets, FREE_PET_ORDER.length);
-  $('#subH').textContent = t('sub.introH', { d });
+  subPlan = SUB_PLANS.includes(plan) ? plan : 'year';
+  $('#subH').textContent = subState().kind === 'none' ? t('sub.introH', { d }) : t('sub.title');
   $('#subList').innerHTML = [t('sub.p1', { pets:Object.keys(PETS).length, fp }), t('sub.p2', { isl:ISLANDS.length }), t('sub.p3'), t('sub.p4')].map(x => `<li>${esc(x)}</li>`).join('');
   $('#subFree').textContent = t('sub.free', { fp });
-  $('#subConsent').textContent = t('sub.consent', { price:subPrice() });
-  $('#subAgree').checked = false; $('#subStart').disabled = true; $('#subStart').textContent = t('sub.start', { d });
+  subPlansDraw();
   $('#subLinks').innerHTML = legalHTML();
   $('#subIntro').classList.add('show');
 }
@@ -20,9 +38,12 @@ $('#subAgree').addEventListener('change', (e) => { $('#subStart').disabled = !e.
 $('#subStart').addEventListener('click', () => {
   if (!$('#subAgree').checked){ toast(t('sub.needAgree')); return; }
   $('#subIntro').classList.remove('show');
+  const plan = subPlan;
   parentGate(async () => {                                                     // 결제 앞에는 늘 부모 확인 (아이 앱 규정)
     sfx.tap();
-    if (await Billing.startTrial()){ store.set('subAsked', true); confetti(30); toast(t('sub.started', { d:subCfg().trialDays }), 3500); afterSubChange(); }
+    if (plan === 'life'){ if (await Billing.buyLifetime()){ store.set('subAsked', true); confetti(40); toast(t('sub.lifeDone'), 3500); afterSubChange(); } return; }
+    if (subState().kind === 'none'){ if (await Billing.startTrial(plan)){ store.set('subAsked', true); confetti(30); toast(t('sub.started', { d:subCfg().trialDays }), 3500); afterSubChange(); } return; }
+    if (await Billing.subscribe(plan)){ confetti(30); toast(t('sub.stActive'), 3500); afterSubChange(); }
   });
 });
 $('#subLater').addEventListener('click', () => { sfx.tap(); subIntroClose(); });
@@ -43,16 +64,17 @@ function renderSub(){
   card.hidden = !c.on;
   if (TEST_MODE) $('#subSim').textContent = t('sub.devSim', { s:t(store.get('subSim', false) ? 'sub.on' : 'sub.off') });
   if (!c.on) return;
-  $('#subSt').textContent = st.kind === 'trial' ? t('sub.stTrial', { d:st.left }) : st.kind === 'active' ? t('sub.stActive') : st.kind === 'free' ? t('sub.stFree') : t('sub.stNone');
+  $('#subSt').textContent = st.kind === 'life' ? t('sub.stLife') : st.kind === 'trial' ? t('sub.stTrial', { d:st.left }) : st.kind === 'active' ? t('sub.stActive') : st.kind === 'free' ? t('sub.stFree') : t('sub.stNone');
   $('#subPerks').textContent = [t('sub.p1', { pets:Object.keys(PETS).length, fp:Math.min(c.freePets, FREE_PET_ORDER.length) }), t('sub.p2', { isl:ISLANDS.length }), t('sub.p3'), t('sub.p4')].join(' · ');
   const go = $('#subGo');
-  go.hidden = st.kind === 'active' || st.kind === 'trial';
-  go.textContent = st.kind === 'none' ? t('sub.goTrial', { d:c.trialDays }) : t('sub.goSub', { price:subPrice() });
+  go.hidden = st.kind === 'life';
+  go.textContent = st.kind === 'none' ? t('sub.goTrial', { d:c.trialDays }) : st.kind === 'free' ? t('sub.goPlans') : t('sub.goLife');   // 체험 · 구독 중엔 평생 이용권 안내
+  $('#subLifeNote').hidden = !(st.kind === 'active' || st.kind === 'trial');
 }
-$('#subGo').addEventListener('click', async () => {                            // 설정 안 = 이미 부모 확인을 지남
+$('#subGo').addEventListener('click', () => {                                  // 설정 안 = 이미 부모 확인을 지남
   sfx.tap();
-  if (subState().kind === 'none') return subIntroOpen();
-  if (await Billing.subscribe()){ confetti(30); toast(t('sub.stActive')); afterSubChange(); }
+  const k = subState().kind;
+  subIntroOpen(k === 'active' || k === 'trial' ? 'life' : 'year');
 });
 $('#subRestore').addEventListener('click', async () => { sfx.tap(); toast(t(await Billing.restore() ? 'sub.restoreOk' : 'sub.restoreNone')); renderSub(); });
 $('#subManage').addEventListener('click', () => { sfx.tap(); Billing.manage(); });
@@ -82,7 +104,7 @@ function subLaunch(){                                                          /
   const s = store.get('sub', null);
   if (st.kind === 'trial' && st.left <= 2 && s && store.get('subReminded', null) !== s.start){
     store.set('subReminded', s.start);
-    setTimeout(() => dialog({ icon:'👨‍👩‍👧', text:t('sub.remind', { d:st.left, price:subPrice() }), ok:t('sub.ok'), cancel:t('sub.manage'), onCancel(){ Billing.manage(); } }), 700);
+    setTimeout(() => dialog({ icon:'👨‍👩‍👧', text:t('sub.remind', { d:st.left, per:subPer(st.plan || 'month') }), ok:t('sub.ok'), cancel:t('sub.manage'), onCancel(){ Billing.manage(); } }), 700);
     return true;
   }
   return false;
@@ -248,7 +270,7 @@ function prepSpeak(kind){
 $('#prepListen').addEventListener('click', () => { sfx.tap(); prepSpeak(childAge === 'u3' ? 'rice' : 'pea'); });
 $('#startBtn').addEventListener('click', () => { if (prepOn) openPrep(); else start(); });
 $('#prepGo').addEventListener('click', () => { prepTimers.forEach(clearTimeout); start(); });
-$('#prepBack').addEventListener('click', () => { Voice.stop(); sfx.tap(); show('home'); });
+$('#prepBack').addEventListener('click', () => { prepTimers.forEach(clearTimeout); prepTimers = []; Voice.stop(); sfx.tap(); show('home'); });
 $$('.js-pause').forEach(b => b.addEventListener('click', () => togglePause()));
 $$('.js-stop').forEach(b => b.addEventListener('click', askStop));
 $('#homeBtn').addEventListener('click', () => { sfx.tap(); Voice.stop(); show('home'); });
