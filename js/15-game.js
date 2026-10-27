@@ -333,6 +333,7 @@ function buildHab(h){
   dialog({ icon:`<div style="width:150px;height:98px;margin:auto;border-radius:14px;overflow:hidden"><svg viewBox="0 0 400 260" style="width:100%;height:100%">${habBG(h.id)}</svg></div>`,
     text:t('closet.buyQ', { cost:h.cost, item:t('hab.' + h.id) }), ok:t('hab.buildOk'), cancel:t('closet.buyCancel'),
     onOk(){
+      if (habBuilt(h.id) || stars < h.cost) return;                    // v0.37.1 창이 떠 있는 동안 바뀌었으면
       setStars(stars - h.cost); hab.built.push(h.id); saveHab();
       if (store.get('goal', null) === h.id) store.set('goal', null);
       sfx.buy(); buzz([60, 40, 120]); confetti(80); habPage = 0; renderRoom(); refreshGoal();
@@ -461,7 +462,7 @@ function buyThing(card, cost, name, iconSVG, done){
   if (stars < cost){ sfx.nope(); card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake'); toast(t('closet.needMore', { n:cost - stars })); return; }
   dialog({ icon:`<div style="width:110px;height:84px;margin:auto">${iconSVG.replace('<svg ', '<svg style="width:100%;height:100%" ')}</div>`,
     text:t('closet.buyQ', { cost, item:name }), ok:t('closet.buyOk'), cancel:t('closet.buyCancel'),
-    onOk(){ setStars(stars - cost); sfx.buy(); confetti(30); done(); } });
+    onOk(){ if (stars < cost){ sfx.nope(); toast(t('closet.needMore', { n:cost - stars })); return; } setStars(stars - cost); sfx.buy(); confetti(30); done(); } });
 }
 function pickPet(pid){
   selPet = pid; ac(); tone(784, .08, 'sine', .1);

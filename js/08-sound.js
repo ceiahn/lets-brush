@@ -109,7 +109,12 @@ function musicPreview(){
 
 /* 내 음악 파일: IndexedDB에 저장 (안 되면 이번 실행에서만) */
 const BgmStore = {
-  open(){ return new Promise((res, rej) => { try{ const r = indexedDB.open('bj_db', 1); r.onupgradeneeded = () => r.result.createObjectStore('files'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }catch(e){ rej(e); } }); },
+  // v0.37.1 연결은 한 번만 열어 두고 같이 씀 (예전엔 부를 때마다 새로 열어서 앱을 열 때 연결이 수십 개 쌓였음)
+  open(){
+    if (!this._db) this._db = new Promise((res, rej) => { try{ const r = indexedDB.open('bj_db', 1); r.onupgradeneeded = () => r.result.createObjectStore('files');
+      r.onsuccess = () => { const db = r.result; db.onclose = db.onversionchange = () => { try{ db.close(); }catch(e){} this._db = null; }; res(db); }; r.onerror = () => rej(r.error); }catch(e){ rej(e); } });
+    return this._db.catch((e) => { this._db = null; throw e; });
+  },
   async put(blob){ const db = await this.open(); return new Promise((res, rej) => { const tx = db.transaction('files', 'readwrite'); tx.objectStore('files').put(blob, 'bgm'); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); }); },
   async get(){ const db = await this.open(); return new Promise((res, rej) => { const q = db.transaction('files').objectStore('files').get('bgm'); q.onsuccess = () => res(q.result || null); q.onerror = () => rej(q.error); }); }
 };

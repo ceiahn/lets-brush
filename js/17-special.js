@@ -232,7 +232,12 @@ function specialDue(list){
   const eps = fresh.filter(v => v.ep).sort((a, b) => a.ep - b.ep);           // 에피소드는 1화부터 차례로 (v0.28)
   return { v: eps.length ? eps[0] : pick(fresh), why };
 }
-const spEvKey = () => { const e = activeEvent(); return e ? e.id + '-' + new Date().getFullYear() : null; };   // 이번 이벤트 (해마다 새로)
+const spEvKey = () => {                                                       // 이번 이벤트 (해마다 새로)
+  const e = activeEvent(); if (!e) return null;
+  const d = new Date(), w = e.when || {};                                     // v0.37.1 12-31 ~ 01-02 처럼 해를 넘기는 이벤트는 시작한 해로 (예전엔 1월 1일에 한 번 더 나왔음)
+  const wrap = w.type === 'fixed' && +w.from.replace('-', '') > +w.to.replace('-', '') && mmdd(d) <= +w.to.replace('-', '');
+  return e.id + '-' + (d.getFullYear() - (wrap ? 1 : 0));
+};
 function markSpecial(id, played){                                          // played=false: 재생 실패 → 본 것으로만 쳐서 다음엔 다른 영상
   const s = store.get('special', null) || { seen:[] };
   let seen = (s.seen || []).filter(x => SPECIALS.some(v => v.id === x) && x !== id);

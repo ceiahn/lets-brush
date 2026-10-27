@@ -105,7 +105,7 @@ $('#countrySel').addEventListener('change', (e) => {
 const voiceSample = () => Voice.play('say.sample', t('say.ul'));
 
 /* ---------- 녹음 화면 ---------- */
-let recorder = null, recChunks = [], recFor = null, recStopT = 0, recStream = null;
+let recorder = null, recChunks = [], recFor = null, recStopT = 0, recStream = null, recStarting = false;
 function recLabel(k){
   if (k === 'prep') return t('rec.l.prep');
   if (k === 'say.cheers') return t('rec.l.say.cheers');
@@ -130,9 +130,12 @@ function stopRecording(){
 }
 async function startRecording(k){
   if (recorder && recorder.state === 'recording'){ stopRecording(); return; }
+  if (recStarting) return;                                            // v0.37.1 마이크 허락을 기다리는 동안 또 누르면 무시 (녹음기가 둘 생기지 않게)
+  recStarting = true;
   try{
     recStream = await navigator.mediaDevices.getUserMedia({ audio:true });
   }catch(e){ toast(t('rec.noMic')); return; }
+  finally{ recStarting = false; }
   musicStop(); Voice.stop();
   recChunks = []; recFor = k;
   try{ recorder = new MediaRecorder(recStream); }catch(e){ toast(t('rec.noMic')); recStream.getTracks().forEach(x => x.stop()); recFor = null; return; }

@@ -248,7 +248,7 @@ function prepSpeak(kind){
 $('#prepListen').addEventListener('click', () => { sfx.tap(); prepSpeak(childAge === 'u3' ? 'rice' : 'pea'); });
 $('#startBtn').addEventListener('click', () => { if (prepOn) openPrep(); else start(); });
 $('#prepGo').addEventListener('click', () => { prepTimers.forEach(clearTimeout); start(); });
-$('#prepBack').addEventListener('click', () => { Voice.stop(); sfx.tap(); show('home'); });
+$('#prepBack').addEventListener('click', () => { prepTimers.forEach(clearTimeout); prepTimers = []; Voice.stop(); sfx.tap(); show('home'); });
 $$('.js-pause').forEach(b => b.addEventListener('click', () => togglePause()));
 $$('.js-stop').forEach(b => b.addEventListener('click', askStop));
 $('#homeBtn').addEventListener('click', () => { sfx.tap(); Voice.stop(); show('home'); });
