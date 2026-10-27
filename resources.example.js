@@ -1,6 +1,6 @@
 /*
   Let's Brush – 리소스 교체 예시 (resources.example.js)
-  버전: v0.28.0  |  2026-10-26   (index.html v0.28.0 와 짝)
+  버전: v0.35.0  |  2026-10-26   (index.html v0.35.0 와 짝)
   ------------------------------------------------------------
   ★ 이 파일의 의도 (다음 작업 세션 인수인계용)
     · 만드는 분이 개발자가 아니라서, "그림 · 아이템 · 음악 · 이벤트 · 숫자 조절"은 index.html 을 고치지 않고
@@ -43,6 +43,14 @@ window.BJ_RESOURCES = {
      주의: 별을 너무 많이 주면 살 것이 금방 바닥남 → 지금 설계는 하루 약 8개 기준 (index.html 맨 위 개발 안내 [3]) */
   config: {
     // testMode: false,              // ★ 출시 때 false (테스트 별 100개 · 개발자 메뉴가 사라짐)
+    // durByCountry: { KR:180 },     // 나라별 권장 양치 시간(초). 없는 나라는 120 = 2분 (v0.29.1)
+    // popularFirst: true,           // 새 알 · 선물 펫은 아이들이 잘 아는 동물부터 (false = 전부 무작위, v0.29.0)
+    // subs: { on:false, trialDays:7, freePets:30, freeIslands:1, price:{ KR:'₩2,200', US:'$1.99', JP:'¥300', other:'$1.99' }, terms:'', privacy:'' },
+    //   ↑ 반짝이 클럽 (구독, v0.32.0). ★ 스토어 앱에서만 on:true (웹은 결제가 없어서 false = 전부 열림). terms · privacy 는 약관 · 개인정보 주소
+    // homeTip: true,               // 브라우저로 열었을 때 부모님께 "홈 화면에 추가" 안내 한 번 (스토어 앱은 false, v0.33.0)
+    // quiz: { star:1, stampsForPet:7 },  // 오늘의 퀴즈: 정답 별 수 · 펫까지 필요한 도장 수 (v0.30.0)
+    // parentGate: true,             // 설정을 열 때 곱셈 문제로 어른 확인 (false = 안 물음, v0.28.5)
+    // testParam: false,             // ★ 출시 때 false (주소 ?test=1 · ?test=0 으로 테스트 모드를 바꾸지 못하게 잠금, v0.28.1)
     // firstGiftStars: 3,            // 처음 설치했을 때 주는 별
     // surfSplit: [0, .27, .6, .73, .87, 1],  // 구역 안 시간 비율: 바깥쪽 · 씹는 면 · 어금니 안쪽 · 보스 기습(씹는 면 한 번 더) · 앞니 안쪽
     //                                          (v0.26 전의 5개 값도 받음 → 기습 구간을 자동으로 끼워 넣음)

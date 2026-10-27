@@ -4,7 +4,7 @@
 
 앱 이름은 아이가 지어 줬어요.
 
-- 버전: v0.28.0 (2026-10-26)
+- 버전: v0.35.0 (2026-10-27)
 - 언어: 한국어 · English · 日本語(앱 안에서 받기)
 - 화면: 세로 기준
 
@@ -15,10 +15,13 @@ index.html            앱 전체 (화면 · 그림 · 소리 · 글이 이 파�
 manifest.json         홈 화면 앱 정보 (이름 · 아이콘 · 세로 고정)
 sw.js                 홈 화면 앱 저장 도우미 (인터넷 없이도 열리게)
 icons/                앱 아이콘
-specials/             스페셜 영상 (시리즈 ep001.mp4 ~ ep999.mp4, 단편 sp01.mp4 …, 직접 넣기)
+fonts/                글꼴 (주아 · 코스기 마루, 앱 안에 넣어서 구글 폰트 서버에 접속하지 않음)
+privacy.html          개인정보처리방침 (한 · 영 · 일)
+terms.html            이용약관 (한 · 영 · 일)
+specials/             스페셜 영상 (시리즈 ep001.mp4 ~ ep999.mp4 세 자리 소문자, 단편 sp01.mp4 …, 직접 넣기)
 resources.example.js  그림 · 아이템 · 음악 · 숫자를 코드 수정 없이 바꾸는 예시
 docs/개발_인수인계.md  다음 작업을 위한 안내 (규칙 · 구조 · 변경 기록)
-docs/video/           영상 참고 이미지 (sparkle · boss_germ · pipi · mongi · coco · duri) + 1~10화 프롬프트
+docs/video/           영상 참고 이미지 (sparkle · sparkle_faces · boss_germ · pipi · mongi · coco · duri) + 1~10화 프롬프트 (첫 화면 그림 · 장면 A · 장면 B)
 ```
 
 ## 써 보기
@@ -33,15 +36,30 @@ docs/video/           영상 참고 이미지 (sparkle · boss_germ · pipi · m
 3. 1~2분 뒤 `https://(아이디).github.io/lets-brush/` 주소가 생겨요.
 4. 폰 크롬에서 그 주소를 열고 메뉴(⋮) → "홈 화면에 추가"를 눌러요. 아이폰은 사파리 → 공유 → "홈 화면에 추가"예요.
 
-새 버전을 올릴 때는 `index.html`과 `sw.js`를 같이 올려 주세요. `sw.js` 안의 저장본 이름이 버전마다 바뀌어야 폰에 새 버전이 들어가요.
+새 버전을 올릴 때는 `index.html`과 `sw.js`를 같이 올려 주세요. v0.33.0은 `fonts` 폴더와 `privacy.html` · `terms.html`도 처음 한 번 같이 올려 주세요. `sw.js` 안의 저장본 이름이 버전마다 바뀌어야 폰에 새 버전이 들어가요.
 
 ## 기록 옮기기
 
 별 · 펫 · 연속 기록은 그 폰의 브라우저 안에만 저장돼요. 폰을 바꾸거나 여는 주소가 바뀌면 부모님 설정의 "💾 기록 백업"으로 파일을 저장한 뒤, 새 곳에서 "📂 기록 파일 불러오기"를 해 주세요.
 
+## 테스트 모드
+
+주소 끝에 붙여서 켜고 끌 수 있어요. 한 번 정하면 그 폰이 기억해서, 홈 화면 아이콘으로 열어도 그대로예요. 켜져 있으면 첫 화면 버전 글자 옆에 `· TEST`가 보여요.
+
+- `index.html?test=1` 켜기 (별 100개 선물 · 개발자 메뉴)
+- `index.html?test=0` 끄기 (출시 때와 같은 화면)
+- `index.html?test=auto` 기억을 지우고 `index.html` 안의 `testMode` 값으로
+
+`index.html` 안의 기본값은 꺼짐(`testMode: false`)이에요. 웹 주소를 다른 사람에게 보내도 테스트 기능이 나오지 않아요.
+
+테스트 모드를 꺼도 이미 받은 테스트 별은 그대로 남아요.
+
 ## 출시 전에 할 일
 
-- `index.html`의 `testMode: true`를 `false`로 바꾸기 (별 100개 선물과 개발자 메뉴가 사라져요)
+- `index.html`의 `testParam: true`를 `false`로 바꾸기 (주소로 테스트 모드를 다시 켤 수 없게 잠겨요)
+- 결제 · 바깥 링크 앞 부모 확인은 v0.32.0 · v0.33.0에 들어 있음
+- `privacy.html` · `terms.html`의 [운영자 이름] · [연락처 이메일] · 가격 · 시행일 채우기 (가능하면 전문가 검토)
+- 스토어 앱으로 포장할 때 `CONFIG.subs.on: true`, `CONFIG.homeTip: false`, Billing 을 진짜 결제로
 - 스페셜 영상 · 음악 같은 파일의 상업적 이용 조건 확인
 - 라이선스 정하기 (아래 참고)
 

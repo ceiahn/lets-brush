@@ -1,18 +1,19 @@
 /*
   Let's Brush – 홈 화면 앱(PWA) 저장 도우미 (sw.js)
-  버전: v0.29.1  |  2026-10-26   (index.html v0.29.1 와 짝)
+  버전: v0.35.0  |  2026-10-26   (index.html v0.35.0 와 짝)
   ------------------------------------------------------------
   의도: 웹 주소(https)로 연 앱을 폰에 저장해 두고, 인터넷이 없어도 열리게 함
    · index.html (화면): 인터넷 먼저 → 새 버전을 올리면 바로 반영. 인터넷이 없으면 저장해 둔 것으로 엶
    · 아이콘 · resources.js · manifest.json: 저장해 둔 것 먼저 (빠름), 없으면 받아서 저장
    · 영상(specials/*.mp4 · webm)은 건드리지 않음 → 영상은 부분씩 받는 방식이라 여기서 저장하면 재생이 꼬일 수 있음
      (인터넷 없이 영상까지 보려면 부모님 설정 "📥 스페셜 영상 넣기"로 폰 안에 넣어 두기)
-   · 다른 주소(글꼴 등)도 건드리지 않음
+   · 글꼴(fonts/)은 v0.35.0 부터 같은 주소 → 저장해 둔 것 먼저 (한 번 쓴 글자 조각만 받아서 저장)
+   · 다른 주소는 건드리지 않음
   ★ index.html 을 새 버전으로 올릴 때 아래 CACHE 이름의 버전도 같이 바꿀 것 (예전 저장본이 정리됨)
 */
-const CACHE = 'banjjak-v0.29.1';
+const CACHE = 'banjjak-v0.35.0';
 const CORE = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png'];
-const OPTIONAL = ['./resources.js'];   // 없어도 됨
+const OPTIONAL = ['./resources.js', './fonts/jua.css', './privacy.html', './terms.html'];   // 없어도 됨
 
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
@@ -37,6 +38,7 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;                         // 다른 주소는 그대로
   if (req.headers.has('range') || /\.(mp4|webm|mov|m4v)$/i.test(url.pathname)) return;   // 영상은 그대로
+  if (/\/specials\/[^/]*\.txt$/i.test(url.pathname)) return;                   // v0.35.0 영상 제목 목록은 늘 새로 (저장본 안 씀)
   const isPage = req.mode === 'navigate' || /\/(index\.html)?$/.test(url.pathname);
   if (isPage){                                                             // 화면: 인터넷 먼저
     e.respondWith((async () => {
