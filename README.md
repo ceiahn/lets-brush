@@ -4,7 +4,7 @@
 
 앱 이름은 아이가 지어 줬어요.
 
-- 버전: v0.46.0 (2026-10-27)
+- 버전: v0.47.0 (2026-10-27)
 - 언어: 한국어 · English · 日本語(앱 안에서 받기)
 - 화면: 세로 기준
 
@@ -31,7 +31,7 @@ android/              스토어 앱 포장 설정 (twa-manifest.json · assetlin
 LICENSE               저작권 (모든 권리 보유, 글꼴만 각자 라이선스)
 docs/video/           영상 참고 이미지 (sparkle · sparkle_faces · boss_germ · pipi · mongi · coco · duri) + 1~20화 프롬프트 (첫 화면 그림 · 장면 A · 장면 B)
 tests/                자동 점검 (GitHub에 올리면 Actions 탭에서 ✓ / ✗, 앱에는 안 들어감)
-tools/                버전 올리기 도구
+tools/                버전 올리기 · Cloudflare Pages 에 올릴 파일 모으기 (build-site.sh)
 ```
 
 ## 써 보기

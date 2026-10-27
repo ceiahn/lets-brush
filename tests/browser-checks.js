@@ -220,6 +220,26 @@ async function runSeason(browser, base){
   return problems;
 }
 
+// v0.47.0 웹 막기: webBlock 이면 브라우저는 안내 화면만 · 스토어 앱 표시(?src=twa)는 열림 · Play 없이 체험 흉내 안 됨
+async function runWebGate(browser, base){
+  const problems = [];
+  for (const [q, want] of [['', true], ['?src=twa', false]]){
+    const page = await browser.newPage({ viewport:{ width:390, height:800 } });
+    page.on('pageerror', e => problems.push('[web] 오류: ' + e.message));
+    await page.addInitScript(() => { window.BJ_RESOURCES = { config:{ webBlock:true, parentGate:false } }; localStorage.setItem('bj_lang', '"ko"'); localStorage.setItem('bj_picked', 'true'); });
+    await page.goto(base + '/index.html' + q); await page.waitForTimeout(1200);
+    const r = await page.evaluate(() => ({ gate:!document.querySelector('#webGate').hidden, title:document.querySelector('#webGate h1').textContent, sp:specialOn }));
+    if (r.gate !== want) problems.push(`[web] ${q || '브라우저'}: 안내 화면이 ${r.gate ? '나옴' : '안 나옴'}`);
+    if (want && (!r.title || r.sp)) problems.push('[web] 안내 화면 글자가 없거나 영상 받기가 켜져 있음');
+    if (!want){
+      const st = await page.evaluate(async () => { await Billing.startTrial('year'); return subState().kind; });
+      if (st !== 'none') problems.push('[web] Play 결제 없이 체험이 시작됨: ' + st);
+    }
+    await page.close();
+  }
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -244,6 +264,9 @@ async function runBrowser(){
     const se = await runSeason(browser, base);
     console.log(`${se.length ? '✗' : '✓'} 기간 한정 화 (명절 · 계절 편)${se.length ? ` (${se.length})` : ''}`);
     se.forEach(x => console.log('   ' + x)); all.push(...se);
+    const wg = await runWebGate(browser, base);
+    console.log(`${wg.length ? '✗' : '✓'} 웹 막기 (출시 설정)${wg.length ? ` (${wg.length})` : ''}`);
+    wg.forEach(x => console.log('   ' + x)); all.push(...wg);
   } finally { await browser.close(); srv.close(); }
   return all;
 }

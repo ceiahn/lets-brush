@@ -26,7 +26,11 @@ const CONFIG = Object.assign({
   // v0.45.0 구글 Play 결제 (스토어 앱 안에서만). 상품 ID 는 Play Console 에 만들 이름과 똑같이 (docs/스토어_앱_포장.md)
   play: { pkg:'com.tokkiyou.letsbrush', skus:{ month:'club_month', year:'club_year', life:'club_life' } },
   specialBase: '',                // v0.45.0 스페셜 영상을 다른 서버(예: Cloudflare R2)에 둘 때 주소. 비우면 앱 옆 specials/ 폴더
-  shareUrl: '',                   // v0.45.0 자랑 카드에 적을 주소 (스토어 주소가 생기면 여기에). 비우면 지금 웹 주소
+  shareUrl: '',                   // v0.45.0 자랑 카드에 적을 주소. 비우면 storeUrl, 그것도 비우면 지금 웹 주소
+  // v0.47.0 웹 막기: true 면 브라우저로 연 사람에게는 "스토어에서 받아 주세요" 화면만 (스토어 앱 안 · 테스트 모드는 그대로 열림)
+  //         개발 중에는 false. 출시할 때 true + storeUrl (docs/스토어_앱_포장.md 0장). 약관 · 처리방침 페이지는 늘 열림
+  webBlock: false,
+  storeUrl: '',                   // v0.47.0 구글 Play 앱 주소 (출시 뒤): https://play.google.com/store/apps/details?id=com.tokkiyou.letsbrush
   contact: 'tokkiyou.studio@gmail.com',     // v0.44.2 토끼유 스튜디오 메일 (v0.33.1 문의 이메일 (설정 부모님 칸 · 약관 · 처리방침 · 스토어)  // v0.30.0 오늘의 퀴즈: 맞히면 별 · 도장 1개, 도장 stampsForPet 개면 펫 한 마리
   popularFirst: true,             // v0.29.0 새 알 · 선물 펫은 아이들이 잘 아는 동물부터 (false = 전부 무작위)
   parentGate: true,               // v0.28.5 설정을 열 때 곱셈 문제로 어른 확인 (false = 안 물음)

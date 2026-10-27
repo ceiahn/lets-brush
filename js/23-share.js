@@ -9,7 +9,7 @@
       의견 보내기: 메일 앱을 열고 앱 버전 · 폰 기종 · 언어 · 구독 상태를 아래에 미리 적어 둠 (테스터 의견 받기)
    ========================================================= */
 const SHARE_DAYS = [3, 7, 14, 21, 30, 50, 100, 150, 200, 300, 365];
-const shareUrl = () => CONFIG.shareUrl || (/^https?:/.test(location.protocol) ? location.origin + location.pathname.replace(/[^/]*$/, '') : '');
+const shareUrl = () => CONFIG.shareUrl || CONFIG.storeUrl || (/^https?:/.test(location.protocol) ? location.origin + location.pathname.replace(/[^/]*$/, '') : '');
 const appVer = () => ($('#ver').textContent || '').trim();
 // 화면의 SVG 를 사진으로 그릴 수 있게: 숨은 부분(CSS 로 감춘 입 모양 등)은 빼고, 다른 곳에 있는 그라디언트 정의는 같이 넣음
 function svgSnap(svg, w, h){

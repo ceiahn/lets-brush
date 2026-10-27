@@ -900,3 +900,14 @@ i.lz{display:block;width:84%;height:84%;border-radius:50%;background:#0000000a}
 .sub-plan .sp-price{font-size:18px;grid-row:span 2;align-self:center}
 .sub-plan small{font-size:13px;opacity:.75;line-height:1.35}
 .sub-plan .sp-best{font-style:normal;font-size:12px;background:var(--yellow);border-radius:999px;padding:2px 8px;margin-left:4px;white-space:nowrap}
+/* v0.47.0 웹 막기 */
+.web-gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(#8fd3ff,#e9f8ff)}
+.web-gate[hidden]{display:none}
+.wg-box{background:#fff;border-radius:28px;padding:28px 22px;max-width:380px;width:100%;text-align:center;box-shadow:0 8px 0 #bfe3f7}
+.wg-box img{border-radius:22px}
+.wg-box h1{font-size:26px;margin:12px 0 8px;color:var(--ink)}
+.wg-box p{font-size:17px;line-height:1.5;color:var(--ink)}
+.wg-store{display:inline-block;margin-top:14px;text-decoration:none}
+.wg-soon{margin-top:14px;font-weight:800}
+.wg-links{margin-top:18px;font-size:14px}
+.wg-links a{color:var(--ink)}

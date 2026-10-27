@@ -11,7 +11,7 @@
             Play 는 결제를 3일 안에 "승인"하지 않으면 돈을 돌려줌 → 내부 테스트에서 라이선스 테스터로 꼭 확인 (같은 문서 4장)
    ========================================================= */
 const PLAY_BILLING = 'https://play.google.com/billing';
-const Play = { svc:null };
+const Play = { svc:null, ready:Promise.resolve(false) };
 const playSku = (plan) => ((CONFIG.play || {}).skus || {})[plan];
 const playPlanOf = (sku) => SUB_PLANS.find(p => playSku(p) === sku);
 async function playSync(){                                                     // Play 가 알려 주는 "지금 가진 것" → bj_sub
@@ -57,16 +57,18 @@ async function playInit(){
 }
 {
   const sim = Object.assign({}, Billing);                                    // 웹 · 결제가 안 될 때는 흉내 그대로
+  // v0.47.0 스토어 앱 표시(?src=twa)만 흉내 내고 Play 결제가 없는 곳에서는 체험도 흉내 내지 않음 (테스트 모드만 흉내) → 무료 기능만
+  const noPlay = () => inTWA() && !TEST_MODE ? (toast(t('sub.storeOnly'), 3500), false) : null;
   Object.assign(Billing, {
-    async startTrial(plan = 'year'){ return Play.svc ? playBuy(plan) : sim.startTrial(plan); },
-    async subscribe(plan = 'year'){ return Play.svc ? playBuy(plan) : sim.subscribe(plan); },
-    async buyLifetime(){ return Play.svc ? playBuy('life') : sim.buyLifetime(); },
-    async restore(){ if (!Play.svc) return sim.restore(); await playSync(); afterSubChange(); return ['active', 'life'].includes(subState().kind); },
+    async startTrial(plan = 'year'){ await Play.ready; return Play.svc ? playBuy(plan) : noPlay() ?? sim.startTrial(plan); },
+    async subscribe(plan = 'year'){ await Play.ready; return Play.svc ? playBuy(plan) : sim.subscribe(plan); },
+    async buyLifetime(){ await Play.ready; return Play.svc ? playBuy('life') : sim.buyLifetime(); },
+    async restore(){ await Play.ready; if (!Play.svc) return sim.restore(); await playSync(); afterSubChange(); return ['active', 'life'].includes(subState().kind); },
     manage(){
       if (!Play.svc){ sim.manage(); return; }
       const s = store.get('sub', null), sku = s && s.kind === 'active' ? playSku(s.plan) : '';
       openLegal('https://play.google.com/store/account/subscriptions?package=' + encodeURIComponent((CONFIG.play || {}).pkg || '') + (sku ? '&sku=' + encodeURIComponent(sku) : ''));
     }
   });
-  playInit();
+  Play.ready = playInit().catch(() => false);
 }
