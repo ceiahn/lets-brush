@@ -9,6 +9,10 @@
      의도: 252종 + 전설 11종을 한 사람이 다 그릴 수 없어서 부품 조립식. 나중에 진짜 그림이 생기면 resources.js pets 로 교체
      무리(group): land · bird · sea · reptile · bug · legend → 동물 집 · 영웅 모습 · 팀 분류에 씀
      아래 SPECIES 한 줄 = [id, 한국어, 영어, 일본어, 몸 틀(q 네발 · b 새 · p 펭귄 · f 물고기 · r 파충류 · x 곤충/특수), 부품]
+     v0.38.0 다시 그리기 (252종 모두에 적용): 눈은 그림체 B 규칙(진한 타원 + 반사 두 개), 머리 광택 줄, 몸 아래 그늘
+       네발 동물: 인형처럼 앉은 모습 (엉덩이 + 앞발 두 개 + 다리 선), 통통한 볼 (cheekbulge:false 로 끔), 앞발이 없는 몸: legs:false
+       새: 발가락 세 개 · 날개 깃털 줄 / 물고기: 비늘 · 꼬리 지느러미 줄 / 코끼리 코 · 기린 목 · 낙타 혹 다시
+       sc: 키 큰 동물은 바닥 기준으로 작게 (예: 기린 .84). 꾸미기 자리(top · eye · neck)도 같이 맞춰짐
    ========================================================= */
 const PetGen = (() => {
   const f1 = (n) => String(Math.round(n * 10) / 10);
@@ -26,8 +30,10 @@ const PetGen = (() => {
   const INK = '#24324a';
   const lum = (hex) => { if (!/^#/.test(hex)) return 0; let c = hex.slice(1); if (c.length === 3) c = c.split('').map(x => x + x).join(''); const n = parseInt(c, 16); return ((n >> 16) * .299 + ((n >> 8) & 255) * .587 + (n & 255) * .114) / 255; };
   const ol = (c) => lum(c) > .84 ? `stroke="${shade(c, -.17)}" stroke-width="2"` : '';     // 하얀 동물은 테두리
-  const eyes = (y, x = 10, r = 4.4, cx = 0) => `<g transform="translate(${cx} 0)">` + M(C(-x, y, r, INK) + C(-x + r * .32, y - r * .36, r * .34, '#fff')) + '</g>';
-  const irisEyes = (y, x, col, r = 4.6) => M(C(-x, y, r, col) + C(-x, y, r * .55, INK) + C(-x + 1.2, y - 1.5, 1.3, '#fff'));
+  /* v0.38.0 눈: 그림체 B 규칙대로 진한 타원(세로로 조금 김) + 흰 반사 두 개 (큰 것 위 오른쪽, 작은 것 아래 왼쪽) */
+  const glint2 = (x, y, r) => C(x + r * .34, y - r * .4, r * .36, '#fff') + C(x - r * .3, y + r * .42, r * .16, '#fff');
+  const eyes = (y, x = 10, r = 4.4, cx = 0) => `<g transform="translate(${cx} 0)">` + M(E(-x, y, r * .92, r * 1.12, INK) + glint2(-x, y, r)) + '</g>';
+  const irisEyes = (y, x, col, r = 4.6) => M(E(-x, y, r * .95, r * 1.1, col) + E(-x, y, r * .55, r * .66, INK) + glint2(-x, y, r * .95));
   const whiteEyes = (y, x = 10) => M(C(-x, y, 5.8, '#fff')) + eyes(y, x, 3.5);
   const blush = (y, x = 17, cx = 0) => `<g transform="translate(${cx} 0)">` + M(E(-x, y, 4, 2.4, '#ffb3c7', 'opacity=".9"')) + '</g>';
   const smile = (y, w = 4, c = INK) => S(`M${-w} ${y} Q0 ${y + w * .9} ${w} ${y}`, c, 2);
@@ -64,7 +70,8 @@ const PetGen = (() => {
       case 'bear':  return E(0, y + 2, 10, 7.5, s) + E(0, y - 1, 4, 3, n) + S(`M-3.5 ${y + 5} Q0 ${y + 8} 3.5 ${y + 5}`, INK, 1.8);
       case 'long':  return E(0, y + 4, 14, 9.5, s) + M(E(-5, y + 3, 1.7, 2.3, shade(s, -.5))) + S(`M-5 ${y + 9} Q0 ${y + 11} 5 ${y + 9}`, INK, 1.8);
       case 'pig':   return E(0, y + 2, 8.5, 6.5, o.sn || shade(m, -.12)) + M(E(-3, y + 2, 1.5, 2.3, shade(m, -.5))) + smile(y + 10, 3);
-      case 'trunk': return S(`M0 ${y - 4} Q-1 ${y + 12} 9 ${y + 17}`, shade(m, -.22), 11.5) + S(`M0 ${y - 4} Q-1 ${y + 12} 9 ${y + 17}`, m, 9) + E(10, y + 17, 4.5, 4, shade(m, -.1)) + smile(y + 1, 3);
+      case 'trunk': return P(`M-8.5 ${y - 9} Q-10.5 ${y + 10} -6.5 ${y + 21} Q-2 ${y + 30} 8 ${y + 27} Q14 ${y + 25} 12.5 ${y + 19} Q6.5 ${y + 21} 5 ${y + 14} Q5.6 ${y + 2} 8.5 ${y - 9}Z`, m, `stroke="${shade(m, -.24)}" stroke-width="1.5" stroke-linejoin="round"`) +   // v0.38.0 통통한 코 (끝이 위로 말림)
+        S(`M-7.6 ${y + 5} Q-1 ${y + 7} 5 ${y + 5} M-7 ${y + 11} Q-1 ${y + 13} 5 ${y + 11} M-6 ${y + 17} Q-.5 ${y + 19} 5.6 ${y + 17}`, shade(m, -.2), 1.3) + E(11, y + 23.4, 2.6, 1.8, shade(m, -.4), R(-30, 11, y + 23.4));
       case 'koala': return E(0, y - 1, 6, 7.5, INK) + C(-1.8, y - 3.5, 1.4, '#fff') + smile(y + 8, 3);
       case 'bill':  return E(0, y + 4, 13, 7, o.bc || '#3a3a4a') + M(C(-3, y + 1, 1.2, '#7a7a8a'));
       case 'beak':  return P(`M-8 ${y - 4} Q0 ${y - 8} 8 ${y - 4} Q7 ${y + 6} 0 ${y + 10} Q2 ${y + 1} -8 ${y - 4}Z`, o.bc || '#ffcf3a');
@@ -169,16 +176,22 @@ const PetGen = (() => {
     if (hy < -3) B += P(`M-9 ${hc + 12} Q-11 6 -12 18 L12 18 Q11 6 9 ${hc + 12}Z`, m) + (o.pat === 'giraffe' ? P(`M-8 ${hc + 18} h6 l1 5 l-6 2Z M3 ${hc + 24} h6 l0 5 l-6 1Z`, d) : '');
     if (X('plates')) B += [-15, -3, 9].map((x, i) => P(`M${x - 6} 14 L${x} ${1 - (i % 2) * 4} L${x + 6} 14Z`, o.pc || d)).join('');
     if (X('spine'))  B += [-12, -2, 8].map(x => P(`M${x - 4} 13 L${x} 5 L${x + 4} 13Z`, o.pc || d)).join('');
-    if (X('hump'))   B += E(2, 13, 13, 10, m);
+    if (X('hump'))   B += E(15, 9, 12, 11, m) + E(15, 9, 12, 11, 'none', `stroke="${shade(m, -.2)}" stroke-width="1.2"`);   // v0.38.0 등 혹이 뒤로 보이게
     if (X('quills')) { let q = ''; for (let i = 0; i < 11; i++){ const a = Math.PI * (1.05 + i * .09); q += P(`M${f1(Math.cos(a) * 18)} ${f1(hc + 6 + Math.sin(a) * 16)} L${f1(Math.cos(a) * 36)} ${f1(hc + 6 + Math.sin(a) * 33)} L${f1(Math.cos(a + .12) * 18)} ${f1(hc + 6 + Math.sin(a + .12) * 16)}Z`, o.qc || shade(m, -.45)); } B += q + E(0, 20, 27, 22, o.qc || shade(m, -.45)); }
     if (X('fireball')) B += M(C(-38, -24, 4.5, '#8fd0ff') + C(-38, -24, 2.5, '#fff'));
     // 몸
     let body = '';
     const bw = X('longbody') ? 26 : 21;
+    // v0.38.0 앉은 모습: 뒷다리(엉덩이) → 몸 → 아래쪽 그늘 → 배 → 앞발 두 개 (예전엔 동그란 몸에 발 두 개만)
+    const legs = o.legs !== false && !X('tinyarms') && !X('arms') && !X('shellhold') && !X('wool');
+    const fc = o.f || m;
+    if (legs) body += M(E(-bw + 4, 36, 9.5, 7.5, m, LM) + E(-bw + 1, 42.4, 7.5, 3.4, o.f || shade(m, -.15)));
     body += E(0, 26, bw, 16, m, LM);
+    { const k = .9, x = bw * k, y = 26 + 16 * Math.sqrt(1 - k * k);
+      body += P(`M${f1(-x)} ${f1(y)} A${bw} 16 0 0 0 ${f1(x)} ${f1(y)} Q0 ${f1(y + 4)} ${f1(-x)} ${f1(y)}Z`, shade(m, -.14), 'opacity=".45"'); }
     if (X('wool')) body += [-14, -5, 5, 14].map((x, i) => C(x, 18 + (i % 2) * 3, 9, o.wo || '#ffffff', ol(o.wo || '#fff'))).join('') + E(0, 28, 21, 13, o.wo || '#ffffff', ol(o.wo || '#fff')) + [-14, -5, 5, 14].map((x, i) => C(x, 18 + (i % 2) * 3, 7.6, o.wo || '#ffffff')).join('');
     if (X('shag2')) body += M(P('M-21 22 L-24 30 L-18 28 L-20 36 L-14 32Z', shade(m, -.12)));
-    if (o.belly !== false) body += E(0, 30, 12, 10, s);
+    if (o.belly !== false) body += legs ? E(0, 27, 11.5, 10, s) : E(0, 30, 12, 10, s);
     body += patBody(o.pat, o.pd || d);
     if (X('pouch')) body += S('M-8 30 Q0 37 8 30', shade(m, -.25), 2);
     if (X('moon'))  body += P('M-10 16 Q0 25 10 16 Q0 21 -10 16Z', '#fff');
@@ -186,7 +199,11 @@ const PetGen = (() => {
     if (X('scales')) body += [18, 25, 32].map(y => [-12, -4, 4, 12].map(x => S(`M${x - 4} ${y} Q${x} ${y + 5} ${x + 4} ${y}`, shade(m, -.3), 1.5)).join('')).join('');
     if (X('bell'))  body += S('M-12 13 Q0 18 12 13', '#e8455f', 3) + C(0, 18, 4, '#ffd54a') + S('M-2 19 H2', '#a87a00', 1.2);
     if (X('bolt'))  body += P('M2 16 L-5 27 L0 27 L-3 37 L6 24 L1 24 L4 16Z', '#ffe066');
-    body += M(E(-11, 41, 8, 4.5, o.f || shade(m, -.15)));
+    if (legs){                                                             // 앞발: 다리 선 한 줄 + 동그란 앞발 (인형처럼 앉은 모습)
+      const ff = o.f || m;
+      body += M(S('M-12.6 27 Q-13.4 34 -11.8 38.6', shade(m, -.26), 1.5) + E(-7.6, 40.6, 6.4, 4.6, ff, ol(ff) || `stroke="${shade(ff, -.24)}" stroke-width="1.2"`) +
+        S('M-9.4 38.4 V40.4 M-6 38.4 V40.4', shade(ff, -.34), 1.1));
+    } else body += M(E(-11, 41, 8, 4.5, o.f || shade(m, -.15)));
     if (X('tinyarms')) body += M(E(-13, 20, 3.6, 6, m, R(35, -13, 20)));
     if (X('arms'))  body += M(E(-17, 25, 5, 8.5, o.f || shade(m, -.12), R(20, -17, 25)));
     if (X('shellhold')) body += P('M-8 22 Q0 14 8 22 Q0 26 -8 22Z', '#ffcf9a') + M(E(-9, 23, 4, 5, m));
@@ -194,7 +211,9 @@ const PetGen = (() => {
     let head = '';
     head += earQ(o.ear, hc, hm, ie, o);
     head += E(0, hc, hw, hh, hm, LH);
+    if (o.cheekbulge !== false) head += M(E(-hw * .6, hc + hh * .36, hw * .48, hh * .52, hm));   // v0.38.0 통통한 볼 (얼굴 아래쪽을 넓게)
     head += patHead(o.pat, hc, o.pd || d, s, hm);
+    head += S(`M${f1(-hw * .62)} ${f1(hc - hh * .38)} Q${f1(-hw * .32)} ${f1(hc - hh * .86)} ${f1(hw * .12)} ${f1(hc - hh * .84)}`, '#ffffff', 2.6, 'opacity=".38"');   // 광택 줄
     if (X('wool'))   head += M(C(-12, hc - 17, 8, o.wo || '#fff', ol(o.wo || '#fff'))) + C(0, hc - 21, 9, o.wo || '#fff', ol(o.wo || '#fff'));
     if (X('poodle')) head += M(C(-12, hc - 18, 8.5, hm, LH) + C(-26, hc + 2, 8, hm, LH) + C(-25, hc + 12, 7, hm, LH)) + C(0, hc - 22, 9.5, hm, LH);
     if (X('fluff'))  head += M(C(-23, hc + 6, 7, hm, LH) + C(-20, hc + 13, 6, hm, LH));
@@ -301,8 +320,10 @@ const PetGen = (() => {
     let back = tailB(o.tail, o, neck ? by - 4 : by, w, m), out = '';
     if (X('fanback')) back = tailB('fan', o, by, w, m) + back;
     if (longleg) out += M(S(`M-7 ${by + ry - 4} V42`, lc, 3) + E(-9, 43, 5, 2.2, lc));
-    else if (o.leg !== 'none') out += M(E(-10, 42, 6.5, 3.4, lc));
+    else if (o.leg !== 'none') out += M(P('M-10 37 V41 M-10 41 L-14.6 44.2 M-10 41 L-10 44.8 M-10 41 L-5.4 44.2', 'none', `stroke="${lc}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"`));   // v0.38.0 발가락 세 개
     out += E(0, by, rx, ry, m, ol(m));
+    { const k = .88, x = rx * k, y = by + ry * Math.sqrt(1 - k * k);         // v0.38.0 몸 아래 그늘
+      out += P(`M${f1(-x)} ${f1(y)} A${rx} ${ry} 0 0 0 ${f1(x)} ${f1(y)} Q0 ${f1(y + ry * .22)} ${f1(-x)} ${f1(y)}Z`, shade(m, -.14), 'opacity=".45"'); }
     if (o.belly !== false) out += neck ? E(0, by + 4, rx * .6, ry * .6, s) : E(0, by + 10, 17, 18, s);
     if (o.pat === 'spots') out += [[-12, by - 6], [10, by - 10], [-6, by + 18], [12, by + 12], [2, by - 18]].map(([x, y]) => C(x, y, 2, o.pd || INK)).join('');
     if (o.pat === 'bars')  out += [0, 6, 12].map(y => S(`M-8 ${by + 6 + y} Q0 ${by + 8 + y} 8 ${by + 6 + y}`, o.pd || shade(m, -.3), 1.8)).join('');
@@ -310,7 +331,10 @@ const PetGen = (() => {
     if (o.pat === 'band')  out += S(`M-15 ${fy + 17} Q0 ${fy + 23} 15 ${fy + 17}`, o.pd || '#7ad0a0', 4);
     if (X('bolt')) out += P(`M3 ${by} L-5 ${by + 12} L0 ${by + 12} L-4 ${by + 24} L7 ${by + 8} L1 ${by + 8} L5 ${by}Z`, '#ffe066');
     if (neck) out += M(E(-11, by - 2, 14, 7, w, R(-12, -11, by - 2) + ' ' + ol(w)));
-    else if (o.leg !== 'none' || X('wings')) out += M(E(-rx + 3, by + 4, 8, ry * .5, w, R(16, -rx + 3, by + 4) + ' ' + ol(w)));
+    else if (o.leg !== 'none' || X('wings')){                             // 날개 + 깃털 끝 줄 두 개 (v0.38.0)
+      const wx = -rx + 3, wy = by + 4, wr = ry * .5;
+      out += M(`<g ${R(16, wx, wy)}>` + E(wx, wy, 8, wr, w, ol(w)) + S(`M${f1(wx - 4)} ${f1(wy + wr * .35)} q2 ${f1(wr * .4)} 4 ${f1(wr * .5)} M${f1(wx)} ${f1(wy + wr * .3)} q2 ${f1(wr * .45)} 4.4 ${f1(wr * .55)}`, shade(w, -.28), 1.3) + '</g>');
+    }
     if (X('blurwing')) out += M(E(-30, by - 12, 12, 6, '#e6f6ff', `opacity=".8" ${R(-30, -30, by - 12)}`));
     let top;
     if (neck){
@@ -324,8 +348,10 @@ const PetGen = (() => {
     if (o.pat === 'budgie') out += [0, 4, 8].map(y => S(`M-10 ${top + 6 + y} Q-5 ${top + 9 + y} 0 ${top + 6 + y} Q5 ${top + 9 + y} 10 ${top + 6 + y}`, INK, 1.2)).join('');
     if (o.cheek) out += M(C(-12, fy + 8, 3.6, o.cheek));
     out += crestB(o.cr, o, top, fy, m);
+    out += neck ? S(`M-8 ${f1(fy - 6)} Q-4 ${f1(fy - 12)} 3 ${f1(fy - 12)}`, '#ffffff', 2.4, 'opacity=".38"')   // 광택 줄
+                : S(`M${f1(-rx * .6)} ${f1(top + 9)} Q${f1(-rx * .3)} ${f1(top + 2)} ${f1(rx * .14)} ${f1(top + 2.4)}`, '#ffffff', 2.6, 'opacity=".38"');
     const ex = neck ? 6 : 9;
-    if (o.eye === 'owl') out += M(C(-10, fy, 8.6, '#fff') + C(-10, fy, 5.4, o.iris || '#ffcf3a') + C(-10, fy, 3.2, INK) + C(-8.6, fy - 1.6, 1.3, '#fff'));
+    if (o.eye === 'owl') out += M(C(-10, fy, 8.6, '#fff') + C(-10, fy, 5.4, o.iris || '#ffcf3a') + C(-10, fy, 3.2, INK) + glint2(-10, fy, 3.6));
     else if (o.mask) out += M(E(-ex, fy, 7, 5, o.mask)) + eyes(fy, ex, 3.6);
     else out += eyes(fy, ex, neck ? 3.4 : 4.2);
     out += beakB(o.beak || 'short', fy, bk);
@@ -350,6 +376,7 @@ const PetGen = (() => {
       if (o.tusk) out += S('M-6 -20 L-24 -46', '#fffaf0', 3.4) + S('M-9 -26 l3 1 M-13 -32 l3 1 M-17 -38 l3 1', '#d8cfb8', 1);
       if (o.melon) out += E(0, -18, 18, 8, m);
       if (o.spout) out += S('M-3 -23 Q-5 -33 -13 -35 M-3 -23 Q-1 -35 7 -37', '#8fd3ff', 4) + C(-14, -36, 3.6, '#8fd3ff') + C(8, -38, 3.6, '#8fd3ff');
+      out += S('M-24 -8 Q-16 -18 -2 -18', '#ffffff', 3, 'opacity=".4"');   // v0.38.0 광택 줄
       out += eyes(4, 12, 4.4, -1) + S('M-5 12 Q-1 16 3 12', INK, 2.6) + blush(11, 20, -1);
       return { svg: out, top: -22, eye: 4, ex: 12, ecx: -1, neck: 24 };
     }
@@ -359,7 +386,7 @@ const PetGen = (() => {
       out += E(0, 30, 14, 11, s);
       if (o.ears) out += M(E(-15, -12, 3, 4.5, shade(m, -.2)));
       if (o.spots) out += [[-14, 14], [12, 8], [16, 24], [-10, 30], [4, -12]].map(([x, y]) => C(x, y, 2.2, shade(m, -.25))).join('');
-      out += eyes(-6, 10, 4.8);
+      out += S('M-14 -12 Q-8 -20 2 -20', '#ffffff', 2.6, 'opacity=".4"') + eyes(-6, 10, 4.8);
       out += E(0, 6, 11, 7.5, o.muzz || shade(m, .35)) + E(0, 2.5, 4, 3, INK) + M(C(-5, 7, .9, INK) + C(-7, 9.5, .9, INK));
       if (o.tusk) out += M(P('M-5 11 Q-7 26 -2 30 Q-3 20 -2 11Z', '#fffaf0'));
       if (o.mustache) out += M(E(-5, 9, 6, 4.5, shade(m, .2)));
@@ -376,7 +403,8 @@ const PetGen = (() => {
     }
     // 물고기 (왼쪽을 봄)
     const pf = o.puffer;
-    const tail = o.betta ? P('M18 4 Q48 -26 46 4 Q50 34 18 10Z', fin) : o.gold ? P('M22 6 Q48 -18 42 4 Q48 26 22 8Z', fin) + P('M22 6 Q40 -2 46 10 Q36 20 22 8Z', shade(fin, .2)) : P('M24 6 L44 -12 Q39 6 44 24Z', o.tf || fin);
+    const tail = (o.betta ? P('M18 4 Q48 -26 46 4 Q50 34 18 10Z', fin) : o.gold ? P('M22 6 Q48 -18 42 4 Q48 26 22 8Z', fin) + P('M22 6 Q40 -2 46 10 Q36 20 22 8Z', shade(fin, .2)) : P('M24 6 L44 -12 Q39 6 44 24Z', o.tf || fin)) +
+      S('M28 6 L40 -4 M28 7 L41 7 M28 8 L40 18', shade(o.tf || fin, -.22), 1.1, 'opacity=".7"');   // v0.38.0 꼬리 지느러미 줄
     out += tail;
     if (o.betta) out += P('M-14 -12 Q0 -40 18 -10Z', fin) + P('M-10 22 Q2 46 18 16Z', fin);
     else if (!pf) out += P(o.shark ? 'M-10 -14 Q2 -40 12 -16Z' : 'M-14 -13 Q0 -30 14 -13Z', fin) + E(4, 18, 7, 4, fin, R(-20, 4, 18));
@@ -384,7 +412,12 @@ const PetGen = (() => {
     if (o.lure) out += S('M-12 -14 Q-20 -34 -34 -30', shade(m, -.2), 2.5) + C(-34, -28, 5.5, '#ffe066') + C(-34, -28, 9, '#ffe066', 'opacity=".25"');
     if (o.sword) out += P('M-28 2 L-49 -2 L-28 8Z', shade(m, -.1));
     if (pf){ let sp = ''; for (let i = 0; i < 16; i++){ const a = i / 16 * Math.PI * 2; sp += P(`M${f1(Math.cos(a) * 25)} ${f1(6 + Math.sin(a) * 25)} L${f1(Math.cos(a + .1) * 33)} ${f1(6 + Math.sin(a + .1) * 33)} L${f1(Math.cos(a + .2) * 25)} ${f1(6 + Math.sin(a + .2) * 25)}Z`, shade(m, -.2)); } out += sp + C(0, 6, 27, m) + E(0, 16, 18, 12, s); }
-    else out += E(-2, 6, o.angel ? 22 : 30, o.angel ? 26 : 22, m, ol(m)) + (o.belly === false ? '' : E(-4, 14, 20, 9, s));
+    else {
+      const brx = o.angel ? 22 : 30, bry = o.angel ? 26 : 22;
+      out += E(-2, 6, brx, bry, m, ol(m)) + (o.belly === false ? '' : E(-4, 14, 20, 9, s));
+      if (!o.shark && !o.angel && o.scales !== false) out += [[4, -4], [12, 2], [4, 8], [16, -6], [20, 6]].map(([x, y]) => S(`M${x} ${y - 3} q3 3 0 6`, shade(m, -.2), 1.2, 'opacity=".75"')).join('');   // v0.38.0 비늘 몇 개
+      out += S(`M${f1(-2 - brx * .62)} ${f1(6 - bry * .4)} Q${f1(-2 - brx * .3)} ${f1(6 - bry * .86)} ${f1(-2 + brx * .14)} ${f1(6 - bry * .86)}`, '#ffffff', 2.6, 'opacity=".4"');   // 광택 줄
+    }
     if (o.hammer) out += E(-28, 4, 7, 20, m);
     if (o.pat === 'clown') out += [-14, 6].map(x => P(`M${x - 3} -14 Q${x + 4} 6 ${x - 3} 26 L${x + 3} 26 Q${x + 10} 6 ${x + 3} -14Z`, '#fff', `stroke="${INK}" stroke-width="1.6"`)).join('');
     if (o.pat === 'stripes') out += [-12, 0, 12].map(x => S(`M${x} -12 Q${x + 3} 6 ${x} 24`, o.pd || INK, 3.4)).join('');
@@ -408,7 +441,7 @@ const PetGen = (() => {
     if (k === 'frog'){
       out += M(P('M-22 38 L-32 44 L-24 44 L-22 40 L-16 44 L-12 38Z', shade(m, -.1)));
       out += E(0, 30, 24, 13, m) + E(0, 33, 15, 8, s) + E(0, 8, 30, 19, m);
-      out += M(C(-14, -8, 10, m) + C(-14, -8, 7, '#fff') + C(-14, -8, 4, o.iris || INK) + C(-12.6, -9.6, 1.4, '#fff'));
+      out += M(C(-14, -8, 10, m) + C(-14, -8, 7, '#fff') + E(-14, -8, 3.8, 4.4, o.iris || INK) + glint2(-14, -8, 4.2));
       if (o.spots) out += [[-20, 8], [16, 4], [-6, 20], [10, 28], [-14, 30], [22, 22]].map(([x, y]) => C(x, y, o.bumps ? 2.4 : 3, o.pd || INK)).join('');
       out += S('M-16 14 Q0 24 16 14', INK, 2) + blush(10, 22);
       return { svg: out, top: -18, eye: -8, ex: 14, neck: 24 };
@@ -485,7 +518,7 @@ const PetGen = (() => {
     const b = o.m, l = '#ffffff', a = o.a || '#ffa53d';
     return { svg: M(E(-14, 40, 9, 5, a)) + M(S('M-26 4 Q-38 16 -31 27', b, 10)) + E(0, 8, 30, 34, b) + E(0, 18, 21, 23, o.s || l) +
       P('M-21 -13 Q0 -5 21 -13 Q20 9 0 10 Q-20 9 -21 -13Z', l) + (o.cr ? crestB(o.cr, o, -26, -5, b) : '') + (o.throat ? E(0, 14, 10, 5, o.throat) : '') +
-      eyes(-5, 9) + P('M-5 2 Q0 -1 5 2 Q0 8 -5 2Z', a) + blush(3, 15), top: -26, eye: -5, ex: 9, neck: 12 };
+      S('M-18 -14 Q-12 -22 -2 -23', '#ffffff', 2.6, 'opacity=".38"') + eyes(-5, 9) + P('M-5 2 Q0 -1 5 2 Q0 8 -5 2Z', a) + blush(3, 15), top: -26, eye: -5, ex: 9, neck: 12 };
   };
 
   /* =========================================================
@@ -580,7 +613,7 @@ const PetGen = (() => {
     /* 큰 동물 */
     ['elephant','코끼리','Elephant','ゾウ','q',{ m:'#a8b0c0', s:'#c8ced8', ear:'elephant', ie:'#e8c4d0', muz:'trunk', tail:'thin', belly:false }],
     ['mammoth','매머드','Mammoth','マンモス','q',{ m:'#8a5a3a', s:'#a8784a', ear:'tiny', muz:'trunk', tail:'thin', belly:false, x:['shaghead','bigtusk','shag2'] }],
-    ['giraffe','기린','Giraffe','キリン','q',{ m:'#f2c45a', s:'#fff3d0', d:'#c07a2a', ear:'side', muz:'long', tail:'tuft', hy:-12, hh:18, pat:'giraffe', x:['ossicone'] }],
+    ['giraffe','기린','Giraffe','キリン','q',{ m:'#f2c45a', s:'#fff3d0', d:'#c07a2a', ear:'side', muz:'long', tail:'tuft', hy:-24, hh:17, sc:.84, pat:'giraffe', x:['ossicone'] }],
     ['okapi','오카피','Okapi','オカピ','q',{ m:'#5a3a2a', s:'#e8d8c8', d:'#ffffff', ear:'side', muz:'long', tail:'thin', hy:-6, pat:'okapi', x:['ossicone'], hc:'#4a2a1a' }],
     ['zebra','얼룩말','Zebra','シマウマ','q',{ m:'#ffffff', s:'#5a5a6a', d:'#24324a', ear:'horse', ie:'#24324a', muz:'long', tail:'horse', pat:'zebra', x:['mane2'], mc:'#24324a' }],
     ['horse','말','Horse','ウマ','q',{ m:'#a8683a', s:'#e8c8a0', d:'#5a3a1a', ear:'horse', muz:'long', tail:'horse', pat:'blaze', x:['mane2'] }],
@@ -774,6 +807,11 @@ const PetGen = (() => {
     const out = {};
     SPECIES.forEach(([id, ko, en, ja, kind, o]) => {
       const r = draw(kind, o);
+      if (o.sc){                                                           // v0.38.0 키 큰 동물은 바닥 기준으로 조금 작게 (그림 칸 안에 들어오게)
+        const k = o.sc, Y = (v) => v * k + 44 * (1 - k);
+        r.svg = `<g transform="translate(0 ${f1(44 * (1 - k))}) scale(${k})">${r.svg}</g>`;
+        r.top = Y(r.top); r.eye = Y(r.eye); r.neck = Y(r.neck); r.ex = r.ex * k; if (r.ecx) r.ecx *= k;
+      }
       const rep = ['salamander', 'chameleon', 'iguana', 'gecko', 'komodo', 'frilledlizard', 'trex', 'triceratops', 'stegosaurus', 'brachiosaurus', 'ankylosaurus', 'pteranodon'].includes(id);
       const sea = ['octopus', 'squid', 'jellyfish', 'starfish', 'crab', 'lobster', 'shrimp', 'hermitcrab', 'seahorse', 'urchin', 'clam'].includes(o.x);
       const base = o.m || '#ffcf5a';
