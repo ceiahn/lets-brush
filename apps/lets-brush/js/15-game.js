@@ -123,7 +123,7 @@ function giveStamp(){
   const ul = $('#rwList'), row = document.createElement('li'); row.className = 'show lucky';
   row.innerHTML = `<span>${t('rw.stamp')}</span><b>+${R.stamp} ⭐</b>`; ul.insertBefore(row, ul.querySelector('.total'));
   const tb = ul.querySelector('.total b'); if (tb) tb.textContent = '+' + ((parseInt(tb.textContent.replace(/\D/g, ''), 10) || 0) + R.stamp) + ' ⭐';
-  const L = store.get('log2', []); if (L.length){ L[L.length - 1].st = 1; store.set('log2', L); }
+  Habit.stamp();                                                              // v0.49.0 습관 엔진에 칭찬 도장 기록
   setTimeout(() => Voice.play('stamp', t('stamp.say')), 600);
 }
 (function(){

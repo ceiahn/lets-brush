@@ -88,12 +88,12 @@ function checkVersions(){
     'sw.js CACHE': ((sw.match(/'lets-brush-(v\d+\.\d+\.\d+)'/) || [])[1]),
     'sw.js 머리 주석': ((sw.match(/버전: (v\d+\.\d+\.\d+)/) || [])[1]),
     'README.md': ((read('README.md').match(/버전: (v\d+\.\d+\.\d+)/) || [])[1]),
-    'docs/개발_인수인계.md': ((read('docs/개발_인수인계.md').match(/버전: (v\d+\.\d+\.\d+)/) || [])[1])
+    'apps/lets-brush/docs/개발_인수인계.md': ((read('apps/lets-brush/docs/개발_인수인계.md').match(/버전: (v\d+\.\d+\.\d+)/) || [])[1])
   };
   const vals = [...new Set(Object.values(found))];
   if (vals.length !== 1 || !vals[0]) problems.push('버전이 서로 다름: ' + Object.entries(found).map(([k, v]) => `${k}=${v}`).join(' · '));
-  const doc = read('docs/개발_인수인계.md');
-  if (vals[0] && !new RegExp(`^\\s*${vals[0].replace(/\./g, '\\.')} - `, 'm').test(doc)) problems.push(`docs/개발_인수인계.md 변경 기록에 ${vals[0]} 줄이 없음`);
+  const doc = read('apps/lets-brush/docs/개발_인수인계.md');
+  if (vals[0] && !new RegExp(`^\\s*${vals[0].replace(/\./g, '\\.')} - `, 'm').test(doc)) problems.push(`apps/lets-brush/docs/개발_인수인계.md 변경 기록에 ${vals[0]} 줄이 없음`);
   return problems;
 }
 

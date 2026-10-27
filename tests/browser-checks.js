@@ -255,6 +255,24 @@ async function runRepo(browser){
   return problems;
 }
 
+// v0.49.0 습관 엔진 (core/js/04-habit.js): 양치 2번 · 도장 · 연속 기록 · 지킴이 방석
+async function runHabit(browser, base){
+  const problems = [], page = await browser.newPage();
+  page.on('pageerror', e => problems.push('[habit] 오류: ' + e.message));
+  await page.addInitScript(() => { localStorage.setItem('bj_picked', 'true');
+    const k = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+    localStorage.setItem('bj_log', JSON.stringify([k(4), k(3), k(2)]));          // 어제 하루 빠짐 → 방석 1개로 메움
+    localStorage.setItem('bj_shields', '1'); });
+  await page.goto(base + '/index.html'); await page.waitForTimeout(1000);
+  const r = await page.evaluate(() => { const a = Habit.done(); const b = Habit.done(); Habit.stamp();
+    const L = store.get('log2', []); return { a, b, st:L[L.length - 1].st, shields:store.get('shields', 0) }; });
+  if (r.a.today !== 1 || r.b.today !== 2) problems.push('[habit] 오늘 횟수가 이상함: ' + JSON.stringify(r));
+  if (r.shields !== 0 || r.b.streak !== 5)                            // 방석은 앱을 열 때 이미 쓰일 수 있음 (그래도 연속 5일) problems.push('[habit] 지킴이 방석 · 연속 기록이 이상함: ' + JSON.stringify(r));
+  if (r.st !== 1) problems.push('[habit] 칭찬 도장이 기록 안 됨');
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -280,6 +298,9 @@ async function runBrowser(){
     const se = await runSeason(browser, base);
     console.log(`${se.length ? '✗' : '✓'} 기간 한정 화 (명절 · 계절 편)${se.length ? ` (${se.length})` : ''}`);
     se.forEach(x => console.log('   ' + x)); all.push(...se);
+    const hb = await runHabit(browser, base);
+    console.log(`${hb.length ? '✗' : '✓'} 습관 엔진 (기록 · 도장 · 연속 · 방석)${hb.length ? ` (${hb.length})` : ''}`);
+    hb.forEach(x => console.log('   ' + x)); all.push(...hb);
     const rp = await runRepo(browser);
     console.log(`${rp.length ? '✗' : '✓'} 저장소 그대로 열기 (예전 주소 → apps/lets-brush)${rp.length ? ` (${rp.length})` : ''}`);
     rp.forEach(x => console.log('   ' + x)); all.push(...rp);

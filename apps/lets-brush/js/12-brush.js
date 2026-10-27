@@ -716,7 +716,6 @@ function halt(){
   if (view) view.querySelectorAll('.fairy').forEach(f => f.remove());
 }
 
-const todayKey = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
 
 function finish(){
   setProgress(totalSec);
@@ -782,24 +781,6 @@ function openTongue(done){
   $('#tgSkip').onclick = () => { sfx.tap(); Voice.stop(); end(); };
 }
 /* ---------- 보상 계산 ---------- */
-// 연속 기록: 오늘 아직 안 닦았으면 어제부터 셈. 지킴이 방석으로 메운 날도 이어진 걸로
-function streakDays(){
-  const set = new Set(log.concat(store.get('covered', [])));
-  const d = new Date(); if (!set.has(dkey(d))) d.setDate(d.getDate() - 1);
-  let n = 0; while (set.has(dkey(d))){ n++; d.setDate(d.getDate() - 1); }
-  return n;
-}
-// 어제(까지) 빠진 날이 있으면 방석으로 자동으로 메움 (최대 3일, 방석 수만큼)
-function autoShield(){
-  const sh = store.get('shields', 1); if (sh <= 0) return 0;
-  const cov = store.get('covered', []), set = new Set(log.concat(cov));
-  const d = new Date(); d.setDate(d.getDate() - 1);
-  const miss = [];
-  while (!set.has(dkey(d)) && miss.length < 3){ miss.push(dkey(d)); d.setDate(d.getDate() - 1); }
-  if (!miss.length || miss.length > sh || !set.has(dkey(d))) return 0;
-  store.set('covered', cov.concat(miss).slice(-60)); store.set('shields', sh - miss.length);
-  return miss.length;
-}
 function computeRewards(){
   const R = CONFIG.reward;
   const list = [['rw.base', {}, R.base]];
@@ -913,9 +894,8 @@ $('#giftBox').addEventListener('click', openGift);
 
 function finishDone(){
   sfx.done(); buzz([200, 100, 200, 100, 400]);
-  log.push(todayKey()); if (log.length > 400) log = log.slice(-400); store.set('log', log);
-  const L2 = store.get('log2', []); L2.push({ d:todayKey(), s:slotOf(), st:0 }); store.set('log2', L2.slice(-240));   // 주간 기록용
-  mapEv = mapAdvance(); autoShield();
+  Habit.done();                                               // v0.49.0 습관 엔진: 양치 1번 기록 · 연속 기록 · 지킴이 방석 (core/js/04-habit.js)
+  mapEv = mapAdvance();
   petEv = petAdvance();
   petGift = log.filter(k => k === todayKey()).length >= 2 && giftReady() ? giftPet() : null;     // 하루 두 번 닦으면 펫 선물
   const newTeams = checkTeams();                               // 이번에 다 모인 팀 → 합체 연출 + 별

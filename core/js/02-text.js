@@ -1,0 +1,92 @@
+'use strict';
+
+/* =========================================================
+   2-2. 번역 엔진 (v0.49.0 모듈화 2단계: 앱 02-lang.js 에서 나눔)
+      t('키', {n, …}) · tList · lookup · 받침 조사 {이|가} · 복수형 키_one/_other · 받는 언어팩(installPack) · 글꼴(applyFont)
+      앱과의 약속: 앱 02-lang.js 에 PACK_KO · PACK_EN · PACK_CATALOG. 공통 문구는 02-strings.js 의 CORE_TEXT
+      읽는 순서: 앱 02-lang.js → core 02-strings.js → 이 파일 (이름순 = 번호순)
+   ========================================================= */
+// 공통 문구(CORE_TEXT)를 앱 문구 밑에 깔아 줌 (같은 키는 앱 글이 이김)
+const withCore = (p) => { const c = typeof CORE_TEXT === 'object' && CORE_TEXT[p.meta.code]; if (c) p.strings = Object.assign({}, c, p.strings); return p; };
+const packs = { ko:withCore(PACK_KO), en:withCore(PACK_EN) };
+store.get('packs', []).forEach(code => {
+  const p = store.get('pack_' + code, null);
+  if (p && p.meta && p.strings) packs[code] = withCore(p);
+});
+// 받은 언어팩보다 새 버전이 있으면 갱신 (샘플은 바로 교체, 서버 팩은 나중에 다시 내려받기)
+PACK_CATALOG.forEach(e => {
+  const p = packs[e.code];
+  if (p && e.sample && !e.url && (p.meta.version || 1) < (e.sample.meta.version || 1)){
+    packs[e.code] = withCore(JSON.parse(JSON.stringify(e.sample)));
+    store.set('pack_' + e.code, packs[e.code]);
+  }
+});
+
+const detectLang = () => {
+  const nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  return packs[nav] ? nav : 'en';
+};
+let lang = store.get('lang', null);
+if (!packs[lang]) lang = detectLang();
+
+const EV_ALIAS = {};   // v0.39.0 같은 글을 쓰는 이벤트 (예: 나라마다 날짜가 다른 어린이날 kidsday_mx → childrensday). 3. 이벤트 엔진에서 채움
+function lookup(key){
+  for (const code of [lang, 'en', 'ko']){
+    const p = packs[code];
+    if (p && p.strings[key] !== undefined) return p.strings[key];
+  }
+  const m = /^event\.([^.]+)\.(.+)$/.exec(key);
+  if (m && EV_ALIAS[m[1]]) return lookup('event.' + EV_ALIAS[m[1]] + '.' + m[2]);
+  return null;
+}
+function hasBatchim(word){
+  const s = String(word || ''), c = s.charCodeAt(s.length - 1) - 0xAC00;
+  return c >= 0 && c <= 11171 && c % 28 !== 0;
+}
+function format(str, params){
+  return String(str).replace(/\{(\w+)(?:\|([^}]*))?\}/g, (m, k, opt) => {
+    if (opt){ const [a, b] = opt.split('/'); return hasBatchim(params[k]) ? a : b; }
+    return params[k] !== undefined ? params[k] : m;
+  });
+}
+// t('키', {n:3, item:'왕관'})
+function t(key, params = {}){
+  let v = null;
+  if (typeof params.n === 'number'){
+    try{ v = lookup(key + '_' + new Intl.PluralRules(lang).select(params.n)); }catch(e){}
+    if (v === null) v = lookup(key + '_other');
+  }
+  if (v === null) v = lookup(key);
+  if (v === null) return key;
+  if (Array.isArray(v)) v = pick(v);
+  return format(v, params);
+}
+const tList = (key) => { const v = lookup(key); return Array.isArray(v) ? v : (v ? [v] : []); };
+
+async function installPack(entry){
+  let pack;
+  if (entry.url){
+    const res = await fetch(entry.url);
+    if (!res.ok) throw new Error('download failed');
+    pack = await res.json();
+  } else {
+    await new Promise(r => setTimeout(r, 700));   // 샘플: 받는 흉내
+    pack = JSON.parse(JSON.stringify(entry.sample));
+  }
+  if (!pack.meta || !pack.strings) throw new Error('bad pack');
+  packs[pack.meta.code] = withCore(pack);
+  store.set('pack_' + pack.meta.code, pack);
+  const list = store.get('packs', []);
+  if (!list.includes(pack.meta.code)) store.set('packs', list.concat(pack.meta.code));
+  return pack;
+}
+
+const loadedFonts = new Set();
+function applyFont(){
+  const f = packs[lang].meta.font;
+  if (f && f.url && !loadedFonts.has(f.url)){
+    const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = f.url;
+    document.head.appendChild(l); loadedFonts.add(f.url);
+  }
+  document.documentElement.style.setProperty('--font', f ? f.family : "'Jua'");
+}
