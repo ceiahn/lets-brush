@@ -60,6 +60,7 @@ function renderSettings(){
   Stats.syncUI();                                                                        // v0.52.0 익명 숫자 (statsUrl 이 있을 때만 보임)
   $('#quizTgl').checked = store.get('quizOn', true);
   $('#specialTgl').checked = specialOn;
+  spScan().then(() => { $('#specialRow').hidden = !spAny(); }).catch(() => {});      // v0.52.2 스페셜 영상이 하나라도 있을 때만 부모님 칸에 보임
   $('#handSel').innerHTML = ['right', 'left'].map(k => `<option value="${k}" ${hand === k ? 'selected' : ''}>${t('hand.' + k)}</option>`).join('');
   $('#durSel').innerHTML = DURS.map(sec => `<option value="${sec}" ${totalSec === sec ? 'selected' : ''}>${sec === recDur() ? t('dur.rec', { t:t('dur.' + sec) }) : t('dur.' + sec)}</option>`).join('');   // v0.29.0 양치 시간 (첫 화면에서 옮김)
   $('#techSel').innerHTML = TECHS.map(k => `<option value="${k}" ${technique === k ? 'selected' : ''}>${t('tech.' + k)}</option>`).join('');
