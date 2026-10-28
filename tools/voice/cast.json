@@ -1,0 +1,37 @@
+{
+ "about": "토끼유 스튜디오 극장 목소리 배역 (v0.52.5). 언어마다 역할별로 Azure 목소리 · 높낮이(pitch) · 빠르기(rate). try = 샘플로 들어 볼 후보, pick = 고른 목소리 (비면 try 의 첫 번째). 목소리 이름은 node tools/voice.js voices ko-KR 로 확인",
+ "ko": {
+  "nar":   { "try": ["ko-KR-SunHiNeural", "ko-KR-SoonBokNeural", "ko-KR-YuJinNeural"], "pick": "", "pitch": "0%", "rate": "-6%" },
+  "hero":  { "try": ["ko-KR-SeoHyeonNeural", "ko-KR-JiMinNeural", "ko-KR-YuJinNeural"], "pick": "", "pitch": "+8%", "rate": "0%" },
+  "pet":   { "try": ["ko-KR-JiMinNeural", "ko-KR-SeoHyeonNeural"], "pick": "", "pitch": "+22%", "rate": "+4%" },
+  "boss":  { "try": ["ko-KR-BongJinNeural", "ko-KR-GookMinNeural", "ko-KR-InJoonNeural"], "pick": "", "pitch": "-6%", "rate": "+4%" },
+  "pipi":  { "try": ["ko-KR-YuJinNeural", "ko-KR-JiMinNeural"], "pick": "", "pitch": "+14%", "rate": "+2%" },
+  "mongi": { "try": ["ko-KR-SoonBokNeural", "ko-KR-SunHiNeural"], "pick": "", "pitch": "+6%", "rate": "-4%" },
+  "coco":  { "try": ["ko-KR-SeoHyeonNeural", "ko-KR-JiMinNeural"], "pick": "", "pitch": "+18%", "rate": "+6%" },
+  "duri":  { "try": ["ko-KR-GookMinNeural", "ko-KR-InJoonNeural"], "pick": "", "pitch": "+10%", "rate": "-8%" },
+  "prop":  { "try": ["ko-KR-InJoonNeural", "ko-KR-BongJinNeural"], "pick": "", "pitch": "0%", "rate": "-4%" }
+ },
+ "en": {
+  "nar":   { "try": ["en-US-JennyNeural", "en-US-AriaNeural", "en-US-SaraNeural"], "pick": "", "pitch": "0%", "rate": "-6%" },
+  "hero":  { "try": ["en-US-AnaNeural", "en-US-AshleyNeural"], "pick": "", "pitch": "+4%", "rate": "0%" },
+  "pet":   { "try": ["en-US-AnaNeural", "en-US-AshleyNeural"], "pick": "", "pitch": "+20%", "rate": "+4%" },
+  "boss":  { "try": ["en-US-DavisNeural", "en-US-TonyNeural", "en-US-JasonNeural"], "pick": "", "pitch": "-4%", "rate": "+4%" },
+  "pipi":  { "try": ["en-US-AmberNeural", "en-US-CoraNeural"], "pick": "", "pitch": "+12%", "rate": "+2%" },
+  "mongi": { "try": ["en-US-SaraNeural", "en-US-MichelleNeural"], "pick": "", "pitch": "+6%", "rate": "-4%" },
+  "coco":  { "try": ["en-US-AshleyNeural", "en-US-AnaNeural"], "pick": "", "pitch": "+16%", "rate": "+6%" },
+  "duri":  { "try": ["en-US-BrandonNeural", "en-US-JacobNeural"], "pick": "", "pitch": "+8%", "rate": "-8%" },
+  "prop":  { "try": ["en-US-GuyNeural", "en-US-RogerNeural"], "pick": "", "pitch": "0%", "rate": "-4%" }
+ },
+ "ja": {
+  "nar":   { "try": ["ja-JP-NanamiNeural", "ja-JP-ShioriNeural"], "pick": "", "pitch": "0%", "rate": "-6%" },
+  "hero":  { "try": ["ja-JP-AoiNeural", "ja-JP-MayuNeural"], "pick": "", "pitch": "+4%", "rate": "0%" },
+  "pet":   { "try": ["ja-JP-MayuNeural", "ja-JP-AoiNeural"], "pick": "", "pitch": "+20%", "rate": "+4%" },
+  "boss":  { "try": ["ja-JP-NaokiNeural", "ja-JP-DaichiNeural", "ja-JP-KeitaNeural"], "pick": "", "pitch": "-6%", "rate": "+4%" },
+  "pipi":  { "try": ["ja-JP-ShioriNeural", "ja-JP-MayuNeural"], "pick": "", "pitch": "+12%", "rate": "+2%" },
+  "mongi": { "try": ["ja-JP-NanamiNeural", "ja-JP-ShioriNeural"], "pick": "", "pitch": "+6%", "rate": "-4%" },
+  "coco":  { "try": ["ja-JP-AoiNeural", "ja-JP-MayuNeural"], "pick": "", "pitch": "+16%", "rate": "+6%" },
+  "duri":  { "try": ["ja-JP-DaichiNeural", "ja-JP-KeitaNeural"], "pick": "", "pitch": "+10%", "rate": "-8%" },
+  "prop":  { "try": ["ja-JP-KeitaNeural", "ja-JP-NaokiNeural"], "pick": "", "pitch": "0%", "rate": "-4%" }
+ },
+ "petWord": { "ko": "친구", "en": "buddy", "ja": "ともだち" }
+}

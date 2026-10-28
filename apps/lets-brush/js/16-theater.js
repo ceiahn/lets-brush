@@ -106,6 +106,7 @@ function thCtx(stage, tok){
     a.style.cssText = `width:${w}%;margin-left:${-w / 2}%;left:${x}%;bottom:${y}%;z-index:${z}`;
     a.innerHTML = `<div class="th-in">${svg}</div>`;
     a.pos = { x, y }; a.w = w; a.h = w * ratio;
+    if (svg.indexOf('viewBox="-38 -42 76 76"') >= 0) a.role = 'boss';      // v0.52.5 세균 그림이면 세균 목소리
     world.appendChild(a); return a;
   };
   const go = async (a, x, y, ms, ease = 'ease-in-out') => {
@@ -129,7 +130,8 @@ function thCtx(stage, tok){
   /* v0.52.4 말하는 사람마다 목소리 높낮이 · 빠르기 (목소리 톤 설정에 곱함). 해설은 차분하게, 세균은 낮게, 펫 · 친구들은 높게 */
   const TH_VOICE = { nar:{ pitch:.92, rate:.97 }, hero:{ pitch:1.06, rate:1 }, pet:{ pitch:1.28, rate:1.04 }, boss:{ pitch:.62, rate:1.06 },
     pipi:{ pitch:1.36, rate:1.04 }, mongi:{ pitch:1.16, rate:.97 }, coco:{ pitch:1.42, rate:1.06 }, duri:{ pitch:.9, rate:.95 }, prop:{ pitch:.84, rate:.95 } };
-  const voiceOf = (a) => !a ? TH_VOICE.nar : a === c.hero ? TH_VOICE.hero : a === c.pet ? TH_VOICE.pet : TH_VOICE[a.role] || TH_VOICE.prop;
+  const roleOf = (a) => !a ? 'nar' : a === c.hero ? 'hero' : a === c.pet ? 'pet' : TH_VOICE[a.role] ? a.role : 'prop';
+  const voiceOf = (a) => TH_VOICE[roleOf(a)];
   const say = (a, key, prm = {}, dur = 2600) => {
     prm = Object.assign({}, c.P || {}, prm);
     const txt = t(key, prm);
@@ -146,7 +148,11 @@ function thCtx(stage, tok){
     }
     clearTimeout(bubT); bubT = setTimeout(() => { b.remove(); }, dur); lastBub = b;
     if (a && !a.classList.contains('talk')){ talk(a, true); setTimeout(() => talk(a, false), Math.min(dur, lineMs(txt))); }
-    Voice.play(key, txt, voiceOf(a));                                // v0.52.4 대사 키 그대로 (나중에 대사마다 녹음 파일을 넣을 수 있게)
+    /* v0.52.5 대사마다 AI 음성 파일(voice/<언어>.json)이 있으면 그 파일 (없으면 기기 목소리). 대장 세균 이름이 든 대사는 세균마다 파일이 따로: 키@세균id
+       자동 점검 · tools/voice.js 가 "누가 말하는지"를 모으려고 window.__thSay 에 [키, 역할] 을 남김 */
+    const vkey = /\{boss/.test(lookup(key) || '') ? key + '@' + curBoss.id : key;
+    if (window.__thSay) window.__thSay.push([key, roleOf(a)]);
+    Voice.play(vkey, txt, voiceOf(a));
     return txt;
   };
   const lineMs = (txt) => Math.max(1700, 700 + [...txt].length * (lang === 'en' ? 55 : 95));   // 읽는 시간 (한 · 일은 글자당 더 길게)
@@ -286,7 +292,7 @@ function thCtx(stage, tok){
     },
     async opening(n, title){
       TH_SND.fanfare();
-      Voice.play('th.open', c.quick ? t('th.gagOpen') : c.fav ? t('th.favOpen', { title }) : t('th.open', { n, title }), { pitch:.95, rate:1 });
+      Voice.play(c.quick ? 'th.gagOpen' : 'th.open', c.quick ? t('th.gagOpen') : c.fav ? t('th.favOpen', { title }) : t('th.open', { n, title }), { pitch:.95, rate:1 });
       await wait(c.quick ? 900 : 1800);
       stage.classList.add('open'); await wait(c.quick ? 600 : 900);
       const tt = stage.querySelector('.th-title'); if (tt) tt.remove();
