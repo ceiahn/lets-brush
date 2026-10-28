@@ -134,7 +134,8 @@ function thCtx(stage, tok){
   const voiceOf = (a) => TH_VOICE[roleOf(a)];
   const say = (a, key, prm = {}, dur = 2600) => {
     prm = Object.assign({}, c.P || {}, prm);
-    const txt = t(key, prm);
+    const tpl = lookup(key), pickI = Array.isArray(tpl) ? Math.floor(Math.random() * tpl.length) : -1;   // v0.52.6 여러 개 중 고르는 말: 고른 번호의 음성 파일 (키#번호)
+    const txt = pickI >= 0 ? format(tpl[pickI], prm) : t(key, prm);
     stage.querySelectorAll('.th-bub').forEach(b => b.remove());
     const b = document.createElement('div'); b.className = 'th-bub' + (a ? '' : ' nar'); b.textContent = txt;
     if (a){
@@ -150,9 +151,15 @@ function thCtx(stage, tok){
     if (a && !a.classList.contains('talk')){ talk(a, true); setTimeout(() => talk(a, false), Math.min(dur, lineMs(txt))); }
     /* v0.52.5 대사마다 AI 음성 파일(voice/<언어>.json)이 있으면 그 파일 (없으면 기기 목소리). 대장 세균 이름이 든 대사는 세균마다 파일이 따로: 키@세균id
        자동 점검 · tools/voice.js 가 "누가 말하는지"를 모으려고 window.__thSay 에 [키, 역할] 을 남김 */
-    const vkey = /\{boss/.test(lookup(key) || '') ? key + '@' + curBoss.id : key;
+    const vkey = pickI >= 0 ? key + '#' + pickI : /\{boss/.test(tpl || '') ? key + '@' + curBoss.id : key;
     if (window.__thSay) window.__thSay.push([key, roleOf(a)]);
-    Voice.play(vkey, txt, voiceOf(a));
+    /* v0.52.6 이름 자리: 펫 기본 이름이면 그 이름 음성 (pn.역할.펫종류|뒷말), 이름을 바꿨으면 "친구" (pn.역할._|뒷말), 알이면 pn.역할.egg
+       아이 이름: 부모님이 녹음한 이름 (설정 → 내 목소리 → 아이 이름), 없으면 "친구" (kn.역할._|뒷말) */
+    const parts = Voice.partsOf(key);
+    if (parts) Voice.playParts(parts.map(p => p.k ? { key:p.k }
+      : p.slot === 'pet' ? { key:`pn.${p.role}.${!c.petSp ? 'egg' : c.petDefault ? c.petSp : '_'}|${p.suf}` }
+      : (Voice.rec('kidName') && !p.suf) ? { url:Voice.rec('kidName') } : { key:`kn.${p.role}._|${p.suf}` }), txt, voiceOf(a));
+    else Voice.play(vkey, txt, voiceOf(a));
     return txt;
   };
   const lineMs = (txt) => Math.max(1700, 700 + [...txt].length * (lang === 'en' ? 55 : 95));   // 읽는 시간 (한 · 일은 글자당 더 길게)
@@ -914,6 +921,7 @@ function playTheater(onDone, forceId, forceBg){                         // force
   c.pet = c.prop(pal ? petArt(pal) : eggArt(), 20, 78, 5, 3);
   c.P = { pet: pal ? petName(pal) : t('th.eggName'), boss: t('boss.' + curBoss.id) };
   c.nextTitle = nextGag ? t('th.' + nextGag.id + '.t') : null; c.quick = quick; c.fav = fav;
+  c.petSp = pal ? pal.sp : null; c.petDefault = !!pal && !pal.name;                // v0.52.6 펫 이름 음성 (기본 이름인지)
   if (gag.setup) gag.setup(c);
   show('theater');
   (async () => {

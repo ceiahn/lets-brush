@@ -122,7 +122,7 @@ const BgmStore = {
 
 /* ---------- 내 목소리 녹음 ----------
    문장마다 가장 최근 녹음 하나만 (키: rec:언어:문장키, 다시 녹음하면 덮어씀) */
-const REC_KEYS = ['prep', 'say.ul', 'say.ur', 'say.lr', 'say.ll', 'say.chew', 'say.inner', 'say.front', 'say.cheers', 'say.bossTease', 'say.raid', 'say.boss', 'say.bossDown', 'say.sparkle', 'tongue.say', 'done'];
+const REC_KEYS = ['kidName', 'prep', 'say.ul', 'say.ur', 'say.lr', 'say.ll', 'say.chew', 'say.inner', 'say.front', 'say.cheers', 'say.bossTease', 'say.raid', 'say.boss', 'say.bossDown', 'say.sparkle', 'tongue.say', 'done'];
 const recKeyOf = (k) => /^prep\./.test(k) ? 'prep' : (/^event\..*\.cheer$/.test(k) ? 'say.cheers' : k);
 const RecStore = {
   async put(key, blob){ const db = await BgmStore.open(); return new Promise((res, rej) => { const tx = db.transaction('files', 'readwrite'); tx.objectStore('files').put(blob, key); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); },
@@ -167,7 +167,7 @@ const Voice = (() => {
     if (code in VF) return; VF[code] = null;
     const base = (typeof CONFIG === 'object' && CONFIG.voiceBase) || 'voice/';
     fetch(base + code + '.json', { cache:'no-cache' }).then(r => r.ok ? r.json() : null)
-      .then(j => { if (j && j.files) VF[code] = { base:base + (j.dir || code + '/'), files:j.files }; }).catch(() => {});
+      .then(j => { if (j && j.files) VF[code] = { base:base + (j.dir || code + '/'), files:j.files, parts:j.parts || {} }; }).catch(() => {});
   }
   function audioUrl(key){
     const a = packs[lang].audio;
@@ -177,6 +177,31 @@ const Voice = (() => {
     return f && f.files[key] ? f.base + f.files[key] : null;
   }
   setTimeout(() => loadFiles(lang), 800);
+  /* v0.52.6 이름이 든 대사: 목록의 parts[키] = [{k:'키~0'}, {slot:'pet', suf:'의', role:'nar'}, {k:'키~1'}] (이름 앞 · 이름 · 이름 뒤)
+     앱이 이름 자리를 채워서 차례로 틂 (playParts). 하나라도 파일이 없으면 기기 목소리로 글 전체 */
+  const partsOf = (key) => { const f = VF[lang]; return f && f.parts[key] || null; };
+  function playParts(list, text, opt = {}){
+    if (!voiceOn) return track(Promise.resolve());
+    const urls = list.map(x => x.url || audioUrl(x.key));
+    if (urls.some(u => !u)) return play('', text, opt);
+    try{ if (can) speechSynthesis.cancel(); }catch(e){}
+    try{ if (fileAudio) fileAudio.pause(); }catch(e){}
+    const me = {};
+    seqTok = me;
+    return track((async () => {
+      for (let i = 0; i < urls.length; i++){
+        if (seqTok !== me) return;
+        const a = fileAudio = new Audio(urls[i]);
+        const ok = await new Promise(res => {
+          let done = false; const fin = (v) => { if (!done){ done = true; res(v); } };
+          a.addEventListener('ended', () => fin(true), { once:true }); a.addEventListener('pause', () => fin(true), { once:true });
+          a.addEventListener('error', () => fin(false), { once:true }); a.play().catch(() => fin(false)); setTimeout(() => fin(true), 12000);
+        });
+        if (!ok){ if (seqTok === me) await tts('', text, opt); return; }
+      }
+    })());
+  }
+  let seqTok = null;
   // 덜 중요한 말: 다른 말을 하는 중이면 끊지 않고 건너뜀
   const LOW = (k) => k === 'say.cheers' || k === 'say.resume' || /^event\./.test(k);
   // 같은 언어 목소리 중 자연스러운 것 우선
@@ -189,6 +214,7 @@ const Voice = (() => {
   const ended = (el) => new Promise(res => { const f = () => res(); el.addEventListener('ended', f, { once:true }); el.addEventListener('error', f, { once:true }); el.addEventListener('pause', f, { once:true }); setTimeout(f, 20000); });
   function wait(max = 8000){ return Promise.race([pending, new Promise(r => setTimeout(r, max))]); }
   function play(key, text, opt = {}){
+    seqTok = null;
     if (!voiceOn) return track(Promise.resolve());
     const mine = recs[recKeyOf(key)];
     if (mine){                                          // 내가 녹음한 목소리가 있으면 그걸로
@@ -245,12 +271,12 @@ const Voice = (() => {
       return done;
     }catch(e){ return Promise.resolve(); }
   }
-  const stop = () => { try{ if (can) speechSynthesis.cancel(); }catch(e){} try{ recAudio.pause(); }catch(e){} try{ if (fileAudio) fileAudio.pause(); }catch(e){} track(Promise.resolve()); };
+  const stop = () => { seqTok = null; try{ if (can) speechSynthesis.cancel(); }catch(e){} try{ recAudio.pause(); }catch(e){} try{ if (fileAudio) fileAudio.pause(); }catch(e){} track(Promise.resolve()); };
   // 지금 언어로 말할 수 있는 목소리 목록 (설정 화면용)
   // 언어 코드 앞부분이 정확히 같은 것만 (ko ≠ kok 코카니어)
   const primary = (l) => String(l || '').toLowerCase().split(/[-_]/)[0];
   const list = () => { const code = primary(packs[lang].meta.tts || lang); return voices.filter(x => primary(x.lang) === code); };
-  return { play, stop, list, wait };
+  return { play, stop, list, wait, partsOf, playParts, rec:(k) => recs[k] || null };
 })();
 
 function refreshSoundIcons(){

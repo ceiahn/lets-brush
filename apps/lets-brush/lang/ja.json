@@ -4,7 +4,7 @@
   "name": "日本語",
   "dir": "ltr",
   "tts": "ja-JP",
-  "version": 57,
+  "version": 58,
   "font": {
    "family": "'Kosugi Maru'",
    "url": "../../core/fonts/kosugi-maru.css"
@@ -1786,6 +1786,7 @@
   "thg.medalday.t": "ピカピカ メダル",
   "thg.medalday.1": "まいにち みがいた ともだちに メダル!",
   "thg.medalday.2": "ぼくに?",
-  "thg.medalday.3": "きょうも ピカピカ、あしたも ピカピカ!"
+  "thg.medalday.3": "きょうも ピカピカ、あしたも ピカピカ!",
+  "rec.l.kidName": "お子さんの なまえ(げきじょうの さいごに よびます)"
  }
 }
