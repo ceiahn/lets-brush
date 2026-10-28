@@ -3,12 +3,13 @@
      node tests/theater-check.js                 이야기 · 아침 짧은 극장 모두 (여러 편을 동시에)
      node tests/theater-check.js dream pipi      골라서
      LANG_CODE=en node tests/theater-check.js    영어로 (ja 는 언어팩 설치 후)
+     SPEAKERS=1 node tests/theater-check.js      v0.52.5 대사마다 누가 말하는지 tools/voice/speakers.json 에 모음 (AI 음성용)
    확인: 오류 0 · 끝까지 가서 첫 화면으로 돌아오는지 · 말풍선에 키 이름(th.…)이 그대로 나오지 않는지
    결과: tests/test-results/theater/<id>.png (장면 4컷을 한 장으로) */
 const fs = require('fs'), path = require('path');
 const { serve } = require('./browser-checks');
 const OUT = path.join(__dirname, 'test-results', 'theater');
-const LANG = process.env.LANG_CODE || 'ko', PAR = +(process.env.PAR || 6);
+const LANG = process.env.LANG_CODE || 'ko', PAR = +(process.env.PAR || 6), SAY = [];   // SAY: 말한 대사 [키, 역할] (SPEAKERS=1 이면 tools/voice/speakers.json 에 씀)
 
 async function one(browser, base, id){
   const problems = [], ctx = await browser.newContext({ viewport:{ width:360, height:470 } }), p = await ctx.newPage();
@@ -21,7 +22,7 @@ async function one(browser, base, id){
     if (!petState.pets.length){ petState.pets.push({ id:'tc', sp:'shiba', st:3, p:0, name:'', wear:{} }); petState.pal = 'tc'; } });
   const known = await p.evaluate((id) => !!(TH_ALL().concat(window.TH_GAGS || []).find(x => x.id === id)), id);
   if (!known){ await ctx.close(); return [`[${id}] 그런 이야기가 없음`]; }
-  await p.evaluate((id) => { window.__thSeen = []; const o = new MutationObserver(() => document.querySelectorAll('.th-bub').forEach(b => window.__thSeen.push(b.textContent))); o.observe(document.querySelector('#thStage'), { childList:true, subtree:true }); window.__bjTheater(id); }, id);
+  await p.evaluate((id) => { window.__thSeen = []; window.__thSay = []; const o = new MutationObserver(() => document.querySelectorAll('.th-bub').forEach(b => window.__thSeen.push(b.textContent))); o.observe(document.querySelector('#thStage'), { childList:true, subtree:true }); window.__bjTheater(id); }, id);
   const shots = [];
   const t0 = Date.now();
   for (let i = 0; i < 90; i++){
@@ -34,6 +35,7 @@ async function one(browser, base, id){
   const still = await p.evaluate(() => (document.querySelector('.screen.active') || {}).id);
   if (still === 'theater') problems.push(`45초가 지나도 안 끝남`);
   const seen = await p.evaluate(() => [...new Set(window.__thSeen)]);
+  SAY.push(...await p.evaluate(() => window.__thSay || []));
   seen.filter(x => /(^|\s)(th|thg)\.[a-z]/.test(x)).forEach(x => problems.push('키 이름이 그대로 나옴: ' + x));
   if (shots.filter(Boolean).length){
     try{
@@ -64,6 +66,14 @@ async function one(browser, base, id){
     process.stdout.write(`  ${Math.min(i + PAR, ids.length)}/${ids.length}\r`);
   }
   await browser.close(); srv.close();
+  if (process.env.SPEAKERS){                                              // v0.52.5 대사마다 누가 말하는지 (AI 음성 만들 때 씀)
+    const f = path.join(__dirname, '..', 'tools', 'voice', 'speakers.json');
+    const old = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {};
+    SAY.forEach(([k, r]) => { old[k] = r; });
+    fs.mkdirSync(path.dirname(f), { recursive:true });
+    fs.writeFileSync(f, JSON.stringify(Object.fromEntries(Object.entries(old).sort()), null, 1) + '\n');
+    console.log(`말하는 사람 ${Object.keys(old).length}줄 → tools/voice/speakers.json`);
+  }
   console.log(`\n극장 ${ids.length}편 (${LANG}) · 길이: ${times.join(', ')}`);
   all.forEach(x => console.log('  ✗ ' + x));
   console.log(all.length ? `✗ 문제 ${all.length}개` : '✓ 모두 통과');
