@@ -1,0 +1,926 @@
+th.album.1	nar	ja-JP-NanamiNeural	キラリが ともだちの アルバムを ひらいたよ。
+th.album.2	pipi	ja-JP-ShioriNeural	はなの ようせい ピピ! おはなみたいに いい かおり。
+th.album.3	mongi	ja-JP-NanamiNeural	しずくの にんぎょ モンイ! すすぎの めいじん。
+th.album.4	coco	ja-JP-AoiNeural	あかちゃん ユニコーン ココ! にじいろの あわを つくるよ。
+th.album.5	duri	ja-JP-DaichiNeural	あかちゃん きょうりゅう ドゥリ! かみかみ めいじん。
+th.album.6	pet	ja-JP-MayuNeural	そして ともだち! いつも いっしょの なかよし!
+th.album.7	nar	ja-JP-NanamiNeural	ともだちと いっしょだと はみがきが たのしいね。
+th.apple.1	pet	ja-JP-MayuNeural	おなか すいた! おやつ たべたい!
+th.apple.2	boss	ja-JP-NaokiNeural	あめ あげよう! いちにちじゅう たべなよ!
+th.apple.3	hero	ja-JP-AoiNeural	まって! シャキシャキ りんごは どう?
+th.apple.4	pet	ja-JP-MayuNeural	シャキッ! おいしい!
+th.apple.5	boss	ja-JP-NaokiNeural	りんごは にがて ちからが ぬける
+th.apple.6	nar	ja-JP-NanamiNeural	あまい おやつは すこしだけ。たべたら おみずを ひとくち!
+th.bell.1	nar	ja-JP-NanamiNeural	くもの おしろの かねは、はみがきの じかんに なるよ。
+th.bell.2	boss	ja-JP-NaokiNeural	かねを ぐるぐる しばったぞ! もう はみがきの じかんは なし!
+th.bell.3	hero	ja-JP-AoiNeural	かねが なくても、はみがきの じかんは ぼくたちが おぼえてる!
+th.bell.4	nar	ja-JP-NanamiNeural	あさに いっかい、ねる まえに いっかい。はみがきの じかんを おぼえよう。
+th.bubble.1	nar	ja-JP-NanamiNeural	ゆめの なかで しゃぼんだまを ふーっ。
+th.bubble.2	hero	ja-JP-AoiNeural	しゃぼんだま ひとつに ひとつずつ ゆめが はいってる!
+th.bubble.3	boss	ja-JP-NaokiNeural	この しゃぼんだまは ねばねば こわい ゆめだぞ!
+th.bubble.4	pet	ja-JP-MayuNeural	はやく わっちゃおう!
+th.bubble.5	nar	ja-JP-NanamiNeural	はみがきして ねると、ゆめの しゃぼんだまも ピカピカ。
+th.bus.1	nar	ja-JP-NanamiNeural	シャカシャカ バスが ていりゅうじょに ついたよ。
+th.bus.2	prop	ja-JP-KeitaNeural	つぎは はみがき むら です!
+th.bus.3	boss	ja-JP-NaokiNeural	おれも のせて! ただで!
+th.bus.4	pet	ja-JP-MayuNeural	この バスは ピカピカの ともだちだけ のれるんだ!
+th.bus.5	nar	ja-JP-NanamiNeural	きれいに みがいて たのしく しゅっぱつ!
+th.camp.1	nar	ja-JP-NanamiNeural	きょうは おにわで キャンプ!
+th.camp.2	hero	ja-JP-AoiNeural	テントで ねるの たのしみ!
+th.camp.3	boss	ja-JP-NaokiNeural	キャンプの ひは はみがき しなくて いいよね?
+th.camp.4	hero	ja-JP-AoiNeural	キャンプの かばんに はぶらしも いれたよ!
+th.camp.5	nar	ja-JP-NanamiNeural	そとで ねる ひも、はみがき してから ねよう。
+th.candy.1	nar	ja-JP-NanamiNeural	キラリは だいじな あめを とっておいたよ。
+th.candy.2	boss	ja-JP-NaokiNeural	もぐもぐ! あめで ぐんぐん おおきく なるぞ!
+th.candy.3	hero	ja-JP-AoiNeural	たいへん、ばいきんが おおきく なってる!
+th.candy.4	pet	ja-JP-MayuNeural	はぶらし もってくるね!
+th.candy.5	hero	ja-JP-AoiNeural	あまいものの あとは ゴシゴシ!
+th.candy.6	nar	ja-JP-NanamiNeural	あまいものを たべたら かならず はみがき。
+th.candyisle.1	nar	ja-JP-NanamiNeural	ふねに のって キャンディ じまに ついたよ!
+th.candyisle.2	hero	ja-JP-AoiNeural	わあ、きが ぜんぶ ぺろぺろ キャンディだ!
+th.candyisle.3	boss	ja-JP-NaokiNeural	キャンディ じまへ ようこそ。ここは おれの ふるさとさ!
+th.candyisle.4	pet	ja-JP-MayuNeural	キャンディ じまでは はぶらしを わすれずに!
+th.candyisle.5	nar	ja-JP-NanamiNeural	あまい ところに いく ときほど、はぶらしを もっていこう。
+th.candyrain.1	nar	ja-JP-NanamiNeural	そらから こんぺいとうの あめが ふってきたよ!
+th.candyrain.2	hero	ja-JP-AoiNeural	わあ! ぜんぶ たべても いいかな?
+th.candyrain.3	coco	ja-JP-AoiNeural	こんぺいとうは すこしだけ! はが いたく ならないように。
+th.candyrain.4	boss	ja-JP-NaokiNeural	こんぺいとうの あめは おれが ふらせたのさ! ねばねば パーティー!
+th.candyrain.5	nar	ja-JP-NanamiNeural	あまい こんぺいとうも すこしだけ、そして はみがき!
+th.caramel.1	nar	ja-JP-NanamiNeural	キャンディ じまの はしは キャラメルで できているよ。
+th.caramel.2	hero	ja-JP-AoiNeural	わあっ、あしが ぺたぺた くっつく!
+th.caramel.3	boss	ja-JP-NaokiNeural	ねばねば はしからは にげられないぞ!
+th.caramel.4	pet	ja-JP-MayuNeural	あわで ねばねばを とかそう!
+th.caramel.5	nar	ja-JP-NanamiNeural	ねばねばの おやつの あとは、もっと ていねいに みがこう。
+th.checkup.1	nar	ja-JP-NanamiNeural	きょうは はいしゃさんに いく ひ。
+th.checkup.2	hero	ja-JP-AoiNeural	ちょっと どきどき
+th.checkup.3	nar	ja-JP-NanamiNeural	あーん して。わあ、とっても ピカピカですね!
+th.checkup.4	boss	ja-JP-NaokiNeural	おくばの うしろに かくれてたのに みつかった!
+th.checkup.5	nar	ja-JP-NanamiNeural	いたく なくても はいしゃさんで みてもらおう。
+th.cheese.1	nar	ja-JP-NanamiNeural	キラリが きいろい チーズを みつけたよ。
+th.cheese.2	pet	ja-JP-MayuNeural	チーズは はを まもる おやつなんだって!
+th.cheese.3	boss	ja-JP-NaokiNeural	チーズの あなは おれの ひみつきちだ!
+th.cheese.4	hero	ja-JP-AoiNeural	チーズを たべて はみがきも したら、2ばい じょうぶ!
+th.cheese.5	nar	ja-JP-NanamiNeural	チーズも いいけど、たべた あとは はみがき!
+th.chef.1	nar	ja-JP-NanamiNeural	ドゥリが コックさんの ぼうしを かぶったよ。
+th.chef.2	duri	ja-JP-DaichiNeural	きょうは ぼくが おいしい りょうりを つくるね!
+th.chef.3	boss	ja-JP-NaokiNeural	たべて はみがきを わすれる、それが おれの りょうりさ!
+th.chef.4	hero	ja-JP-AoiNeural	りょうりも もぐもぐ、はみがきも ゴシゴシ!
+th.chef.5	duri	ja-JP-DaichiNeural	コックさんの さいごの しごとは はみがき!
+th.chef.6	nar	ja-JP-NanamiNeural	おいしく たべた あとの さいごは はみがきだよ。
+th.choco.1	nar	ja-JP-NanamiNeural	チョコの もりの こみちは あまい においが するよ。
+th.choco.2	hero	ja-JP-AoiNeural	チョコの きだ! ひとくち だけ
+th.choco.3	pet	ja-JP-MayuNeural	まって! たべたら すぐ はみがき!
+th.choco.4	boss	ja-JP-NaokiNeural	チョコの もりでは だれも はみがき しないぞ!
+th.choco.5	nar	ja-JP-NanamiNeural	チョコを たべた ひは、はみがきを わすれずに。
+th.choir.1	nar	ja-JP-NanamiNeural	うみの かいたちが がっしょうを しているよ。
+th.choir.2	prop	ja-JP-KeitaNeural	シャカシャカ ゴシゴシ ピカピカ
+th.choir.3	boss	ja-JP-NaokiNeural	ねばねばの うたで じゃましてやる!
+th.choir.4	hero	ja-JP-AoiNeural	みんなで もっと おおきな こえで うたおう!
+th.choir.5	nar	ja-JP-NanamiNeural	はみがきの うたを うたうと、はみがきの じかんが たのしいよ。
+th.chuseok.1	nar	ja-JP-NanamiNeural	チュソクの よる、まんまるの おつきさまが でたよ。
+th.chuseok.2	hero	ja-JP-AoiNeural	おつきさまで うさぎが おもちを ついてるんだって!
+th.chuseok.3	boss	ja-JP-NaokiNeural	おもちを たべて みがかなければ おれの せかいだ!
+th.chuseok.4	pet	ja-JP-MayuNeural	おつきさまに おねがいして、はみがきも しよう!
+th.chuseok.5	hero	ja-JP-AoiNeural	かぞく みんなの はが じょうぶで ありますように!
+th.chuseok.6	nar	ja-JP-NanamiNeural	おいしい ごちそうの あとも はみがきは かならず!
+th.cloud.1	nar	ja-JP-NanamiNeural	はいいろの くもが おひさまを かくしたよ。
+th.cloud.2	prop	ja-JP-KeitaNeural	ばいきん ぐもだ! ねばねばの あめを ふらせるぞ!
+th.cloud.3	pet	ja-JP-MayuNeural	うわ、ねばねば!
+th.cloud.4	hero	ja-JP-AoiNeural	あわで きれいに あらおう!
+th.cloud.5	nar	ja-JP-NanamiNeural	ぶくぶく あわが くもを つつんだよ。
+th.cloud.6	nar	ja-JP-NanamiNeural	くもが しろく なって、にじが でたよ!
+th.cloud.7	hero	ja-JP-AoiNeural	はみがきの あわも はを ピカピカに してくれるよ!
+th.coco.1	nar	ja-JP-NanamiNeural	くもの くにには、こどもの ユニコーン ココが すんでいるよ。
+th.coco.2	coco	ja-JP-AoiNeural	にじの はしが はいいろに なっちゃった。わたれないよ!
+th.coco.3	boss	ja-JP-NaokiNeural	いろは ぜんぶ おれが たべちゃった!
+th.coco.4	hero	ja-JP-AoiNeural	あさに いっかい、よるに いっかい! いろを かえして!
+th.coco.5	coco	ja-JP-AoiNeural	にじの はしを わたれた! やったー!
+th.coco.6	nar	ja-JP-NanamiNeural	いちにち 2かい はみがきすると、えがおも にじみたいに かがやくよ。
+th.cocobrush.1	nar	ja-JP-NanamiNeural	ココの はぶらしの けが ひらいちゃった。
+th.cocobrush.2	coco	ja-JP-AoiNeural	はぶらしが おはなみたいに ひらいてる!
+th.cocobrush.3	boss	ja-JP-NaokiNeural	ひひっ、ふるい はぶらしじゃ つかまらないぞ!
+th.cocobrush.4	coco	ja-JP-AoiNeural	じゃーん! にじいろの あたらしい はぶらし!
+th.cocobrush.5	nar	ja-JP-NanamiNeural	けが ひらいたら あたらしい はぶらしに かえよう。
+th.concert.1	nar	ja-JP-NanamiNeural	おにわで おんがくかいが はじまったよ。
+th.concert.2	pipi	ja-JP-ShioriNeural	きょうの うたは はみがきの うた!
+th.concert.3	boss	ja-JP-NaokiNeural	ねばねばの リズムで わりこんでやる!
+th.concert.4	hero	ja-JP-AoiNeural	シャカシャカ リズムに あわせて ゴシゴシ!
+th.concert.5	nar	ja-JP-NanamiNeural	うたいながら みがくと、はみがきの じかんが あっという まだよ。
+th.constel.1	nar	ja-JP-NanamiNeural	よぞらの ほしが ひとつずつ つながっていくよ。
+th.constel.2	hero	ja-JP-AoiNeural	わあ、はぶらしの かたちの せいざだ!
+th.constel.3	pet	ja-JP-MayuNeural	まいばん みがいた ともだちが ほしに なって ひかるんだって。
+th.constel.4	boss	ja-JP-NaokiNeural	せいざだなんて、まぶしすぎる
+th.constel.5	nar	ja-JP-NanamiNeural	こんやも みがいて ねたら、きみも ほしみたいに ピカピカ。
+th.cookiejar.1	nar	ja-JP-NanamiNeural	だいどころに おかしの いれものが あるよ。
+th.cookiejar.2	boss	ja-JP-NaokiNeural	あけて おかしを ぜんぶ たべてやる!
+th.cookiejar.3	pet	ja-JP-MayuNeural	おかしは きまった ときに すこしだけ!
+th.cookiejar.4	hero	ja-JP-AoiNeural	おやつの じかんに ひとつ、たべたら おみずを ひとくち!
+th.cookiejar.5	nar	ja-JP-NanamiNeural	おやつは きまった じかんに、たべたら くちを すすごう。
+th.coral.1	nar	ja-JP-NanamiNeural	うみの さんごの むらが ねばねばに よごれちゃった。
+th.coral.2	mongi	ja-JP-NanamiNeural	みんなで おおそうじ しよう!
+th.coral.3	boss	ja-JP-NaokiNeural	そうじは めんどう そのままで いいよ!
+th.coral.4	hero	ja-JP-AoiNeural	すみずみまで みがけば すぐ おわるよ!
+th.coral.5	nar	ja-JP-NanamiNeural	はも すみずみまで きれいに すると、さんごみたいに きれいだよ。
+th.cotton.1	nar	ja-JP-NanamiNeural	くもの くにに わたあめ やさんが できたよ。
+th.cotton.2	coco	ja-JP-AoiNeural	くもみたいに ふわふわの わたあめ どうぞ!
+th.cotton.3	boss	ja-JP-NaokiNeural	わたあめ 10こ ちょうだい! ひひっ!
+th.cotton.4	hero	ja-JP-AoiNeural	ひとつだけ たべて はみがき しよう!
+th.cotton.5	nar	ja-JP-NanamiNeural	あまい おやつは すこしだけ、たべたら はみがき!
+th.count.1	nar	ja-JP-NanamiNeural	ねむれない よる、ひつじを かぞえてみよう。
+th.count.2	hero	ja-JP-AoiNeural	ひつじが いっぴき、にひき それでも ねむれない。
+th.count.3	pet	ja-JP-MayuNeural	じゃあ はぶらしを かぞえてみる?
+th.count.4	boss	ja-JP-NaokiNeural	はぶらしが いっぱいだ! にげろ!
+th.count.5	hero	ja-JP-AoiNeural	すやすや
+th.count.6	nar	ja-JP-NanamiNeural	はぶらし ひとつ、はみがき いっかい。そして すやすや。
+th.croc.1	nar	ja-JP-NanamiNeural	ぬまの ワニが おくちを おおきく あけたよ。
+th.croc.2	prop	ja-JP-KeitaNeural	はが おおすぎて ひとりで みがけない
+th.croc.3	prop	ja-JP-KeitaNeural	てつだうよ! ツンツン!
+th.croc.4	hero	ja-JP-AoiNeural	ぼくも はぶらしで ゴシゴシ!
+th.croc.5	prop	ja-JP-KeitaNeural	わあ、すっきり! ありがとう!
+th.croc.6	nar	ja-JP-NanamiNeural	ひとりで むずかしい ときは たすけて もらおう。しあげは おうちの ひとと!
+th.crown.1	mongi	ja-JP-NanamiNeural	ぼくの かいの かんむりが ない!
+th.crown.2	hero	ja-JP-AoiNeural	どこに いったのかな?
+th.crown.3	boss	ja-JP-NaokiNeural	この かんむりは もう おれの もの!
+th.crown.4	pet	ja-JP-MayuNeural	かんむりは いちばん うえ! はも うえまで みがこう!
+th.crown.5	nar	ja-JP-NanamiNeural	したの はと おなじくらい、うえの はも ていねいに みがこう。
+th.crumb.1	nar	ja-JP-NanamiNeural	おかしを たべたら、くずが ころころ。
+th.crumb.2	boss	ja-JP-NaokiNeural	くずの なかに かくれたら だれにも わからないぞ!
+th.crumb.3	pet	ja-JP-MayuNeural	くんくん、おくばの みぞに かくれてる!
+th.crumb.4	hero	ja-JP-AoiNeural	おくばの みぞは まえうしろに シャカシャカ!
+th.crumb.5	nar	ja-JP-NanamiNeural	おかしの あとは、おくばの みぞまで ていねいに。
+th.d.brush	hero	ja-JP-AoiNeural	ゴシゴシ、ピカピカ!
+th.d.bye	boss	ja-JP-NaokiNeural	うわあ、きれいに なっちゃった
+th.d.foam	hero	ja-JP-AoiNeural	あわあわ ばくだん、ぶくぶく!
+th.d.pet	pet	ja-JP-MayuNeural	ともだちの たいあたり!
+th.d.rinse	hero	ja-JP-AoiNeural	すすぎの なみ、ざぶーん!
+th.d.song	nar	ja-JP-NanamiNeural	はみがきの うたで ばいきんが おどりだしたよ!
+th.dandelion.1	nar	ja-JP-NanamiNeural	タンポポの わたげが かぜに のって とんでいくよ。
+th.dandelion.2	pipi	ja-JP-ShioriNeural	わたげみたいに、はみがきの しゅうかんも ともだちに ひろげよう!
+th.dandelion.3	boss	ja-JP-NaokiNeural	ひろがるのは おれさまだ! ねばねば
+th.dandelion.4	hero	ja-JP-AoiNeural	いっしょに みがこうって ともだちに いうね!
+th.dandelion.5	nar	ja-JP-NanamiNeural	いい しゅうかんは ともだちと いっしょに。
+th.dentist.1	pet	ja-JP-MayuNeural	あした はいしゃさん こわいよ。
+th.dentist.2	hero	ja-JP-AoiNeural	じゃあ きょうは はいしゃさん ごっこ しよう!
+th.dentist.3	hero	ja-JP-AoiNeural	あーんして。いち、に、さん
+th.dentist.4	boss	ja-JP-NaokiNeural	あっ、かくれてたのに みつかった!
+th.dentist.5	hero	ja-JP-AoiNeural	はやく みつければ すぐ きれいに なるよ!
+th.dentist.6	pet	ja-JP-MayuNeural	ぜんぜん こわくない! あした いってみる!
+th.dentist.7	nar	ja-JP-NanamiNeural	はいしゃさんの けんしんは はを まもる やくそくだよ。
+th.dew.1	nar	ja-JP-NanamiNeural	あさの クモの すに つゆが キラキラ。
+th.dew.2	hero	ja-JP-AoiNeural	つゆが しんじゅの ネックレスみたい!
+th.dew.3	boss	ja-JP-NaokiNeural	クモの すに ひっかかった! だして
+th.dew.4	pet	ja-JP-MayuNeural	きれいに して だして あげるね!
+th.dew.5	nar	ja-JP-NanamiNeural	あさつゆみたいに、あさの はも ピカピカに みがこう。
+th.diary.1	nar	ja-JP-NanamiNeural	キラリが にっきを かいているよ。
+th.diary.2	hero	ja-JP-AoiNeural	きょうは あさに 1かい、よるに 1かい みがいた。
+th.diary.3	pet	ja-JP-MayuNeural	ぼくの ことも かいて!
+th.diary.4	hero	ja-JP-AoiNeural	きょう ばいきんが きたけど、ゴシゴシ みがいて かった!
+th.diary.5	nar	ja-JP-NanamiNeural	みがいた ことを かいておくと、あしたも したく なるよ。
+th.dream.1	nar	ja-JP-NanamiNeural	ねる まえ、キラリは ごろごろ ねがえり。
+th.dream.2	hero	ja-JP-AoiNeural	うーん はが むずむず する。
+th.dream.3	boss	ja-JP-NaokiNeural	ひひっ、こんやは おれさまの せかいだ!
+th.dream.4@candy	hero	ja-JP-AoiNeural	あっ! ベタベタ キャンディ ボスだ!
+th.dream.4@choco	hero	ja-JP-AoiNeural	あっ! チョコ ボスだ!
+th.dream.4@soda	hero	ja-JP-AoiNeural	あっ! シュワシュワ ソーダ ボスだ!
+th.dream.4@jelly	hero	ja-JP-AoiNeural	あっ! グミ ボスだ!
+th.dream.4@cookie	hero	ja-JP-AoiNeural	あっ! クッキー ボスだ!
+th.dream.4@juice	hero	ja-JP-AoiNeural	あっ! ジュース ボスだ!
+th.dream.4@king	hero	ja-JP-AoiNeural	あっ! むしば キングだ!
+th.dream.5@candy	nar	ja-JP-NanamiNeural	ベタベタ キャンディ ボスを おいかけて ゆめの くにへ!
+th.dream.5@choco	nar	ja-JP-NanamiNeural	チョコ ボスを おいかけて ゆめの くにへ!
+th.dream.5@soda	nar	ja-JP-NanamiNeural	シュワシュワ ソーダ ボスを おいかけて ゆめの くにへ!
+th.dream.5@jelly	nar	ja-JP-NanamiNeural	グミ ボスを おいかけて ゆめの くにへ!
+th.dream.5@cookie	nar	ja-JP-NanamiNeural	クッキー ボスを おいかけて ゆめの くにへ!
+th.dream.5@juice	nar	ja-JP-NanamiNeural	ジュース ボスを おいかけて ゆめの くにへ!
+th.dream.5@king	nar	ja-JP-NanamiNeural	むしば キングを おいかけて ゆめの くにへ!
+th.dream.6	boss	ja-JP-NaokiNeural	おしろへ ようこそ! ねばねば
+th.dream.7	hero	ja-JP-AoiNeural	ともだち、いっしょに しゃかしゃか しよう!
+th.dream.8	hero	ja-JP-AoiNeural	わあ、すっきり!
+th.dream.9	nar	ja-JP-NanamiNeural	すやすや ねる まえに みがくと ゆめも キラキラ!
+th.dreamsea.1	nar	ja-JP-NanamiNeural	ゆめの なかで うみを ぷかぷか およいだよ。
+th.dreamsea.2	mongi	ja-JP-NanamiNeural	キラリ、ゆめの うみへ ようこそ!
+th.dreamsea.3	boss	ja-JP-NaokiNeural	ゆめの なかでも ねばねば いたずらだ!
+th.dreamsea.4	hero	ja-JP-AoiNeural	ゆめでも はみがき ヒーロー!
+th.dreamsea.5	nar	ja-JP-NanamiNeural	ねる まえに みがくと、ゆめの なかでも ピカピカ。
+th.duri.1	nar	ja-JP-NanamiNeural	くさむらで おおきな たまごを みつけたよ。
+th.duri.2	hero	ja-JP-AoiNeural	あれ? たまごが うごいた!
+th.duri.3	duri	ja-JP-DaichiNeural	こんにちは! ぼく ドゥリ。みて、はが 1ぽん はえたよ!
+th.duri.4	boss	ja-JP-NaokiNeural	あたらしい はは おれの ものだ!
+th.duri.5	hero	ja-JP-AoiNeural	はじめての はは、ちいさい はぶらしで やさしく みがこう。
+th.duri.6	nar	ja-JP-NanamiNeural	はが 1ぽん はえたら、その ひから はみがきを はじめよう。
+th.festival.1	nar	ja-JP-NanamiNeural	はの まちで おおまつりが はじまったよ!
+th.festival.2	hero	ja-JP-AoiNeural	ともだちが みんな あつまった!
+th.festival.3	boss	ja-JP-NaokiNeural	おれも まぜて! こんどは はぶらしも もってきたよ!
+th.festival.4	hero	ja-JP-AoiNeural	いいね! みんなで シャカシャカ ダンス!
+th.festival.5	nar	ja-JP-NanamiNeural	はの まちの みんなが ピカピカに わらったよ。
+th.festival.6	nar	ja-JP-NanamiNeural	みんなで みがくと まちじゅうが ピカピカ。
+th.firefly.1	nar	ja-JP-NanamiNeural	なつの よる、くさむらで ほたるが ひかったよ。
+th.firefly.2	hero	ja-JP-AoiNeural	くらくて ばいきんが みえない。
+th.firefly.3	boss	ja-JP-NaokiNeural	まっくらは かくれるのに ぴったりだ!
+th.firefly.4	pet	ja-JP-MayuNeural	ほたるさん、てらして!
+th.firefly.5	nar	ja-JP-NanamiNeural	あかるい ところで ていねいに みがくと、かくれた ばいきんも みつかるよ。
+th.firstbrush.1@candy	nar	ja-JP-NanamiNeural	ベタベタ キャンディ ボスに プレゼントを あげる ことに したよ。
+th.firstbrush.1@choco	nar	ja-JP-NanamiNeural	チョコ ボスに プレゼントを あげる ことに したよ。
+th.firstbrush.1@soda	nar	ja-JP-NanamiNeural	シュワシュワ ソーダ ボスに プレゼントを あげる ことに したよ。
+th.firstbrush.1@jelly	nar	ja-JP-NanamiNeural	グミ ボスに プレゼントを あげる ことに したよ。
+th.firstbrush.1@cookie	nar	ja-JP-NanamiNeural	クッキー ボスに プレゼントを あげる ことに したよ。
+th.firstbrush.1@juice	nar	ja-JP-NanamiNeural	ジュース ボスに プレゼントを あげる ことに したよ。
+th.firstbrush.1@king	nar	ja-JP-NanamiNeural	むしば キングに プレゼントを あげる ことに したよ。
+th.firstbrush.2	hero	ja-JP-AoiNeural	じゃーん! きみだけの はぶらしだよ!
+th.firstbrush.3	boss	ja-JP-NaokiNeural	これ、どうやって つかうの?
+th.firstbrush.4	hero	ja-JP-AoiNeural	うえ したに ゴシゴシ、くるくる!
+th.firstbrush.5	boss	ja-JP-NaokiNeural	わあ、すっきり! ピカピカに なった!
+th.firstbrush.6	nar	ja-JP-NanamiNeural	はぶらしは ひとり ひとつ。じぶんの はぶらしで みがこう。
+th.floss.1	nar	ja-JP-NanamiNeural	はと はの あいだに せまい すきまが あるよ。
+th.floss.2	boss	ja-JP-NaokiNeural	ここは はぶらしが はいれないぞ! ひひっ!
+th.floss.3	hero	ja-JP-AoiNeural	そんな ときは フロスの はしを スーッ!
+th.floss.4	boss	ja-JP-NaokiNeural	うわっ、すきままで はいってくるなんて!
+th.floss.5	nar	ja-JP-NanamiNeural	はの あいだは フロスで。おとなと いっしょに しよう。
+th.flowerpaste.1	nar	ja-JP-NanamiNeural	ピピが はなの かおりの はみがきこを もってきたよ。
+th.flowerpaste.2	hero	ja-JP-AoiNeural	いい におい! これ たべちゃ だめ?
+th.flowerpaste.3	pipi	ja-JP-ShioriNeural	はみがきこは たべものじゃ ないよ。おわったら ぺっ!
+th.flowerpaste.4	boss	ja-JP-NaokiNeural	はみがきこの においだけで くらくら
+th.flowerpaste.5	nar	ja-JP-NanamiNeural	はみがきこは のみこまずに はきだそう。
+th.fossil.1	nar	ja-JP-NanamiNeural	ドゥリが じめんを ほったら なにか みつけたよ。
+th.fossil.2	duri	ja-JP-DaichiNeural	おおきな きょうりゅうの ほねだ! はも まだ じょうぶ!
+th.fossil.3	hero	ja-JP-AoiNeural	きょうりゅう おじいさんも はを だいじに してたんだね!
+th.fossil.4	boss	ja-JP-NaokiNeural	ほねは おれが ねばねばで かくしてやる!
+th.fossil.5	nar	ja-JP-NanamiNeural	じょうぶな はは ずっと いっしょだよ。
+th.gagEnd	nar	ja-JP-NanamiNeural	きょうも ピカピカ!
+th.gagOpen	nar	ja-JP-NanamiNeural	あさの ミニ げきじょう!
+th.gap.1	nar	ja-JP-NanamiNeural	おおきな はの あいだに なにか いるよ。
+th.gap.2	boss	ja-JP-NaokiNeural	ここは はぶらしが とどかないよーだ!
+th.gap.3	hero	ja-JP-AoiNeural	あれ? ゴシゴシしても でてこない!
+th.gap.4	pet	ja-JP-MayuNeural	はぶらしを たてて そっと いれてみて!
+th.gap.5	hero	ja-JP-AoiNeural	たてて そっと、うえしたに!
+th.gap.6	boss	ja-JP-NaokiNeural	わあ、みつかった!
+th.gap.7	nar	ja-JP-NanamiNeural	はの あいだは はぶらしを たてて。フロスは おうちの ひとと!
+th.halloween.1	nar	ja-JP-NanamiNeural	ハロウィンの よる、おかしの かごが いっぱいに なったよ。
+th.halloween.2	boss	ja-JP-NaokiNeural	おかし くれたら いたずら しないぞ ひひっ!
+th.halloween.3	hero	ja-JP-AoiNeural	おかしは すこしだけ、そして はみがきは かならず!
+th.halloween.4	nar	ja-JP-NanamiNeural	ともだちも かそう したよ!
+th.halloween.5	nar	ja-JP-NanamiNeural	おかしを たべた ひは、もっと ていねいに みがこう。
+th.hero.1	nar	ja-JP-NanamiNeural	ばいきんの おやぶんが、なかまを たくさん よんだよ!
+th.hero.2	boss	ja-JP-NaokiNeural	きょうは おれたちの かちだ!
+th.hero.3	hero	ja-JP-AoiNeural	はみがき ヒーロー、へんしん!
+th.hero.4	hero	ja-JP-AoiNeural	ピカピカ ヒーロー とうじょう!
+th.hero.5	nar	ja-JP-NanamiNeural	ばいきんたちは みんな にげていったよ!
+th.hero.6	nar	ja-JP-NanamiNeural	まいにち はみがきする きみも、はを まもる ヒーローだよ!
+th.hiccup.1	pet	ja-JP-MayuNeural	ひっく! ひっく!
+th.hiccup.2	hero	ja-JP-AoiNeural	おどかして あげる。わっ!
+th.hiccup.3	pet	ja-JP-MayuNeural	ひっく!
+th.hiccup.4	hero	ja-JP-AoiNeural	おみず のんで みる?
+th.hiccup.5@candy	boss	ja-JP-NaokiNeural	じゃーん! ベタベタ キャンディ ボスだぞ!
+th.hiccup.5@choco	boss	ja-JP-NaokiNeural	じゃーん! チョコ ボスだぞ!
+th.hiccup.5@soda	boss	ja-JP-NaokiNeural	じゃーん! シュワシュワ ソーダ ボスだぞ!
+th.hiccup.5@jelly	boss	ja-JP-NaokiNeural	じゃーん! グミ ボスだぞ!
+th.hiccup.5@cookie	boss	ja-JP-NaokiNeural	じゃーん! クッキー ボスだぞ!
+th.hiccup.5@juice	boss	ja-JP-NaokiNeural	じゃーん! ジュース ボスだぞ!
+th.hiccup.5@king	boss	ja-JP-NaokiNeural	じゃーん! むしば キングだぞ!
+th.hiccup.6	pet	ja-JP-MayuNeural	あれ? しゃっくりが とまった!
+th.hiccup.7	hero	ja-JP-AoiNeural	ありがとう! おれいに きれいに してあげる。
+th.hiccup.8	nar	ja-JP-NanamiNeural	ばいきんも ピカピカの ともだちに なったよ。
+th.hide.1	nar	ja-JP-NanamiNeural	ばいきん 3びきが かくれんぼを はじめたよ。
+th.hide.2	boss	ja-JP-NaokiNeural	いちばん おくの おくばに かくれよう!
+th.hide.3	hero	ja-JP-AoiNeural	どこに かくれたの? みえない!
+th.hide.4	pet	ja-JP-MayuNeural	くんくん おくの ほうに いるよ!
+th.hide.5	hero	ja-JP-AoiNeural	おくまで ゴシゴシ、ひとつ みっけ!
+th.hide.6	nar	ja-JP-NanamiNeural	3びき ぜんぶ みつけた!
+th.hide.7	nar	ja-JP-NanamiNeural	おくばは いちばん おくまで はぶらしを いれてね。
+th.honey.1	nar	ja-JP-NanamiNeural	ミツバチが はちみつの つぼを もってきたよ。
+th.honey.2	prop	ja-JP-KeitaNeural	あまい はちみつ たべる?
+th.honey.3	boss	ja-JP-NaokiNeural	ねばねばの はちみつは おれの だいこうぶつ!
+th.honey.4	pipi	ja-JP-ShioriNeural	はちみつは すこしだけ、たべたら ゴシゴシ!
+th.honey.5	nar	ja-JP-NanamiNeural	ねばねばの おやつは はに ながく のこるよ。たべたら かならず はみがき!
+th.horn.1	coco	ja-JP-AoiNeural	わたしの つのが ひからないの
+th.horn.2	boss	ja-JP-NaokiNeural	つのに ねばねば シールを はったぞ!
+th.horn.3	hero	ja-JP-AoiNeural	やさしく みがいて あげる!
+th.horn.4	coco	ja-JP-AoiNeural	ピカピカ! まいにち みがくと もっと ひかる!
+th.horn.5	nar	ja-JP-NanamiNeural	まいにち こつこつ みがくと、はも つのみたいに ひかるよ。
+th.hotair.1	nar	ja-JP-NanamiNeural	ききゅうに のって おそらの うえへ!
+th.hotair.2	hero	ja-JP-AoiNeural	わあ、まちが おもちゃみたいに ちいさい!
+th.hotair.3	boss	ja-JP-NaokiNeural	ききゅうに あなを あけてやる!
+th.hotair.4	pet	ja-JP-MayuNeural	しっかり つかまって! あわで ふさごう!
+th.hotair.5	nar	ja-JP-NanamiNeural	たかい ところでも おちついて、はみがきも おちついて。
+th.hundred.1	nar	ja-JP-NanamiNeural	きょうは キラリ げきじょう 100わめの おはなし!
+th.hundred.2	hero	ja-JP-AoiNeural	わーい! ここまで いっしょに きてくれて ありがとう!
+th.hundred.3	nar	ja-JP-NanamiNeural	ぼくたちも おいわい!
+th.hundred.4	pet	ja-JP-MayuNeural	まいにち みがいた きみが ほんとうの しゅやくだよ!
+th.hundred.5	hero	ja-JP-AoiNeural	キラリ メダルを きみに あげるね!
+th.hundred.6	nar	ja-JP-NanamiNeural	あしたも その つぎの ひも、ピカピカ いっしょに!
+th.jelly.1	nar	ja-JP-NanamiNeural	ふかい うみの なかは まっくら。
+th.jelly.2	prop	ja-JP-KeitaNeural	ぼくが ピカッと あかりを つけるよ!
+th.jelly.3	boss	ja-JP-NaokiNeural	くらやみに かくれてたのに!
+th.jelly.4	hero	ja-JP-AoiNeural	おくばの うらまで よく みえる!
+th.jelly.5	nar	ja-JP-NanamiNeural	あかるい ところで かがみを みると、かくれた ところも みがけるよ。
+th.kidsday.1	nar	ja-JP-NanamiNeural	きょうは こどもの ひ! プレゼントの はこが とどいたよ。
+th.kidsday.2	hero	ja-JP-AoiNeural	ドキドキ、なにが はいってるかな?
+th.kidsday.3	boss	ja-JP-NaokiNeural	じゃーん! プレゼントの かわりに おれさまだ!
+th.kidsday.4	pet	ja-JP-MayuNeural	ほんものの プレゼントは ぼくたちが まもる!
+th.kidsday.5	hero	ja-JP-AoiNeural	ピカピカの あたらしい はぶらしだ!
+th.kidsday.6	nar	ja-JP-NanamiNeural	じょうぶな はは、じぶんへの プレゼントだよ。
+th.king.1	nar	ja-JP-NanamiNeural	おしろの ともだちおうさまが ないていたよ。
+th.king.2	pet	ja-JP-MayuNeural	はが いたいの あめばかり たべたから。
+th.king.3	hero	ja-JP-AoiNeural	はみがきの しかたを おしえます!
+th.king.4	hero	ja-JP-AoiNeural	うえ したに ゴシゴシ!
+th.king.5	hero	ja-JP-AoiNeural	おくばは まえうしろに シャカシャカ!
+th.king.6	pet	ja-JP-MayuNeural	わあ、ぜんぜん いたくない!
+th.king.7	nar	ja-JP-NanamiNeural	おうさまは キラリに ほしの メダルを くれたよ。
+th.kite.1	nar	ja-JP-NanamiNeural	かぜの ともだちと たこあげを したよ。
+th.kite.2	prop	ja-JP-KeitaNeural	ふ そらたかく とんでいけ!
+th.kite.3	boss	ja-JP-NaokiNeural	たこいとに ぶらーん ぶらさがったぞ
+th.kite.4	hero	ja-JP-AoiNeural	いとで すっと とりだそう! はの あいだも フロスで すっ!
+th.kite.5	nar	ja-JP-NanamiNeural	はの あいだに はさまった ものは、おとなと いっしょに フロスで とろう。
+th.ladybug.1	nar	ja-JP-NanamiNeural	テントウムシの てんを かぞえよう。ひとつ、ふたつ、みっつ。
+th.ladybug.2	hero	ja-JP-AoiNeural	ぼくの はは なんぼん かな?
+th.ladybug.3	pet	ja-JP-MayuNeural	こどもの はは ぜんぶで 20ぽん なんだって!
+th.ladybug.4	boss	ja-JP-NaokiNeural	20ぽんも? 1ぽんくらい かくしてやる!
+th.ladybug.5	nar	ja-JP-NanamiNeural	20ぽんの はを 1ぽんも わすれずに みがこう。
+th.lighthouse.1	nar	ja-JP-NanamiNeural	よるの うみで とうだいの あかりが くらく なったよ。
+th.lighthouse.2	hero	ja-JP-AoiNeural	とうだいの ガラスに ばいきんが いっぱい!
+th.lighthouse.3	boss	ja-JP-NaokiNeural	まっくらだと ふねが まいごに なるぞ! ひひっ!
+th.lighthouse.4	hero	ja-JP-AoiNeural	ピカピカに みがいて あかりを つけよう!
+th.lighthouse.5	nar	ja-JP-NanamiNeural	とうだいが また うみを あかるく てらしたよ。
+th.lighthouse.6	nar	ja-JP-NanamiNeural	きれいな はは わらうと とうだいみたいに ひかるよ。
+th.lostbrush.1	hero	ja-JP-AoiNeural	あれ? ぼくの はぶらし どこ?
+th.lostbrush.2	nar	ja-JP-NanamiNeural	はんにんは ちびばいきんだった!
+th.lostbrush.3	hero	ja-JP-AoiNeural	まてー! かえして!
+th.lostbrush.4	nar	ja-JP-NanamiNeural	ともだちが まえを ふさいだよ!
+th.lostbrush.5	hero	ja-JP-AoiNeural	みつけた! きれいに してあげる。
+th.lostbrush.6	boss	ja-JP-NaokiNeural	わあ、くすぐったい!
+th.lostbrush.7	nar	ja-JP-NanamiNeural	はぶらしは いつもの ばしょに おこうね。
+th.lullaby.1	nar	ja-JP-NanamiNeural	おつきさまが ねんねこ うたを うたっているよ。
+th.lullaby.2	boss	ja-JP-NaokiNeural	がやがや! みんな おこしてやる!
+th.lullaby.3	hero	ja-JP-AoiNeural	しーっ! はみがきして しずかに ねる じかんだよ。
+th.lullaby.4	nar	ja-JP-NanamiNeural	はみがきが おわると、おつきさまの こもりうたが きこえるよ。
+th.maze.1	nar	ja-JP-NanamiNeural	かいそうの もりは くねくね めいろ。
+th.maze.2	hero	ja-JP-AoiNeural	どっちの みちに いこう?
+th.maze.3	pet	ja-JP-MayuNeural	じゅんばんに ひとつずつ いこう!
+th.maze.4	boss	ja-JP-NaokiNeural	ちぇっ、みつかった!
+th.maze.5	nar	ja-JP-NanamiNeural	はみがきも じゅんばんに ひとつずつ すると わすれないよ。
+th.milk.1	nar	ja-JP-NanamiNeural	キラリが ぎゅうにゅうを ごくごく のんだよ。
+th.milk.2	hero	ja-JP-AoiNeural	ぎゅうにゅうを のむと はが じょうぶに なるんだって!
+th.milk.3	boss	ja-JP-NaokiNeural	ねる まえに ぎゅうにゅうを のんで そのまま ねたら、おれの ばんだ!
+th.milk.4	pet	ja-JP-MayuNeural	ぎゅうにゅうの あとも ゴシゴシ!
+th.milk.5	nar	ja-JP-NanamiNeural	ぎゅうにゅうで じょうぶに、はみがきで きれいに!
+th.mirror.1	nar	ja-JP-NanamiNeural	キラリは かがみの まえに たったよ。
+th.mirror.2	hero	ja-JP-AoiNeural	いーって してみよう! ピカピカかな?
+th.mirror.3	boss	ja-JP-NaokiNeural	まだ ここに いるよーだ!
+th.mirror.4	pet	ja-JP-MayuNeural	かがみで みたら すぐ みつかった!
+th.mirror.5	hero	ja-JP-AoiNeural	さいごの ひとつも ゴシゴシ!
+th.mirror.6	nar	ja-JP-NanamiNeural	にっこり キラリ、かがみの なかでも ピカピカ!
+th.mirror.7	nar	ja-JP-NanamiNeural	みがいたら かがみで はを みてみよう。
+th.mongi.1	nar	ja-JP-NanamiNeural	うみの なかで、しずくの にんぎょ モンイに あったよ。
+th.mongi.2	mongi	ja-JP-NanamiNeural	たからものの しんじゅが ひからなくなっちゃった
+th.mongi.3	boss	ja-JP-NaokiNeural	しんじゅは おれの ねばねば あそびばだ!
+th.mongi.4	hero	ja-JP-AoiNeural	くるくる やさしく みがけば だいじょうぶ!
+th.mongi.5	mongi	ja-JP-NanamiNeural	ピカピカ! ありがとう、キラリ!
+th.mongi.6	nar	ja-JP-NanamiNeural	はも くるくる やさしく みがくと、しんじゅみたいに ひかるよ。
+th.moon.1	nar	ja-JP-NanamiNeural	こんやは おつきさまの かおに ばいきんが ついたよ。
+th.moon.2	hero	ja-JP-AoiNeural	ロケットで おつきさまを みがきに いこう!
+th.moon.3	pet	ja-JP-MayuNeural	いってらっしゃい!
+th.moon.4	nar	ja-JP-NanamiNeural	おつきさまが また にっこり!
+th.moon.5	hero	ja-JP-AoiNeural	だから こんやの つきは あかるいんだね。
+th.msong.1	nar	ja-JP-NanamiNeural	うみべで モンイが そっと うたっているよ。
+th.msong.2	mongi	ja-JP-NanamiNeural	これは だれにも おしえてない ひみつの うた。
+th.msong.3	mongi	ja-JP-NanamiNeural	ぶくぶく あわ、すすぎは ざぶーん はが わらうよ、ピカピカ
+th.msong.4	boss	ja-JP-NaokiNeural	うう、その うたを きくと ちからが ぬける
+th.msong.5	hero	ja-JP-AoiNeural	これで みんなの うたに なったね!
+th.msong.6	nar	ja-JP-NanamiNeural	すきな うたと いっしょに はみがきしよう。
+th.newyear.1	nar	ja-JP-NanamiNeural	さん、に、いち! あたらしい としが きたよ!
+th.newyear.2	hero	ja-JP-AoiNeural	ことしの やくそくは なんに しよう?
+th.newyear.3	boss	ja-JP-NaokiNeural	やくそくなんて すぐ わすれるさ!
+th.newyear.4	pet	ja-JP-MayuNeural	あさと よるの はみがき、ぜったい まもる!
+th.newyear.5	hero	ja-JP-AoiNeural	ことしも ピカピカ!
+th.newyear.6	nar	ja-JP-NanamiNeural	しんねんの やくそく: いちにち 2かい はみがき!
+th.night.1	nar	ja-JP-NanamiNeural	あさは みがいたけど、よるは わすれちゃった。
+th.night.2	boss	ja-JP-NaokiNeural	よるじゅう パーティーだ! だれも おきないよね?
+th.night.3	pet	ja-JP-MayuNeural	まって! キラリ、はみがき してないよね?
+th.night.4	hero	ja-JP-AoiNeural	そうだった! いますぐ みがくね!
+th.night.5	boss	ja-JP-NaokiNeural	パーティー おしまい かえる
+th.night.6	nar	ja-JP-NanamiNeural	ねる まえの はみがきが いちばん だいじ。
+th.observatory.1	nar	ja-JP-NanamiNeural	てんもんだいに おおきな ぼうえんきょうが あるよ。
+th.observatory.2	hero	ja-JP-AoiNeural	ぼうえんきょうで みたら、あの ほしに ばいきんが かくれてる!
+th.observatory.3	boss	ja-JP-NaokiNeural	とおくに いれば だれにも みつからないぞ!
+th.observatory.4	hero	ja-JP-AoiNeural	よーく みれば ぜんぶ みえるよ!
+th.observatory.5	nar	ja-JP-NanamiNeural	かがみで くちの おくまで よく みてみよう。
+th.octo.1	nar	ja-JP-NanamiNeural	タコが はぶらしを 8ほんも もってきたよ。
+th.octo.2	prop	ja-JP-KeitaNeural	うでが 8ほん だから はぶらしも 8ほん!
+th.octo.3	boss	ja-JP-NaokiNeural	はぶらしを かしあうと、おれは ひっこしやすいんだ!
+th.octo.4	hero	ja-JP-AoiNeural	はぶらしは ひとり 1ぽんずつ!
+th.octo.5	nar	ja-JP-NanamiNeural	はぶらしは じぶんだけの もの。ともだちと とりかえないよ。
+th.oldbrush.1	nar	ja-JP-NanamiNeural	キラリの はぶらしが、ぐったり しているよ。
+th.oldbrush.2	prop	ja-JP-KeitaNeural	けが ひらいちゃった もう へとへと。
+th.oldbrush.3	boss	ja-JP-NaokiNeural	ひらいた はぶらしじゃ おれは つかまらないぞ!
+th.oldbrush.4	hero	ja-JP-AoiNeural	いままで ありがとう、はぶらしさん。
+th.oldbrush.5	prop	ja-JP-KeitaNeural	あたらしい はぶらし しゅつどう! けが まっすぐ!
+th.oldbrush.6	nar	ja-JP-NanamiNeural	はぶらしの けが ひらいたら、あたらしいのに かえよう。3かげつ くらいで!
+th.owl.1	nar	ja-JP-NanamiNeural	チョコの もりの おくに フクロウが すんでいるよ。
+th.owl.2	prop	ja-JP-KeitaNeural	ホーホー こんや はを みがいたのは だれかな?
+th.owl.3	hero	ja-JP-AoiNeural	はーい! ねる まえに かならず みがくよ!
+th.owl.4	boss	ja-JP-NaokiNeural	しーっ、おれは みがいてないぞ。こっそり かくれよう!
+th.owl.5	prop	ja-JP-KeitaNeural	フクロウの めは ぜんぶ みえるのさ!
+th.owl.6	nar	ja-JP-NanamiNeural	よるの はみがきが いちにちで いちばん だいじ。
+th.paint.1	nar	ja-JP-NanamiNeural	ピピが まほうの ふでを みつけたよ。
+th.paint.2	pipi	ja-JP-ShioriNeural	ふでで かくと ほんものに なるの!
+th.paint.3	boss	ja-JP-NaokiNeural	じゃあ おれは ばいきんを いっぱい かくぞ!
+th.paint.4	hero	ja-JP-AoiNeural	ぼくは おおきな はぶらしを かく!
+th.paint.5	nar	ja-JP-NanamiNeural	いい ことを かくと、いい しゅうかんに なるよ。
+th.pajama.1	nar	ja-JP-NanamiNeural	きょうは ともだちと パジャマ パーティー!
+th.pajama.2	coco	ja-JP-AoiNeural	まくら なげ しよう!
+th.pajama.3	boss	ja-JP-NaokiNeural	パーティーの あとは はみがき しないで ねよう
+th.pajama.4	pipi	ja-JP-ShioriNeural	パーティーの さいごは みんなで はみがき!
+th.pajama.5	nar	ja-JP-NanamiNeural	ともだちと いっしょなら、はみがきも パーティーみたいに たのしいね。
+th.parade.1	nar	ja-JP-NanamiNeural	くもの おうこくで パレードが はじまったよ!
+th.parade.2	coco	ja-JP-AoiNeural	ピカピカ はみがき パレードだ!
+th.parade.3	boss	ja-JP-NaokiNeural	パレードを ねばねばに してやる!
+th.parade.4	hero	ja-JP-AoiNeural	みんなで はぶらしを たかく あげて!
+th.parade.5	nar	ja-JP-NanamiNeural	みんなで ピカピカ、はみがきは たのしい!
+th.paradeprep.1	nar	ja-JP-NanamiNeural	あしたは あわの パレードの ひ!
+th.paradeprep.2	pipi	ja-JP-ShioriNeural	ふうせんを ふくらませて はたを かざろう!
+th.paradeprep.3	boss	ja-JP-NaokiNeural	ふうせん ぜんぶ わってやる!
+th.paradeprep.4	hero	ja-JP-AoiNeural	みんな、いっしょに とめよう!
+th.paradeprep.5	nar	ja-JP-NanamiNeural	じゅんび かんりょう! あしたが たのしみ。
+th.paradeprep.6	nar	ja-JP-NanamiNeural	いっしょに じゅんびすると なんでも たのしいね。
+th.party.1	nar	ja-JP-NanamiNeural	ともだちの たんじょうび パーティーだよ。
+th.party.2	pet	ja-JP-MayuNeural	ケーキだ! ろうそくを ふーっ!
+th.party.3	boss	ja-JP-NaokiNeural	パーティーに きたぞ! ケーキの かけら さいこう!
+th.party.4	hero	ja-JP-AoiNeural	だいじょうぶ。たべおわったら みんなで みがこう!
+th.party.5	nar	ja-JP-NanamiNeural	みんなで シャカシャカ はみがき ソング!
+th.party.6	boss	ja-JP-NaokiNeural	たのしすぎて にげちゃう!
+th.party.7	nar	ja-JP-NanamiNeural	おいしく たべて、きれいに みがこう!
+th.pea.1	hero	ja-JP-AoiNeural	はみがきこを たっぷり つけたら、もっと きれいに なるかな?
+th.pea.2	hero	ja-JP-AoiNeural	うわあ、あわが あふれちゃう!
+th.pea.3	nar	ja-JP-NanamiNeural	ともだちが あわに どぼん!
+th.pea.4	nar	ja-JP-NanamiNeural	3さいを すぎたら、はみがきこは おまめ くらいで じゅうぶん。
+th.pea.5	boss	ja-JP-NaokiNeural	あわが すくないと おれを つかまえられないだろう?
+th.pea.6	hero	ja-JP-AoiNeural	おまめ くらいでも ピカピカ!
+th.penguin.1	nar	ja-JP-NanamiNeural	こおりの くにで ペンギンに あったよ。
+th.penguin.2	hero	ja-JP-AoiNeural	ペンギンさんも はみがき するの?
+th.penguin.3	prop	ja-JP-KeitaNeural	ぼくは はが ないの! さかなを ごくんと のむんだ。
+th.penguin.4	boss	ja-JP-NaokiNeural	ペンギンの くちには おれの すむ ところが ない!
+th.penguin.5	nar	ja-JP-NanamiNeural	ぼくたちは はが あるから、だいじに みがこう。
+th.picnic.1	nar	ja-JP-NanamiNeural	あたたかい はるの ひ、みんなで えんそくに いったよ。
+th.picnic.2	pipi	ja-JP-ShioriNeural	おべんとう もぐもぐ、おいしい!
+th.picnic.3	boss	ja-JP-NaokiNeural	ここには はぶらしが ないだろう? ひひっ!
+th.picnic.4	hero	ja-JP-AoiNeural	はぶらしが ない ときは、おみずで くちを すすげば いいよ!
+th.picnic.5	nar	ja-JP-NanamiNeural	おうちに かえって はみがきしたら かんぺき!
+th.pillow.1	nar	ja-JP-NanamiNeural	ふわふわの くもの まくらが ぷかぷか。
+th.pillow.2	hero	ja-JP-AoiNeural	ふあぁ、ねむい。もう ねる。
+th.pillow.3	boss	ja-JP-NaokiNeural	よし、はみがき しないで ねたら まくらも おれの もの!
+th.pillow.4	pet	ja-JP-MayuNeural	はみがきしてから ねると、ゆめも ふかふか!
+th.pillow.5	hero	ja-JP-AoiNeural	すやすや
+th.pillow.6	nar	ja-JP-NanamiNeural	はみがきしてから ねると、くもみたいに ふかふか ねむれるよ。
+th.pipi.1	nar	ja-JP-NanamiNeural	まどべの おはなばたけに、ようせいの ピピが すんでいるよ。
+th.pipi.2	pipi	ja-JP-ShioriNeural	おはなが しょんぼり。げんきが ないみたい
+th.pipi.3	boss	ja-JP-NaokiNeural	ひひっ、おはなに ねばねば シロップを かけたぞ!
+th.pipi.4	hero	ja-JP-AoiNeural	ともだち、おはなも はも きれいに まもろう!
+th.pipi.5	pipi	ja-JP-ShioriNeural	わあ、おはなが また にっこり!
+th.pipi.6	nar	ja-JP-NanamiNeural	おはなは まいにち おみず、はは まいにち はみがきが すき。
+th.planet.1	nar	ja-JP-NanamiNeural	ロケットに のって うちゅうへ ビューン!
+th.planet.2	hero	ja-JP-AoiNeural	しろい ほしが みえる! はの かたちの ほしだ!
+th.planet.3	boss	ja-JP-NaokiNeural	この ほしは もう ばいきんの ほしだ!
+th.planet.4	pet	ja-JP-MayuNeural	うちゅうでも はみがきは かならず!
+th.planet.5	nar	ja-JP-NanamiNeural	どこへ いくときも はぶらしと いっしょ。
+th.race.1	boss	ja-JP-NaokiNeural	おれの ほうが はやいぞ! しょうぶだ!
+th.race.2	nar	ja-JP-NanamiNeural	よーい どん!
+th.race.3	hero	ja-JP-AoiNeural	はあはあ、はやすぎる!
+th.race.4	pet	ja-JP-MayuNeural	ともだちの ひみつ さくせん!
+th.race.5	nar	ja-JP-NanamiNeural	キラリが 1とう!
+th.race.6	hero	ja-JP-AoiNeural	ばいきんくん、こんどは いっしょに はみがき しよう!
+th.race2.1	nar	ja-JP-NanamiNeural	うみの なかで しずくの きょうそうが はじまったよ!
+th.race2.2	boss	ja-JP-NaokiNeural	はやく はやく! てきとうでも おれが 1とう!
+th.race2.3	mongi	ja-JP-NanamiNeural	ゆっくり ていねいでも だいじょうぶ!
+th.race2.4	hero	ja-JP-AoiNeural	てきとうに みがくと ばいきんが のこるよ。ていねいが ほんとうの 1とう!
+th.race2.5	nar	ja-JP-NanamiNeural	はみがきは はやさより ていねいに!
+th.rain.1	nar	ja-JP-NanamiNeural	おにわに しとしと あめが ふってきたよ。
+th.rain.2	pipi	ja-JP-ShioriNeural	あめつぶ シャワーだ! おはなが きれいに なる!
+th.rain.3	boss	ja-JP-NaokiNeural	おれは しげみの したで がんばるぞ!
+th.rain.4	hero	ja-JP-AoiNeural	はみがきの あとの すすぎみたいに ざーっ!
+th.rain.5	nar	ja-JP-NanamiNeural	はみがきして おみずで すすぐと、くちの なかが すっきり。
+th.rbfest.1	nar	ja-JP-NanamiNeural	にじの おしろで おまつりが はじまったよ!
+th.rbfest.2	coco	ja-JP-AoiNeural	ふうせんと はたが いっぱい!
+th.rbfest.3	boss	ja-JP-NaokiNeural	おまつりの ケーキを ねばねばに してやる!
+th.rbfest.4	hero	ja-JP-AoiNeural	おまつりの あとは みんなで はみがき!
+th.rbfest.5	nar	ja-JP-NanamiNeural	たのしく たべた ひほど、はみがきは ていねいに。
+th.rbgate.1	nar	ja-JP-NanamiNeural	にじの おしろの まえに ついたよ。
+th.rbgate.2	hero	ja-JP-AoiNeural	もんが ねばねばで しまってる!
+th.rbgate.3	boss	ja-JP-NaokiNeural	あいことばを いわないと あけないぞ!
+th.rbgate.4	hero	ja-JP-AoiNeural	あいことばは シャカシャカ ピカピカ!
+th.rbgate.5	nar	ja-JP-NanamiNeural	ピンポーン! もんが ひらいたよ。
+th.rbgate.6	nar	ja-JP-NanamiNeural	いい しゅうかんは どんな もんも ひらくよ。
+th.robot.1	nar	ja-JP-NanamiNeural	あたらしい はぶらし ロボットが きたよ。
+th.robot.2	prop	ja-JP-KeitaNeural	ピピッ! さいこう そくどで みがきます! ウィーン!
+th.robot.3	hero	ja-JP-AoiNeural	いたた、つよすぎ! やさしく して!
+th.robot.4	boss	ja-JP-NaokiNeural	つよく みがいても おれは とれないぞ!
+th.robot.5	pet	ja-JP-MayuNeural	やさしく くるくる みがく ほうが きれいに なるよ!
+th.robot.6	nar	ja-JP-NanamiNeural	はは つよくじゃなく、やさしく ていねいに みがこう。
+th.sail.1	nar	ja-JP-NanamiNeural	ふねに のって あわの うみへ しゅっぱつ!
+th.sail.2	hero	ja-JP-AoiNeural	うみが ぜんぶ ぶくぶく あわだ!
+th.sail.3	boss	ja-JP-NaokiNeural	はみがきこを ぜんぶ しぼって あわの なみを つくるぞ!
+th.sail.4	pet	ja-JP-MayuNeural	はみがきこは おまめ くらいで じゅうぶん!
+th.sail.5	nar	ja-JP-NanamiNeural	はみがきこは おまめ くらい、みがくのは ていねいに。
+th.sand.1	nar	ja-JP-NanamiNeural	キラリが すぐに おわりに しようと しているよ。
+th.sand.2	pet	ja-JP-MayuNeural	もう おしまい? ばいきんが まだ いるよ!
+th.sand.3	hero	ja-JP-AoiNeural	じゃあ すなどけいと いっしょに みがこうか?
+th.sand.4	nar	ja-JP-NanamiNeural	すなが ぜんぶ おちるまで ゴシゴシ。
+th.sand.5	nar	ja-JP-NanamiNeural	じっくり みがくと、すみずみまで きれいに なるよ。
+th.seafire.1	nar	ja-JP-NanamiNeural	うみの ともだちが はなび まつりを ひらいたよ。
+th.seafire.2	mongi	ja-JP-NanamiNeural	きょうは キラキラ おまつりだ!
+th.seafire.3	boss	ja-JP-NaokiNeural	おまつりの おやつを たべて、はみがきは わすれよう
+th.seafire.4	hero	ja-JP-AoiNeural	おまつりの さいごは はみがき!
+th.seafire.5	nar	ja-JP-NanamiNeural	たのしい ひほど、はみがきで しめくくろう。
+th.seed.1	nar	ja-JP-NanamiNeural	キラリと ピピが たねを うえたよ。
+th.seed.2	pipi	ja-JP-ShioriNeural	まいにち おみずを あげたら ぐんぐん そだつよ。
+th.seed.3	boss	ja-JP-NaokiNeural	いちにちくらい やすんでも いいだろう
+th.seed.4	hero	ja-JP-AoiNeural	まいにち するから そだつんだよ!
+th.seed.5	nar	ja-JP-NanamiNeural	はみがきの しゅうかんも まいにち ぐんぐん そだつよ。
+th.seollal.1	nar	ja-JP-NanamiNeural	かんこくの おしょうがつの あさ、キラリは トッククを たべたよ。
+th.seollal.2	hero	ja-JP-AoiNeural	トッククを たべると ひとつ おにいさんに なるんだって!
+th.seollal.3	boss	ja-JP-NaokiNeural	おもちが はに ねばねば くっついたぞ!
+th.seollal.4	pet	ja-JP-MayuNeural	しんねん はじめての はみがき、いっしょに しよう!
+th.seollal.5	hero	ja-JP-AoiNeural	あけまして おめでとう!
+th.seollal.6	nar	ja-JP-NanamiNeural	おいしく たべた あとは かならず はみがき。
+th.shark.1	nar	ja-JP-NanamiNeural	うみで サメが ないていたよ。
+th.shark.2	prop	ja-JP-KeitaNeural	はが ねばねばして わらえないよ。
+th.shark.3	hero	ja-JP-AoiNeural	ひとつずつ じゅんばんに みがこう!
+th.shark.4	pet	ja-JP-MayuNeural	いち、に、さん いっぱい!
+th.shark.5	nar	ja-JP-NanamiNeural	うえの ひだりから したの ひだりまで、じゅんばんに!
+th.shark.6	prop	ja-JP-KeitaNeural	これで にっこり わらえる!
+th.shark.7	nar	ja-JP-NanamiNeural	いつも おなじ じゅんばんで みがくと わすれないよ。
+th.sheep.1	nar	ja-JP-NanamiNeural	くもの ひつじ ぼくじょうで ひつじが ぷかぷか。
+th.sheep.2	pet	ja-JP-MayuNeural	あれ? 1ぴきだけ むらさきいろ!
+th.sheep.3	boss	ja-JP-NaokiNeural	ばれた! ひつじの ふりを してたのに!
+th.sheep.4	nar	ja-JP-NanamiNeural	よく みると、かくれた ばいきんも みつけられるよ。
+th.sleepover.1	nar	ja-JP-NanamiNeural	きょうは ココの いえに おとまり!
+th.sleepover.2	hero	ja-JP-AoiNeural	まくら なげだ! ぽふぽふ!
+th.sleepover.3	coco	ja-JP-AoiNeural	あっ、はぶらしを わすれた!
+th.sleepover.4	boss	ja-JP-NaokiNeural	はぶらしが なければ こんやは おれさまの せかいだ!
+th.sleepover.5	hero	ja-JP-AoiNeural	かばんに ぼくの はぶらし あるよ! よういしてたんだ!
+th.sleepover.6	nar	ja-JP-NanamiNeural	おでかけの ひは じぶんの はぶらしを もっていこう。
+th.sleepy.1	pet	ja-JP-MayuNeural	ふあぁ もう ねる
+th.sleepy.2	hero	ja-JP-AoiNeural	だめだめ、はみがき してから!
+th.sleepy.3	nar	ja-JP-NanamiNeural	ともだちの ゆめに ばいきんが でてきた!
+th.sleepy.4	boss	ja-JP-NaokiNeural	パーティーだ! はの すきまで あそぼう!
+th.sleepy.5	pet	ja-JP-MayuNeural	わあ! おきる! はみがき する!
+th.sleepy.6	hero	ja-JP-AoiNeural	ゴシゴシ、みんなで みがこう!
+th.sleepy.7	nar	ja-JP-NanamiNeural	これで いい ゆめが みられるね。
+th.slide.1	nar	ja-JP-NanamiNeural	くもの くにに にじの すべりだいが できたよ!
+th.slide.2	hero	ja-JP-AoiNeural	わあ! シューッと すべろう!
+th.slide.3	boss	ja-JP-NaokiNeural	ねばねばの すべりだいに してやる!
+th.slide.4	pet	ja-JP-MayuNeural	はみがきの あわで つるつるに しよう!
+th.slide.5	nar	ja-JP-NanamiNeural	きれいだと なんでも もっと たのしいね!
+th.snack.1	nar	ja-JP-NanamiNeural	キラリが いちにちじゅう おやつを たべようと しているよ。
+th.snack.2	boss	ja-JP-NaokiNeural	いつでも おやつ、いいね いいね!
+th.snack.3	prop	ja-JP-KeitaNeural	ピピ! おやつは きまった じかんに!
+th.snack.4	hero	ja-JP-AoiNeural	おやつの じかんを まもって、たべたら おみずを ひとくち!
+th.snack.5	nar	ja-JP-NanamiNeural	おやつは きまった じかんだけ。
+th.snail.1	nar	ja-JP-NanamiNeural	カタツムリが とっても ゆっくり はみがきしているよ。
+th.snail.2	boss	ja-JP-NaokiNeural	のろま! そんなんじゃ いつ おわるんだ?
+th.snail.3	prop	ja-JP-KeitaNeural	ゆっくり、1ぽんも わすれずに みがいてるんだよ。
+th.snail.4	hero	ja-JP-AoiNeural	ぼくも 1ぽんずつ じっくり!
+th.snail.5	nar	ja-JP-NanamiNeural	ゆっくりでも、わすれずに みがくのが いちばん。
+th.snow.1	nar	ja-JP-NanamiNeural	しろい はつゆきが ふわふわ ふってきたよ。
+th.snow.2	coco	ja-JP-AoiNeural	ゆきだるま つくろう!
+th.snow.3	hero	ja-JP-AoiNeural	ゆきだるまみたいに はも まっしろ ピカピカ!
+th.snow.4	boss	ja-JP-NaokiNeural	さむいから はみがきは あしたで いいよ
+th.snow.5	pet	ja-JP-MayuNeural	さむい ひは ぬるい おみずで みがけば いいよ!
+th.snow.6	nar	ja-JP-NanamiNeural	さむい ひも はみがきは おやすみ しないよ。
+th.soda.1	nar	ja-JP-NanamiNeural	キラリが たんさんの びんを ふっちゃった。
+th.soda.2	hero	ja-JP-AoiNeural	うわあ、あわが ぽこぽこ!
+th.soda.3	boss	ja-JP-NaokiNeural	あわに のって はへ しゅっぱつ!
+th.soda.4	pet	ja-JP-MayuNeural	たんさんは ときどきだけ、のんだら おみずを ひとくち!
+th.soda.5	nar	ja-JP-NanamiNeural	あまい のみものは ときどきだけ。
+th.song.1	nar	ja-JP-NanamiNeural	もりの うたが ぜんぶ きえちゃった。
+th.song.2	boss	ja-JP-NaokiNeural	うたは ぜんぶ おれの もの! へへ。
+th.song.3	hero	ja-JP-AoiNeural	うたを かえして!
+th.song.4	pet	ja-JP-MayuNeural	もっと たのしく うたおう!
+th.song.5	hero	ja-JP-AoiNeural	シャカシャカ ゴシゴシ、ピカピカ!
+th.song.6	boss	ja-JP-NaokiNeural	あれ、おどりが とまらない!
+th.song.7	nar	ja-JP-NanamiNeural	もりに また うたが ひろがったよ。
+th.sorry.1@candy	nar	ja-JP-NanamiNeural	きょうは ベタベタ キャンディ ボスが ひとりで しょんぼり。
+th.sorry.1@choco	nar	ja-JP-NanamiNeural	きょうは チョコ ボスが ひとりで しょんぼり。
+th.sorry.1@soda	nar	ja-JP-NanamiNeural	きょうは シュワシュワ ソーダ ボスが ひとりで しょんぼり。
+th.sorry.1@jelly	nar	ja-JP-NanamiNeural	きょうは グミ ボスが ひとりで しょんぼり。
+th.sorry.1@cookie	nar	ja-JP-NanamiNeural	きょうは クッキー ボスが ひとりで しょんぼり。
+th.sorry.1@juice	nar	ja-JP-NanamiNeural	きょうは ジュース ボスが ひとりで しょんぼり。
+th.sorry.1@king	nar	ja-JP-NanamiNeural	きょうは むしば キングが ひとりで しょんぼり。
+th.sorry.2	hero	ja-JP-AoiNeural	どうして そんなに かなしそうなの?
+th.sorry.3	boss	ja-JP-NaokiNeural	ずっと はを いじめて ごめんね。
+th.sorry.4	hero	ja-JP-AoiNeural	あやまって くれて ありがとう! ともだちに なろう!
+th.sorry.5	boss	ja-JP-NaokiNeural	ほんと? ともだちに なって くれるの?
+th.sorry.6	nar	ja-JP-NanamiNeural	ごめんねと ありがとうで、こころも ピカピカ。
+th.spit.1	hero	ja-JP-AoiNeural	みがけた! あわを ごっくん しても いい?
+th.spit.2	pet	ja-JP-MayuNeural	だめ! あわは ペッ!
+th.spit.3	boss	ja-JP-NaokiNeural	あわの なかに かくれてたんだぞ!
+th.spit.4	hero	ja-JP-AoiNeural	ペッ!
+th.spit.5	nar	ja-JP-NanamiNeural	はみがきの あわは ペッと だして、おみずで かるく すすごう。
+th.starisle.1	nar	ja-JP-NanamiNeural	ほしの しまに よるが きたよ。
+th.starisle.2	hero	ja-JP-AoiNeural	ほしが ひとつ、ふたつ、みっつ きれい!
+th.starisle.3	boss	ja-JP-NaokiNeural	ほしを かぞえてたら はみがきを わすれるだろう?
+th.starisle.4	pet	ja-JP-MayuNeural	ほしを かぞえる まえに はみがき!
+th.starisle.5	nar	ja-JP-NanamiNeural	ねむる まえの はみがきは さきに しようね。
+th.stars.1	nar	ja-JP-NanamiNeural	キラリが ねころんで ほしを かぞえるよ。ひとつ、ふたつ、みっつ
+th.stars.2	hero	ja-JP-AoiNeural	あれ? ほしが ひとつ ねばねば!
+th.stars.3	boss	ja-JP-NaokiNeural	ほしも ねばねばに してやる!
+th.stars.4	pet	ja-JP-MayuNeural	ピカピカに みがこう!
+th.stars.5	nar	ja-JP-NanamiNeural	きれいに みがいて ねると、ほしみたいに キラキラ ねむれるよ。
+th.summer.1	nar	ja-JP-NanamiNeural	あつい なつ、うみで ばしゃばしゃ!
+th.summer.2	mongi	ja-JP-NanamiNeural	キラリ、いっしょに みずあそび しよう!
+th.summer.3	hero	ja-JP-AoiNeural	つめたい アイスも たべたけど
+th.summer.4	boss	ja-JP-NaokiNeural	なつは あまい おやつ パーティーだ!
+th.summer.5	mongi	ja-JP-NanamiNeural	なみが ばいきんを つれていったよ!
+th.summer.6	nar	ja-JP-NanamiNeural	つめたい おやつの あとも はみがきを わすれずに。
+th.sun.1	nar	ja-JP-NanamiNeural	あさの おひさまが にっこり のぼったよ。
+th.sun.2	prop	ja-JP-KeitaNeural	おはよう! よるの あいだ ばいきんが あそんでいったって。
+th.sun.3	boss	ja-JP-NaokiNeural	ひとばんじゅう あそんで ねむい もうすこし かくれてよう。
+th.sun.4	hero	ja-JP-AoiNeural	あさの はみがきで すっきり スタート!
+th.sun.5	nar	ja-JP-NanamiNeural	あさの はみがきで さわやかに いちにちを はじめよう。
+th.swamp.1	nar	ja-JP-NanamiNeural	ぬまに ばいきんが ひとり すんでいたよ。
+th.swamp.2	boss	ja-JP-NaokiNeural	ともだち みんな よんでくる!
+th.swamp.3	hero	ja-JP-AoiNeural	おおすぎる! ひとりじゃ むり。
+th.swamp.4	pet	ja-JP-MayuNeural	ともだちも てつだう!
+th.swamp.5	nar	ja-JP-NanamiNeural	ふたりで おおきな あわを つくったよ。
+th.swamp.6	hero	ja-JP-AoiNeural	いっしょだと すぐ おわったね!
+th.talkmirror.1	nar	ja-JP-NanamiNeural	せんめんじょの かがみが しゃべったよ!
+th.talkmirror.2	hero	ja-JP-AoiNeural	かがみよ かがみ、いちばん ピカピカの はは だれ?
+th.talkmirror.3	prop	ja-JP-KeitaNeural	うーん ひだりの おくばに ばいきんが ひとつ のこってるよ?
+th.talkmirror.4	boss	ja-JP-NaokiNeural	しーっ! かがみ、いわないで!
+th.talkmirror.5	nar	ja-JP-NanamiNeural	みがいたら かがみで もう いちど たしかめよう。
+th.tall.1	nar	ja-JP-NanamiNeural	ドゥリが せの たかさを はかったよ。
+th.tall.2	duri	ja-JP-DaichiNeural	わあ! まえより ぐんと のびた!
+th.tall.3	duri	ja-JP-DaichiNeural	よく かんで たべて、はも みがいてるからね!
+th.tall.4	boss	ja-JP-NaokiNeural	ふん、それでも おれの ほうが おおきいぞ!
+th.tall.5	nar	ja-JP-NanamiNeural	じょうぶな はで よく かむと、からだも ぐんぐん そだつよ。
+th.tapoff.1	nar	ja-JP-NanamiNeural	はみがきの あいだ、みずが じゃーじゃー ながれてる。
+th.tapoff.2	mongi	ja-JP-NanamiNeural	もったいない! コップに くんで つかおう。
+th.tapoff.3	boss	ja-JP-NaokiNeural	みずが あふれたら おれの プールだ!
+th.tapoff.4	hero	ja-JP-AoiNeural	じゃぐちを しっかり しめよう!
+th.tapoff.5	nar	ja-JP-NanamiNeural	コップに みずを くんで つかうと、みずも せつやく できるよ。
+th.tea.1	nar	ja-JP-NanamiNeural	ピピが はなびらの おちゃを いれたよ。
+th.tea.2	pipi	ja-JP-ShioriNeural	いい かおりの おちゃ、のんでみて!
+th.tea.3	boss	ja-JP-NaokiNeural	おさとうを 10こ いれよう! ひひっ!
+th.tea.4	hero	ja-JP-AoiNeural	おさとう なしでも いい かおり!
+th.tea.5	nar	ja-JP-NanamiNeural	のみものの おさとうは すこしだけ、のんだら おみずを ひとくち。
+th.tomorrow.1	nar	ja-JP-NanamiNeural	きょうも ともだちと たくさん あそんだよ。
+th.tomorrow.2	duri	ja-JP-DaichiNeural	キラリ、また あしたね!
+th.tomorrow.3	boss	ja-JP-NaokiNeural	あしたこそ かってやる!
+th.tomorrow.4	hero	ja-JP-AoiNeural	あしたの あさも ゴシゴシ まってるよ!
+th.tomorrow.5	nar	ja-JP-NanamiNeural	こんや はみがきして、あしたの あさ また あおうね。
+th.tongue.1	hero	ja-JP-AoiNeural	はは ぜんぶ みがけた! おしまい!
+th.tongue.2	boss	ja-JP-NaokiNeural	したの うえは だれも みがかないぞ!
+th.tongue.3	pet	ja-JP-MayuNeural	したにも ばいきんが かくれてるよ!
+th.tongue.4	hero	ja-JP-AoiNeural	したも まえに むかって やさしく なでよう。
+th.tongue.5	nar	ja-JP-NanamiNeural	したも やさしく みがくと、くちの においも バイバイ!
+th.train.1	nar	ja-JP-NanamiNeural	シュッシュッポッポ、ゆめの くにの はぶらし れっしゃが きたよ。
+th.train.2	hero	ja-JP-AoiNeural	きっぷは どこで かうの?
+th.train.3	coco	ja-JP-AoiNeural	ピカピカに みがいた はが きっぷだよ!
+th.train.4	boss	ja-JP-NaokiNeural	おれも のせて! はは みがいて ないけど
+th.train.5	pet	ja-JP-MayuNeural	はみがき しないと のれないよ!
+th.train.6	nar	ja-JP-NanamiNeural	はみがきが おわったら、ゆめの くにの れっしゃに のれるよ。
+th.treasure.1	nar	ja-JP-NanamiNeural	うみべで おおきな はこを みつけたよ。
+th.treasure.2	hero	ja-JP-AoiNeural	よいしょ、よいしょ! あかないなあ。
+th.treasure.3@candy	boss	ja-JP-NaokiNeural	ベタベタ キャンディ ボスの ねばねば かぎだ! あかないぞ!
+th.treasure.3@choco	boss	ja-JP-NaokiNeural	チョコ ボスの ねばねば かぎだ! あかないぞ!
+th.treasure.3@soda	boss	ja-JP-NaokiNeural	シュワシュワ ソーダ ボスの ねばねば かぎだ! あかないぞ!
+th.treasure.3@jelly	boss	ja-JP-NaokiNeural	グミ ボスの ねばねば かぎだ! あかないぞ!
+th.treasure.3@cookie	boss	ja-JP-NaokiNeural	クッキー ボスの ねばねば かぎだ! あかないぞ!
+th.treasure.3@juice	boss	ja-JP-NaokiNeural	ジュース ボスの ねばねば かぎだ! あかないぞ!
+th.treasure.3@king	boss	ja-JP-NaokiNeural	むしば キングの ねばねば かぎだ! あかないぞ!
+th.treasure.4	pet	ja-JP-MayuNeural	キラリ、はぶらしで みがいて!
+th.treasure.5	nar	ja-JP-NanamiNeural	はこの なかは ピカピカの ほしで いっぱい!
+th.treasure.6	hero	ja-JP-AoiNeural	ともだち、はんぶんこ しよう!
+th.turtle.1	nar	ja-JP-NanamiNeural	うみべで カメの おじいさんに あったよ。
+th.turtle.2	prop	ja-JP-KeitaNeural	わしは 100さいを こえたが、まいにち はを みがいておる。
+th.turtle.3	hero	ja-JP-AoiNeural	わあ、ほんとう?
+th.turtle.4	boss	ja-JP-NaokiNeural	おじいさんの はは おれの ものだ!
+th.turtle.5	prop	ja-JP-KeitaNeural	ながく じょうぶな はの ひけつは、まいにちの はみがきじゃよ。
+th.turtle.6	nar	ja-JP-NanamiNeural	おじいさんみたいに まいにち みがくと、はも ずっと じょうぶだよ。
+th.twomin.1	nar	ja-JP-NanamiNeural	すなどけいを ひっくりかえしたよ。さらさら
+th.twomin.2	hero	ja-JP-AoiNeural	すなが ぜんぶ おちるまで みがくんだよ!
+th.twomin.3	boss	ja-JP-NaokiNeural	2ふんは ながすぎ! すぐ やめるだろう?
+th.twomin.4	pet	ja-JP-MayuNeural	うたえば 2ふんは あっという まだよ!
+th.twomin.5	nar	ja-JP-NanamiNeural	2ふん かけて すみずみまで みがこう。
+th.umbrella.1	nar	ja-JP-NanamiNeural	はの まちに あめが ふってきたよ。
+th.umbrella.2	boss	ja-JP-NaokiNeural	かさが あれば すすぎの みずも へっちゃらだ!
+th.umbrella.3	pet	ja-JP-MayuNeural	かさの したに かくれるのは ずるい!
+th.umbrella.4	hero	ja-JP-AoiNeural	かぜさん ふいて、ヒューッ!
+th.umbrella.5	nar	ja-JP-NanamiNeural	かくれた ばいきんまで しっかり すすごう。
+th.veggie.1	nar	ja-JP-NanamiNeural	やさいの ともだちが あそびに きたよ。
+th.veggie.2	prop	ja-JP-KeitaNeural	シャキシャキ かむと はも じょうぶに なるよ!
+th.veggie.3	boss	ja-JP-NaokiNeural	やさいは いやだ キャンディが いちばん!
+th.veggie.4	hero	ja-JP-AoiNeural	やさいも もぐもぐ、なんでも たべるよ!
+th.veggie.5	nar	ja-JP-NanamiNeural	シャキシャキ やさいを いろいろ たべると、はが よろこぶよ。
+th.walk.1	nar	ja-JP-NanamiNeural	そーっと そーっと、よるの さんぽに でたよ。
+th.walk.2	hero	ja-JP-AoiNeural	しーっ、みんな ねてるよ。
+th.walk.3	boss	ja-JP-NaokiNeural	こそこそ みがいてない はを さがそうかな?
+th.walk.4	pet	ja-JP-MayuNeural	ぼくたちの まちの はは みんな ピカピカ!
+th.walk.5	nar	ja-JP-NanamiNeural	みんなが はみがきして ねた よるは、しずかで へいわだよ。
+th.water.1	nar	ja-JP-NanamiNeural	いっぱい あそんで のどが かわいたよ。
+th.water.2	boss	ja-JP-NaokiNeural	あまい ジュース のむ? ひひっ!
+th.water.3	duri	ja-JP-DaichiNeural	ぼくは つめたい おみずが すき!
+th.water.4	hero	ja-JP-AoiNeural	のどが かわいたら おみずが いちばん!
+th.water.5	nar	ja-JP-NanamiNeural	のどが かわいたら、あまい のみものより おみずを のもう。
+th.whale.1	nar	ja-JP-NanamiNeural	おおきな クジラが ふわぁーっと あくびを したよ。
+th.whale.2	hero	ja-JP-AoiNeural	わあ、くちが すごく おおきい!
+th.whale.3	boss	ja-JP-NaokiNeural	こんなに おおきい くちは おれの あそびばだ!
+th.whale.4	pet	ja-JP-MayuNeural	おおきい くちも すみずみ みがけば だいじょうぶ!
+th.whale.5	prop	ja-JP-KeitaNeural	ありがとう! すっきりして うたいたく なったよ!
+th.whale.6	nar	ja-JP-NanamiNeural	くちが おおきくても ちいさくても、すみずみまで みがこう。
+th.wing.1	nar	ja-JP-NanamiNeural	ピピが チョウの はねに えを かいているよ。
+th.wing.2	pipi	ja-JP-ShioriNeural	ふでは やさしく、うえから したへ!
+th.wing.3	boss	ja-JP-NaokiNeural	ねばねばの しみを つけてやる!
+th.wing.4	hero	ja-JP-AoiNeural	はぶらしも ふでみたいに やさしく みがこう!
+th.wing.5	nar	ja-JP-NanamiNeural	はぶらしは ふでみたいに やさしく。ごしごし つよく こすらないよ。
+th.wish.1	nar	ja-JP-NanamiNeural	よぞらを ながれぼしが とおったよ!
+th.wish.2	hero	ja-JP-AoiNeural	はやく ねがいごとを しよう!
+th.wish.3	coco	ja-JP-AoiNeural	ともだち みんなの はが ピカピカに なりますように!
+th.wish.4	boss	ja-JP-NaokiNeural	その ねがいは おれが じゃま してやる!
+th.wish.5	coco	ja-JP-AoiNeural	まいにち みがけば ねがいは かなうよ!
+th.wish.6	nar	ja-JP-NanamiNeural	まいにちの はみがきが ねがいを かなえるよ。
+th.wobbly.1	nar	ja-JP-NanamiNeural	キラリの はが ぐらぐら してるよ。
+th.wobbly.2	hero	ja-JP-AoiNeural	あれ? はが ゆれてる! こわい
+th.wobbly.3	pet	ja-JP-MayuNeural	だいじょうぶ! あたらしい はが はえてくるんだよ。
+th.wobbly.4	hero	ja-JP-AoiNeural	ぽろっ! ぬけた! にゅうし さん、ありがとう。
+th.wobbly.5	nar	ja-JP-NanamiNeural	あたらしい はも さいしょから しっかり みがこう。
+th.xmas.1	nar	ja-JP-NanamiNeural	クリスマスイブ、ツリーの あかりが キラキラ。
+th.xmas.2	hero	ja-JP-AoiNeural	サンタさんが くる まえに なにを しようか?
+th.xmas.3	boss	ja-JP-NaokiNeural	くつしたに ねばねば キャンディを いっぱい いれたぞ!
+th.xmas.4	pet	ja-JP-MayuNeural	ねる まえに はみがきしたら、サンタさんも にっこり!
+th.xmas.5	nar	ja-JP-NanamiNeural	ピカピカの はで にっこり クリスマス!
+thg.alarm.1	prop	ja-JP-KeitaNeural	ジリリ! ジリリ!
+thg.alarm.2	hero	ja-JP-AoiNeural	あと 5ふん
+thg.alarm.3	pet	ja-JP-MayuNeural	はみがきすると めが さめるよ!
+thg.banana.1	hero	ja-JP-AoiNeural	せんめんじょへ しゅっぱつ!
+thg.banana.2	nar	ja-JP-NanamiNeural	つるっ!
+thg.banana.3	hero	ja-JP-AoiNeural	ちゃくち せいこう! はぶらしも はなさなかった!
+thg.beard.1	nar	ja-JP-NanamiNeural	ぶくぶく あわが いっぱい!
+thg.beard.2	hero	ja-JP-AoiNeural	ほっほっほ、あわ じいさんだ!
+thg.bedhair.1	hero	ja-JP-AoiNeural	かがみよ かがみ、ぼくの あたま どうしたの?
+thg.bedhair.2	hero	ja-JP-AoiNeural	あたまは ぼさぼさ、はは ピカピカ!
+thg.beebuzz.1	prop	ja-JP-KeitaNeural	ブンブン あさ はちみつ たべた?
+thg.beebuzz.2	hero	ja-JP-AoiNeural	はちみつ たべたら シャカシャカ!
+thg.bunnycarrot.1	prop	ja-JP-KeitaNeural	ポリポリ にんじん!
+thg.bunnycarrot.2	hero	ja-JP-AoiNeural	うさぎの はは ずっと のびるんだって!
+thg.bunnycarrot.3	pet	ja-JP-MayuNeural	ぼくたちの はは 1かいしか はえかわらないから だいじに!
+thg.burp.1	hero	ja-JP-AoiNeural	しゅわしゅわ ソーダ!
+thg.burp.2	hero	ja-JP-AoiNeural	げっぷ!
+thg.burp.3	pet	ja-JP-MayuNeural	のんだら おみずで すすごう!
+thg.cat.1	hero	ja-JP-AoiNeural	ともだち、おきて!
+thg.cat.2	pet	ja-JP-MayuNeural	ぐう
+thg.cat.3	nar	ja-JP-NanamiNeural	シャカシャカの おとで ぱっちり!
+thg.choochoo.1	nar	ja-JP-NanamiNeural	シュッシュッポッポ!
+thg.choochoo.2	prop	ja-JP-KeitaNeural	つぎは はみがき えき です
+thg.choochoo.3	hero	ja-JP-AoiNeural	おります! シャカシャカ!
+thg.counting.1	pet	ja-JP-MayuNeural	いち、に、さん
+thg.counting.2	pet	ja-JP-MayuNeural	なな、ご、じゅうに?
+thg.counting.3	hero	ja-JP-AoiNeural	ともだち、かずが めちゃくちゃ!
+thg.crumbstuck.1	hero	ja-JP-AoiNeural	はの あいだに なにか はさまった!
+thg.crumbstuck.2	pet	ja-JP-MayuNeural	おみずを ひとくち、ぶくぶく!
+thg.crumbstuck.3	hero	ja-JP-AoiNeural	それから はぶらしで ゴシゴシ!
+thg.crunch.1	hero	ja-JP-AoiNeural	シャキッ!
+thg.crunch.2	pet	ja-JP-MayuNeural	りんごは はの おそうじを てつだう ともだち。
+thg.crunch.3	hero	ja-JP-AoiNeural	でも はみがきは はぶらしで!
+thg.dance.1	hero	ja-JP-AoiNeural	うえに ゴシゴシ!
+thg.dance.2	hero	ja-JP-AoiNeural	したに ゴシゴシ!
+thg.dance.3	hero	ja-JP-AoiNeural	くるくる まるまる!
+thg.dingdong.1	prop	ja-JP-KeitaNeural	カンカン! カンカン!
+thg.dingdong.2	pet	ja-JP-MayuNeural	なんの かね?
+thg.dingdong.3	hero	ja-JP-AoiNeural	はみがきの じかんの かねだよ!
+thg.dinoroar.1	duri	ja-JP-DaichiNeural	ふああ ガオー!
+thg.dinoroar.2	hero	ja-JP-AoiNeural	ガオーの まえに シャカシャカ!
+thg.dinoroar.3	duri	ja-JP-DaichiNeural	ガオー ピカピカ!
+thg.drop.1	nar	ja-JP-NanamiNeural	ぽた、ぽた、ぽた
+thg.drop.2	pet	ja-JP-MayuNeural	じゃぐちは しっかり しめようね!
+thg.drop.3	hero	ja-JP-AoiNeural	おみずも たいせつに、ピカピカ!
+thg.dropcount.1	mongi	ja-JP-NanamiNeural	みずの つぶ ひとつ、ふたつ、みっつ!
+thg.dropcount.2	mongi	ja-JP-NanamiNeural	すすぎは 3かいで じゅうぶん
+thg.dropcount.3	hero	ja-JP-AoiNeural	モンイ せんせい さいこう!
+thg.echo.1	hero	ja-JP-AoiNeural	シャカシャカ
+thg.echo.2	nar	ja-JP-NanamiNeural	シャカシャカ
+thg.echo.3	hero	ja-JP-AoiNeural	はみがき さいこう
+thg.echo.4	nar	ja-JP-NanamiNeural	さいこう
+thg.eightarms.1	prop	ja-JP-KeitaNeural	あしが 8ぽんだから はぶらしも 8ぽん!
+thg.eightarms.2	hero	ja-JP-AoiNeural	くちは ひとつ なのに?
+thg.eightarms.3	prop	ja-JP-KeitaNeural	じゃあ はぶらしも 1ぽん!
+thg.fast.1	hero	ja-JP-AoiNeural	いなずまみたいに シュシュシュ!
+thg.fast.2	pet	ja-JP-MayuNeural	はやすぎ! ゆっくり ていねいに!
+thg.fast.3	hero	ja-JP-AoiNeural	はあはあ わかった。
+thg.floaty.1	hero	ja-JP-AoiNeural	あれ? からだが ういてる!
+thg.floaty.2	pet	ja-JP-MayuNeural	はみがきは じめんの うえで
+thg.floaty.3	hero	ja-JP-AoiNeural	ふう、おりられた!
+thg.flowerbrush.1	hero	ja-JP-AoiNeural	はぶらしから はなの かおりが する!
+thg.flowerbrush.2	pipi	ja-JP-ShioriNeural	ピピが はなびらを おいていったよ!
+thg.flowerbrush.3	pet	ja-JP-MayuNeural	はなびらは とってから みがこう
+thg.flutter.1	hero	ja-JP-AoiNeural	あれ? ちょうちょが はぶらしに とまった!
+thg.flutter.2	pet	ja-JP-MayuNeural	はぶらしを おはなだと おもったんだね!
+thg.flutter.3	hero	ja-JP-AoiNeural	ごめんね、これは ぼくの はぶらし
+thg.foamball.1	hero	ja-JP-AoiNeural	ふう あわ ふうせん!
+thg.foamball.2	pet	ja-JP-MayuNeural	どんどん おおきく
+thg.foamball.3	nar	ja-JP-NanamiNeural	ぱーん!
+thg.gargle.1	hero	ja-JP-AoiNeural	おみずを ひとくち ふくんで
+thg.gargle.2	hero	ja-JP-AoiNeural	ガラガラガラ
+thg.gargle.3	hero	ja-JP-AoiNeural	ぺっ! すっきり!
+thg.greet.1	hero	ja-JP-AoiNeural	おはよう!
+thg.greet.2	prop	ja-JP-KeitaNeural	おはよう!
+thg.greet.3	boss	ja-JP-NaokiNeural	わるい あさ
+thg.hat.1	hero	ja-JP-AoiNeural	ぼくの はぶらし どこ?
+thg.hat.2	pet	ja-JP-MayuNeural	てに もってるよ!
+thg.hat.3	hero	ja-JP-AoiNeural	えへへ、わすれてた!
+thg.highfive.1	hero	ja-JP-AoiNeural	みがき おわった!
+thg.highfive.2	pet	ja-JP-MayuNeural	ハイタッチ!
+thg.highfive.3	nar	ja-JP-NanamiNeural	きょうも すてきな いちにちの はじまり!
+thg.icecold.1	hero	ja-JP-AoiNeural	あさから アイスクリーム!
+thg.icecold.2	hero	ja-JP-AoiNeural	わっ、はが しみる!
+thg.icecold.3	pet	ja-JP-MayuNeural	つめたい ものは ゆっくり たべよう
+thg.kitewind.1	nar	ja-JP-NanamiNeural	かぜが ビュンビュン!
+thg.kitewind.2	pet	ja-JP-MayuNeural	たこが はぶらしみたいに ゆらゆら!
+thg.kitewind.3	hero	ja-JP-AoiNeural	うえ したに ゴシゴシ、たこみたいに!
+thg.magicwand.1	hero	ja-JP-AoiNeural	ちちんぷいぷい ピカピカ!
+thg.magicwand.2	pet	ja-JP-MayuNeural	なにも おきなかった
+thg.magicwand.3	hero	ja-JP-AoiNeural	はみがきが ほんとうの まほうだよ!
+thg.medalday.1	nar	ja-JP-NanamiNeural	まいにち みがいた ともだちに メダル!
+thg.medalday.2	hero	ja-JP-AoiNeural	ぼくに?
+thg.medalday.3	pet	ja-JP-MayuNeural	きょうも ピカピカ、あしたも ピカピカ!
+thg.milkbeard.1	hero	ja-JP-AoiNeural	ごくごく、ミルク おいしい!
+thg.milkbeard.2	pet	ja-JP-MayuNeural	ぷはっ、しろい おひげが できた!
+thg.milkbeard.3	hero	ja-JP-AoiNeural	くちも ふいて、はも みがこう!
+thg.minitree.1	hero	ja-JP-AoiNeural	ブロッコリーって ちいさな きみたい!
+thg.minitree.2	pet	ja-JP-MayuNeural	はに はさまったら きが はえちゃうかも?
+thg.minitree.3	hero	ja-JP-AoiNeural	はやく みがこう!
+thg.mouthscope.1	pet	ja-JP-MayuNeural	ぼうえんきょうで くちの なかを みよう!
+thg.mouthscope.2	pet	ja-JP-MayuNeural	おくばの ほし はっけん!
+thg.mouthscope.3	hero	ja-JP-AoiNeural	ほしも ピカピカに みがこう!
+thg.paste.1	hero	ja-JP-AoiNeural	はみがきこを ぎゅーっ
+thg.paste.2	hero	ja-JP-AoiNeural	わあっ、だしすぎた!
+thg.paste.3	pet	ja-JP-MayuNeural	はみがきこは おまめ くらい!
+thg.peek.1	hero	ja-JP-AoiNeural	どこに かくれたかな?
+thg.peek.2	boss	ja-JP-NaokiNeural	ひひっ、ここには いないよ
+thg.peek.3	hero	ja-JP-AoiNeural	みつけた! うしろに いたのか!
+thg.penwalk.1	prop	ja-JP-KeitaNeural	よちよち、ぼくも あさの さんぽ!
+thg.penwalk.2	hero	ja-JP-AoiNeural	ペンギンは はが ないよね?
+thg.penwalk.3	prop	ja-JP-KeitaNeural	でも かおは あらうよ!
+thg.petbrush.1	pet	ja-JP-MayuNeural	ぼくも みがく!
+thg.petbrush.2	hero	ja-JP-AoiNeural	はぶらし さかさまだよ
+thg.petbrush.3	pet	ja-JP-MayuNeural	えへへ、もう いっかい!
+thg.pjbrush.1	hero	ja-JP-AoiNeural	パジャマの まま みがいても いい?
+thg.pjbrush.2	pet	ja-JP-MayuNeural	きがえより はみがきが さき!
+thg.pjbrush.3	hero	ja-JP-AoiNeural	よし、シャカシャカ!
+thg.rainbowpaste.1	hero	ja-JP-AoiNeural	にじいろの はみがきこが あったら いいな
+thg.rainbowpaste.2	pet	ja-JP-MayuNeural	いろは ともかく、りょうは わかる?
+thg.rainbowpaste.3	hero	ja-JP-AoiNeural	おまめ くらい!
+thg.robobeep.1	prop	ja-JP-KeitaNeural	ピピッ! はみがき けんさ かいし!
+thg.robobeep.2	prop	ja-JP-KeitaNeural	まえば OK、おくば OK
+thg.robobeep.3	prop	ja-JP-KeitaNeural	ピカピカ 100てん! ピピッ!
+thg.sheepleft.1	hero	ja-JP-AoiNeural	あさなのに どうして ひつじが いるの?
+thg.sheepleft.2	pet	ja-JP-MayuNeural	ゆうべ かぞえてる とちゅうで ねちゃったでしょ
+thg.sheepleft.3	prop	ja-JP-KeitaNeural	メェ ぼくも はみがき したい!
+thg.skybrush.1	hero	ja-JP-AoiNeural	あの くもを みて!
+thg.skybrush.2	pet	ja-JP-MayuNeural	はぶらしの かたちだ!
+thg.skybrush.3	hero	ja-JP-AoiNeural	おそらも はみがき してるのかな!
+thg.sleepygerm.1	boss	ja-JP-NaokiNeural	ぐうぐう まだ よるだよね?
+thg.sleepygerm.2	hero	ja-JP-AoiNeural	おはよう! はみがきの じかんだよ!
+thg.sleepygerm.3	boss	ja-JP-NaokiNeural	あさから!?
+thg.slowturtle.1	prop	ja-JP-KeitaNeural	ゆっくり ていねいに
+thg.slowturtle.2	hero	ja-JP-AoiNeural	カメみたいに 1ぽんずつ!
+thg.slowturtle.3	pet	ja-JP-MayuNeural	みがきのこしが ひとつも ない!
+thg.smile.1	nar	ja-JP-NanamiNeural	みがき おわったら かがみを みて
+thg.smile.2	hero	ja-JP-AoiNeural	にかっ!
+thg.smile.3	pet	ja-JP-MayuNeural	まぶしい!
+thg.snailrace.1	hero	ja-JP-AoiNeural	どっちが ていねいに みがくか しょうぶ!
+thg.snailrace.2	prop	ja-JP-KeitaNeural	ぼくは 3じかん みがくよ
+thg.snailrace.3	hero	ja-JP-AoiNeural	ながすぎ! 2ふんで いいんだよ!
+thg.sneeze.1	pet	ja-JP-MayuNeural	はなが むずむず
+thg.sneeze.2	pet	ja-JP-MayuNeural	はっくしょん! あわが ぽんぽん!
+thg.snowmanbrush.1	prop	ja-JP-KeitaNeural	ぼくにも はが あったら いいな
+thg.snowmanbrush.2	hero	ja-JP-AoiNeural	じゃあ にんじんの はなを ピカピカに みがいて あげる!
+thg.snowmanbrush.3	prop	ja-JP-KeitaNeural	くすぐったい!
+thg.sock.1	hero	ja-JP-AoiNeural	ともだち、はぶらし とって!
+thg.sock.2	pet	ja-JP-MayuNeural	はい!
+thg.sock.3	hero	ja-JP-AoiNeural	これ くつしただよ!
+thg.stretch.1	hero	ja-JP-AoiNeural	うーん、のびーっ
+thg.stretch.2	boss	ja-JP-NaokiNeural	おれも のびーっ
+thg.stretch.3	hero	ja-JP-AoiNeural	あれ? いつ きたの?
+thg.tonguebrush.1	hero	ja-JP-AoiNeural	はだけ みがけば おしまい?
+thg.tonguebrush.2	pet	ja-JP-MayuNeural	したも やさしく ゴシゴシ!
+thg.tonguebrush.3	hero	ja-JP-AoiNeural	べー! きれいに なった?
+thg.trophy.1	nar	ja-JP-NanamiNeural	きょうの はみがき おうは
+thg.trophy.2	pet	ja-JP-MayuNeural	ぼく? まだ みがいてないよ?
+thg.trophy.3	hero	ja-JP-AoiNeural	じゃあ いま いっしょに みがこう!
+thg.twins.1	hero	ja-JP-AoiNeural	まねしないで!
+thg.twins.2	hero	ja-JP-AoiNeural	きみが まねしたんでしょ!
+thg.twins.3	hero	ja-JP-AoiNeural	ふたりとも ピカピカだね。
+thg.unicornhorn.1	coco	ja-JP-AoiNeural	つのに あわが ついちゃった!
+thg.unicornhorn.2	hero	ja-JP-AoiNeural	つのが ソフトクリームに なった!
+thg.unicornhorn.3	coco	ja-JP-AoiNeural	ひひっ、おみずで あらおう
+thg.weather.1	pet	ja-JP-MayuNeural	きょうの おてんきを おしらせします。
+thg.weather.2	pet	ja-JP-MayuNeural	くちの なかは ばいきん ぐもり
+thg.weather.3	pet	ja-JP-MayuNeural	はみがきの あとは ピカピカ はれ!
+thg.whalespout.1	hero	ja-JP-AoiNeural	すすぐ ときは クジラみたいに
+thg.whalespout.2	prop	ja-JP-KeitaNeural	ぷしゅー!
+thg.whalespout.3	pet	ja-JP-MayuNeural	せんめんだいに そっと ぺっ
+thg.wrongbrush.1	hero	ja-JP-AoiNeural	これ ぼくの はぶらし かな?
+thg.wrongbrush.2	pet	ja-JP-MayuNeural	それは パパの はぶらしだよ!
+thg.wrongbrush.3	hero	ja-JP-AoiNeural	はぶらしは かならず じぶんのを!
+thg.yawn.1	hero	ja-JP-AoiNeural	ふああ
+thg.yawn.2	pet	ja-JP-MayuNeural	くちを あけた ついでに シャカシャカ!
