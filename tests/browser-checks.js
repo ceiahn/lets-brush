@@ -338,6 +338,40 @@ async function runLikes(browser, base){
   return problems;
 }
 
+// v0.52.4 극장 목소리: 느린 음성(가짜)으로 틀어도 대사가 중간에 끊기지 않는지 · 말하는 사람마다 높낮이가 다른지
+async function runVoice(browser, base){
+  const problems = [], page = await browser.newPage();
+  page.on('pageerror', e => problems.push('[voice] 오류: ' + e.message));
+  await page.addInitScript(() => {
+    window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } };
+    localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); localStorage.setItem('bj_lang', '"ko"');
+    const log = window.__vlog = [];
+    let cur = null, timer = 0;
+    const fake = { speaking:false, pending:false, paused:false, getVoices:() => [],
+      addEventListener(){}, removeEventListener(){},
+      speak(u){ if (cur) log.push({ cut:cur.text }); cur = u; fake.speaking = true; log.push({ text:u.text, pitch:u.pitch });
+        setTimeout(() => u.onstart && u.onstart(), 30);
+        timer = setTimeout(() => { if (cur === u){ cur = null; fake.speaking = false; u.onend && u.onend(); } }, 300 + [...u.text].length * 160); },
+      cancel(){ if (cur){ const u = cur; cur = null; fake.speaking = false; clearTimeout(timer); log.push({ cancel:u.text }); u.onerror && u.onerror(); } } };
+    Object.defineProperty(window, 'speechSynthesis', { value:fake, configurable:true });
+  });
+  await page.goto(base + '/index.html'); await page.waitForTimeout(1200);
+  await page.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); window.__bjTheater('owl'); });
+  for (let i = 0; i < 160; i++){ await page.waitForTimeout(500); if (await page.evaluate(() => document.querySelector('.screen.active').id) !== 'theater') break; }
+  const log = await page.evaluate(() => window.__vlog);
+  const cut = log.filter(x => x.cancel || x.cut).map(x => x.cancel || x.cut);
+  const said = log.filter(x => x.text);
+  // 끝난 뒤 첫 화면에서 나오는 말(Voice.stop 뒤)은 빼고, 극장 대사 중에 끊긴 것만
+  const owl = await page.evaluate(() => ['th.owl.1', 'th.owl.2', 'th.owl.3', 'th.owl.4', 'th.owl.5', 'th.owl.6'].map(k => t(k, { pet:'', boss:'' }).replace(/[~()]/g, '').trim().slice(0, 6)));
+  const cutLines = cut.filter(x => owl.some(o => o && x.includes(o)));
+  if (cutLines.length) problems.push('[voice] 대사가 중간에 끊김: ' + cutLines.join(' / '));
+  if (said.length < 6) problems.push('[voice] 대사를 다 읽지 않음: ' + said.length);
+  const pitches = new Set(said.map(x => x.pitch.toFixed(2)));
+  if (pitches.size < 3) problems.push('[voice] 말하는 사람마다 높낮이가 같음');
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -372,6 +406,9 @@ async function runBrowser(){
     const lk = await runLikes(browser, base);
     console.log(`${lk.length ? '✗' : '✓'} 극장 좋아요 · 다시 보기 · 아침 한 컷 고르기 · 익명 숫자${lk.length ? ` (${lk.length})` : ''}`);
     lk.forEach(x => console.log('   ' + x)); all.push(...lk);
+    const vc = await runVoice(browser, base);
+    console.log(`${vc.length ? '✗' : '✓'} 극장 목소리 (대사가 안 끊김 · 사람마다 높낮이)${vc.length ? ` (${vc.length})` : ''}`);
+    vc.forEach(x => console.log('   ' + x)); all.push(...vc);
     const lp = await runLangPack(browser, base);
     console.log(`${lp.length ? '✗' : '✓'} 받는 언어팩 (일본 폰 저절로 · 새 버전 받기)${lp.length ? ` (${lp.length})` : ''}`);
     lp.forEach(x => console.log('   ' + x)); all.push(...lp);
