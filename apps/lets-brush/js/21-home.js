@@ -106,7 +106,7 @@ $$('.js-stop').forEach(b => b.addEventListener('click', askStop));
 $('#homeBtn').addEventListener('click', () => { sfx.tap(); Voice.stop(); show('home'); });
 $$('.soundBtn').forEach(b => b.addEventListener('click', toggleSound));
 
-// 테스트용: 버전 글자 5번 연속 누르면 별 +10 (출시 전 삭제)
+// 테스트 모드에서만: 버전 글자 5번 연속 누르면 별 +10 (출시 모드에선 아무 일 없음)
 let verTaps = 0, verT = 0;
 $('#ver').addEventListener('click', () => {
   verTaps++; clearTimeout(verT); verT = setTimeout(() => { verTaps = 0; }, 1500);

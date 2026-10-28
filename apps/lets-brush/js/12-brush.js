@@ -38,7 +38,7 @@ function say(key, text, speak = true){
   el.textContent = msg; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
   if (speak) Voice.play(key, msg);
 }
-function cheerLine(){
+function cheerLine(){                                                      // 양치 중간 응원 (지금은 안 부름: 넣을지 아이 테스트 뒤 결정, 인수인계 [10])
   const pool = tList('say.cheers').map(s => ['say.cheers', s]);
   const ev = activeEvent();
   if (ev){ const k = 'event.' + ev.id + '.cheer', s = lookup(k); if (s) pool.push([k, s], [k, s]); }
