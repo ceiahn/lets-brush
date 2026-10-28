@@ -12,7 +12,8 @@
    이름 자리:
      {boss}  대장 세균마다 대사 전체를 따로 (키@세균id)
      {pet} · {name}  대사를 "이름 앞 · 이름 · 이름 뒤"로 나눠 만들고 (키~0, 키~1), 이름은 따로:
-        펫 기본 이름 (pn.역할.펫종류|뒷말) · 이름을 바꾼 펫 "친구" (pn.역할._|뒷말) · 알 (pn.역할.egg|뒷말) · 아이 "친구" (kn.역할._|뒷말)
+        펫 기본 이름 (pn.역할.펫종류|뒷말) · 이름을 바꾼 펫 "친구" (pn.역할._|뒷말) · 알 (pn.역할.egg|뒷말)
+        아이 이름: 앱이 부모님 녹음을 넣음. 녹음이 없을 때 쓸 "이름을 안 부르는 대사" 도 만듦 (키~x = 이름 뒤 글, 이름 앞 부르는 말 "우리" 등은 뺌)
         뒷말 = 이름 바로 뒤에 붙는 말 (한국어 조사 · 의 · 도 · 영어 's · 일본어 が の 등). 이름과 한 번에 읽어야 자연스러워서
         이름은 말하는 사람 목소리로 (해설이 부르는 이름은 해설 목소리). 아이 이름은 부모님 녹음이 있으면 그것 (앱)
         이름 조각은 많아서 여러 개를 한 번에 만든 뒤 쉬는 소리로 자름 (요청 수 절약). 개수가 안 맞으면 하나씩
@@ -62,6 +63,11 @@ function plan(lang){
         last = m.index + m[0].length;
       }
       pushSeg(tpl.slice(last));
+      if (/\{name\}/.test(tpl)){                                              // 녹음이 없을 때: 이름 없이 (이름 뒤 글, 없으면 앞 글)
+        const after = clean(format(tpl.slice(last), { pet:word })).replace(/^[\s,、，.。]+/, ''), before = clean(format(tpl.slice(0, tpl.indexOf('{name}')), { pet:word }));
+        const nx = after || before;
+        items.push({ key:key + '~x', role, text:nx.charAt(0).toUpperCase() + nx.slice(1) });
+      }
       parts[key] = list; continue;
     }
     items.push({ key, role, text:clean(tpl) });
@@ -70,7 +76,8 @@ function plan(lang){
   const names = [];
   const pets = src().PETS;
   for (const s of slots.values()){
-    const one = (k, nm) => names.push({ key:`${s.type === 'pet' ? 'pn' : 'kn'}.${s.role}.${k}|${s.suf}`, role:s.role, text:clean(format(`{${s.type}}${s.suf}`, { [s.type]:nm })) });
+    if (s.type === 'name') continue;                                           // 아이 이름은 부모님 녹음 (만들지 않음)
+    const one = (k, nm) => names.push({ key:`pn.${s.role}.${k}|${s.suf}`, role:s.role, text:clean(format(`{${s.type}}${s.suf}`, { [s.type]:nm })) });
     one('_', word);
     if (s.type === 'pet'){
       one('egg', T['th.eggName'] || word);

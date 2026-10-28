@@ -154,11 +154,12 @@ function thCtx(stage, tok){
     const vkey = pickI >= 0 ? key + '#' + pickI : /\{boss/.test(tpl || '') ? key + '@' + curBoss.id : key;
     if (window.__thSay) window.__thSay.push([key, roleOf(a)]);
     /* v0.52.6 이름 자리: 펫 기본 이름이면 그 이름 음성 (pn.역할.펫종류|뒷말), 이름을 바꿨으면 "친구" (pn.역할._|뒷말), 알이면 pn.역할.egg
-       아이 이름: 부모님이 녹음한 이름 (설정 → 내 목소리 → 아이 이름), 없으면 "친구" (kn.역할._|뒷말) */
-    const parts = Voice.partsOf(key);
-    if (parts) Voice.playParts(parts.map(p => p.k ? { key:p.k }
+       아이 이름: 부모님이 녹음한 이름 (설정 → 내 목소리 → 아이 이름)이 있으면 그 소리, 없으면 이름을 아예 안 부르는 대사 (키~x) */
+    const parts = Voice.partsOf(key), kidRec = Voice.rec('kidName');
+    if (parts && parts.some(p => p.slot === 'name') && !kidRec) Voice.play(key + '~x', txt, voiceOf(a));
+    else if (parts) Voice.playParts(parts.map(p => p.k ? { key:p.k }
       : p.slot === 'pet' ? { key:`pn.${p.role}.${!c.petSp ? 'egg' : c.petDefault ? c.petSp : '_'}|${p.suf}` }
-      : (Voice.rec('kidName') && !p.suf) ? { url:Voice.rec('kidName') } : { key:`kn.${p.role}._|${p.suf}` }), txt, voiceOf(a));
+      : { url:kidRec }), txt, voiceOf(a));
     else Voice.play(vkey, txt, voiceOf(a));
     return txt;
   };

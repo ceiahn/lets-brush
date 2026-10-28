@@ -403,13 +403,13 @@ async function runVoiceFiles(base){
   const b2 = await chromium.launch({ args:['--autoplay-policy=no-user-gesture-required'] }), p2 = await b2.newPage();
   p2.on('pageerror', e => problems.push('[voicefile] 오류: ' + e.message));
   const pets = Object.keys(require('../tools/lang.js').loadSources().PETS);
-  const f2 = { 'thg.sock.1~1':'sock1.mp3', 'pn.hero._|':'pn_.mp3', 'pn.hero.egg|':'pnegg.mp3' };
+  const f2 = { 'thg.sock.1~1':'sock1.mp3', 'pn.hero._|':'pn_.mp3', 'pn.hero.egg|':'pnegg.mp3', 'th.endName~0':'en0.mp3', 'th.endName~1':'en1.mp3', 'th.endName~x':'enx.mp3' };
   pets.forEach(id => { f2['pn.hero.' + id + '|'] = 'pn-' + id + '.mp3'; });
-  await p2.route('**/voice/ko.json', r => r.fulfill({ status:200, contentType:'application/json', body:JSON.stringify({ dir:'ko/', files:f2, parts:{ 'thg.sock.1':[{ slot:'pet', suf:'', role:'hero' }, { k:'thg.sock.1~1' }] } }) }));
+  await p2.route('**/voice/ko.json', r => r.fulfill({ status:200, contentType:'application/json', body:JSON.stringify({ dir:'ko/', files:f2, parts:{ 'thg.sock.1':[{ slot:'pet', suf:'', role:'hero' }, { k:'thg.sock.1~1' }], 'th.endName':[{ k:'th.endName~0' }, { slot:'name', suf:'', role:'nar' }, { k:'th.endName~1' }] } }) }));
   await p2.route('**/voice/ko/*.mp3', r => r.fulfill({ status:200, contentType:'audio/mpeg', body:Buffer.from(SILENT_MP3, 'base64') }));
   await p2.addInitScript(() => {
     window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } };
-    localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); localStorage.setItem('bj_lang', '"ko"');
+    localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); localStorage.setItem('bj_lang', '"ko"'); localStorage.setItem('bj_kidName', '"하나"');
     const files = window.__files = [];
     Object.defineProperty(window, 'speechSynthesis', { value:{ speaking:false, getVoices:() => [], addEventListener(){}, cancel(){}, speak(u){ setTimeout(() => u.onend && u.onend(), 300); } }, configurable:true });
     const play = HTMLMediaElement.prototype.play;
@@ -419,9 +419,12 @@ async function runVoiceFiles(base){
   const exp = await p2.evaluate(() => { const pal = companion(); return !pal ? 'pnegg.mp3' : pal.name ? 'pn_.mp3' : 'pn-' + pal.sp + '.mp3'; });
   await p2.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); window.__bjTheater('sock'); });
   for (let i = 0; i < 60; i++){ await p2.waitForTimeout(500); if (await p2.evaluate(() => document.querySelector('.screen.active').id) !== 'theater') break; }
+  await p2.evaluate(() => window.__bjTheater('owl'));                    // 이야기 끝인사 (아이 이름이 있는 사용자)
+  for (let i = 0; i < 90; i++){ await p2.waitForTimeout(500); if (await p2.evaluate(() => document.querySelector('.screen.active').id) !== 'theater') break; }
   const fl = await p2.evaluate(() => window.__files);
   const at = fl.indexOf(exp);
   if (at < 0 || fl[at + 1] !== 'sock1.mp3') problems.push(`[voicefile] 이름 자리 차례가 이상함 (기대 ${exp} → sock1.mp3): ${fl.join(' ')}`);
+  if (!fl.includes('enx.mp3') || fl.includes('en0.mp3')) problems.push('[voicefile] 아이 이름 녹음이 없는데 이름 없는 끝인사(~x)가 안 나옴: ' + fl.join(' '));
   await b2.close();
   return problems;
 }
