@@ -74,7 +74,7 @@ addText({
 });
 (function(){
   const S = (c) => { c.place(c.hero, 34, 5); c.place(c.pet, 14, 5); };
-  const twin = (c, x) => { const m = c.prop(c.hero.querySelector('.th-in').innerHTML, 32, x, 5, 3, 250 / 220); c.flip(m, true); return m; };
+  const twin = (c, x) => { const m = c.prop(c.hero.querySelector('.th-in').innerHTML, 32, x, 5, 3, 250 / 220); c.flip(m, true); m.role = 'hero'; return m; };
   window.TH_GAGS = (window.TH_GAGS || []).concat([
     { id:'yawn', bg:'bath', setup:S, run: async (c) => {
       await Promise.all([c.line(c.hero, 'thg.yawn.1'), c.pose(c.hero, P_YAWN, 900), c.cam(34, 22, 1.5, 700)]);

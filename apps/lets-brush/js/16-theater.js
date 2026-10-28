@@ -125,7 +125,11 @@ function thCtx(stage, tok){
     try{ await an.finished; }catch(e){}
     chk();
   };
-  let bubT = 0;
+  let bubT = 0, lastBub = null;
+  /* v0.52.4 말하는 사람마다 목소리 높낮이 · 빠르기 (목소리 톤 설정에 곱함). 해설은 차분하게, 세균은 낮게, 펫 · 친구들은 높게 */
+  const TH_VOICE = { nar:{ pitch:.92, rate:.97 }, hero:{ pitch:1.06, rate:1 }, pet:{ pitch:1.28, rate:1.04 }, boss:{ pitch:.62, rate:1.06 },
+    pipi:{ pitch:1.36, rate:1.04 }, mongi:{ pitch:1.16, rate:.97 }, coco:{ pitch:1.42, rate:1.06 }, duri:{ pitch:.9, rate:.95 }, prop:{ pitch:.84, rate:.95 } };
+  const voiceOf = (a) => !a ? TH_VOICE.nar : a === c.hero ? TH_VOICE.hero : a === c.pet ? TH_VOICE.pet : TH_VOICE[a.role] || TH_VOICE.prop;
   const say = (a, key, prm = {}, dur = 2600) => {
     prm = Object.assign({}, c.P || {}, prm);
     const txt = t(key, prm);
@@ -140,17 +144,23 @@ function thCtx(stage, tok){
       const sw = stage.clientWidth, bw = b.offsetWidth, cx = parseFloat(b.style.left) / 100 * sw;
       b.style.left = Math.max(bw / 2 + 6, Math.min(sw - bw / 2 - 6, cx)) + 'px';
     }
-    clearTimeout(bubT); bubT = setTimeout(() => { b.remove(); }, dur);
+    clearTimeout(bubT); bubT = setTimeout(() => { b.remove(); }, dur); lastBub = b;
     if (a && !a.classList.contains('talk')){ talk(a, true); setTimeout(() => talk(a, false), Math.min(dur, lineMs(txt))); }
-    Voice.play('theater', txt);
+    Voice.play(key, txt, voiceOf(a));                                // v0.52.4 대사 키 그대로 (나중에 대사마다 녹음 파일을 넣을 수 있게)
     return txt;
   };
   const lineMs = (txt) => Math.max(1700, 700 + [...txt].length * (lang === 'en' ? 55 : 95));   // 읽는 시간 (한 · 일은 글자당 더 길게)
   const talk = (a, on) => { if (a && a.classList) a.classList.toggle('talk', !!on); };
+  /* v0.52.4 대사: 앞 말(제목 소개 · 물리칠 때 외침)이 끝난 뒤 시작하고, 목소리가 다 끝날 때까지 기다림 (읽는 시간보다 짧게 끝내지 않음)
+     목소리를 꺼 두면 읽는 시간만큼. 말이 끝나면 말풍선도 곧 내림 */
   const line = async (a, key, prm = {}) => {
+    await Voice.wait(7000); chk();
     const txt = t(key, Object.assign({}, c.P || {}, prm)), ms = lineMs(txt);
-    say(a, key, prm, ms + 300); talk(a, true);
-    try{ await wait(ms); } finally { talk(a, false); }
+    say(a, key, prm, 60000); talk(a, true);
+    const b = lastBub;
+    try{ await Promise.all([wait(ms), Voice.wait(4000 + [...txt].length * 450)]); chk(); await wait(250); }
+    finally { talk(a, false); }
+    setTimeout(() => { if (b && b.isConnected && b === lastBub) b.remove(); }, 500);
   };
   const burst = (a, n = 7) => {
     const cx = a.pos ? a.pos.x : a.x, cy = a.pos ? a.pos.y + a.h / 2 : a.y;
@@ -208,7 +218,7 @@ function thCtx(stage, tok){
     },
     prop: actor,
     place(a, x, y){ a.getAnimations().forEach(an => an.cancel()); a.pos = { x, y }; a.style.left = x + '%'; a.style.bottom = y + '%'; },   // v0.50.0 앞서 움직인(go) 자리를 지우고 옮김
-    boss(x, y, w = 20){ return actor(germSVG(curBoss.col, curBoss), w, x, y, 1); },
+    boss(x, y, w = 20){ const b = actor(germSVG(curBoss.col, curBoss), w, x, y, 1); b.role = 'boss'; return b; },
     flip(a, on){ a.style.transform = on ? 'scaleX(-1)' : ''; },
     brush(a, on){ const s = a.querySelector('svg.char'); if (s) s.classList.toggle('brushing', !!on); },
     snd(k, i){ if (TH_SND[k]) TH_SND[k](i); },
@@ -223,7 +233,7 @@ function thCtx(stage, tok){
       await wait(ms);
     },
     many(svg, n, y, w, z = 2){ return Array.from({ length:n }, (_, i) => actor(svg, w, 15 + i * 70 / Math.max(1, n - 1), y, z)); },
-    cast(name, x, y, w = 24, z = 3){ const a = actor(CAST_ART[name] || '', w, x, y, z); a.classList.add('cast'); return a; },   // v0.51.0 피피 · 몽이 · 코코 · 두리
+    cast(name, x, y, w = 24, z = 3){ const a = actor(CAST_ART[name] || '', w, x, y, z); a.classList.add('cast'); a.role = name; return a; },   // v0.51.0 피피 · 몽이 · 코코 · 두리
     /* v0.51.0 조합 장치: 세균 물리치기 (이야기마다 how 를 안 정하면 매번 다섯 가지 중 하나 → 같은 편도 볼 때마다 다르게)
        'brush' 칫솔 돌진 · 'foam' 거품 폭탄 · 'pet' 펫 몸통 박치기 · 'song' 양치 노래에 춤추다 떠남 · 'rinse' 헹굼 물결 */
     async defeat(b, how){
@@ -276,7 +286,7 @@ function thCtx(stage, tok){
     },
     async opening(n, title){
       TH_SND.fanfare();
-      Voice.play('theater', c.quick ? t('th.gagOpen') : c.fav ? t('th.favOpen', { title }) : t('th.open', { n, title }));
+      Voice.play('th.open', c.quick ? t('th.gagOpen') : c.fav ? t('th.favOpen', { title }) : t('th.open', { n, title }), { pitch:.95, rate:1 });
       await wait(c.quick ? 900 : 1800);
       stage.classList.add('open'); await wait(c.quick ? 600 : 900);
       const tt = stage.querySelector('.th-title'); if (tt) tt.remove();

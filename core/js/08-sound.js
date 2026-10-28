@@ -157,7 +157,9 @@ const Voice = (() => {
   let voices = [];
   const load = () => { try{ voices = speechSynthesis.getVoices() || []; }catch(e){} };
   if (can){ load(); try{ speechSynthesis.addEventListener('voiceschanged', load); }catch(e){} }
-  const clean = (s) => String(s).replace(/\p{Extended_Pictographic}|️|…/gu, '').replace(/\s+/g, ' ').trim();
+  // 읽어 줄 글 다듬기: 그림 글자 · 말줄임 · 물결 · 괄호 · 따옴표 · 하트는 소리 내지 않음, 같은 글자 3번 넘게(하아아아암) → 2번 (v0.52.4)
+  const clean = (s) => String(s).replace(/\p{Extended_Pictographic}|️|…/gu, '').replace(/[~〜～()（）「」『』“”"♥♡★☆·]/g, ' ')
+    .replace(/(\p{L})\1{2,}/gu, '$1$1').replace(/\s+/g, ' ').trim();
   function audioUrl(key){
     const a = packs[lang].audio;
     return (a && a.files && a.files[key]) ? (a.base || '') + a.files[key] : null;
@@ -166,42 +168,59 @@ const Voice = (() => {
   const LOW = (k) => k === 'say.cheers' || k === 'say.resume' || /^event\./.test(k);
   // 같은 언어 목소리 중 자연스러운 것 우선
   const QUALITY = /natural|neural|enhanced|premium|google|siri|samantha|yuna|kyoko/i;
-  function play(key, text){
-    if (!voiceOn) return;
+  /* v0.52.4 play 는 말이 끝나면 풀리는 약속(Promise)을 돌려줌. Voice.wait(최대 ms) = 지금 하는 말이 끝날 때까지
+     (극장: 앞 대사가 다 끝난 뒤 다음 대사). 음성이 시작조차 안 하거나(목소리 없음) 끝 신호가 안 오는 폰도 있어서 시간 제한을 둠
+     opt: { pitch, rate } = 목소리 톤에 곱하는 값 (극장에서 말하는 사람마다 다르게) */
+  let pending = Promise.resolve();
+  const track = (p) => (pending = p);
+  const ended = (el) => new Promise(res => { const f = () => res(); el.addEventListener('ended', f, { once:true }); el.addEventListener('error', f, { once:true }); el.addEventListener('pause', f, { once:true }); setTimeout(f, 20000); });
+  function wait(max = 8000){ return Promise.race([pending, new Promise(r => setTimeout(r, max))]); }
+  function play(key, text, opt = {}){
+    if (!voiceOn) return track(Promise.resolve());
     const mine = recs[recKeyOf(key)];
     if (mine){                                          // 내가 녹음한 목소리가 있으면 그걸로
-      if (recPlaying() && LOW(key)) return;
+      if (recPlaying() && LOW(key)) return pending;
       try{ if (can) speechSynthesis.cancel(); }catch(e){}
-      try{ recAudio.pause(); recAudio.src = mine; recAudio.currentTime = 0; recAudio.play().catch(() => {}); }catch(e){}
-      return;
+      try{ recAudio.pause(); recAudio.src = mine; recAudio.currentTime = 0; recAudio.play().catch(() => {}); return track(ended(recAudio)); }catch(e){}
+      return track(Promise.resolve());
     }
     const url = audioUrl(key);
-    if (url){ try{ new Audio(url).play().catch(() => {}); }catch(e){} return; }
-    if (!can) return;
+    if (url){ try{ try{ if (can) speechSynthesis.cancel(); }catch(e){} const a = new Audio(url); a.play().catch(() => {}); return track(ended(a)); }catch(e){} return track(Promise.resolve()); }
+    if (!can) return track(Promise.resolve());
     const code = packs[lang].meta.tts || lang;
     const norm = (v) => (v.lang || '').toLowerCase().replace('_', '-');
     const same = voices.filter(x => norm(x) === code.toLowerCase());
     const cands = same.length ? same : list();
     const picked = voiceName && list().find(x => (x.voiceURI || x.name) === voiceName);   // 지금 언어 목소리 중에서만
     const v = picked || cands.find(x => QUALITY.test(x.name)) || cands.find(x => x.localService) || cands[0];
-    if (voices.length && !v) return;     // 이 언어 목소리가 기기에 없음
+    if (voices.length && !v) return track(Promise.resolve());     // 이 언어 목소리가 기기에 없음
     try{
       if (speechSynthesis.speaking){
-        if (LOW(key)) return;
+        if (LOW(key)) return pending;
         speechSynthesis.cancel();
       }
-      const u = new SpeechSynthesisUtterance(clean(text));
+      const say = clean(text);
+      const u = new SpeechSynthesisUtterance(say);
       const tn = TONES[voiceTone] || TONES.kind;
-      u.lang = code; if (v) u.voice = v; u.rate = tn.rate; u.pitch = tn.pitch;
+      u.lang = code; if (v) u.voice = v;
+      u.rate = Math.min(2, tn.rate * (opt.rate || 1)); u.pitch = Math.max(.1, Math.min(2, tn.pitch * (opt.pitch || 1)));
+      const done = new Promise(res => {
+        let started = false;
+        const fin = () => res();
+        u.onstart = () => { started = true; setTimeout(fin, 2500 + [...say].length * 330 / u.rate); };   // 끝 신호가 안 와도 이만큼 뒤엔 풂
+        u.onend = fin; u.onerror = fin;
+        setTimeout(() => { if (!started) fin(); }, 1500);                                                 // 시작을 안 함 (목소리 없음 등)
+      });
       speechSynthesis.speak(u);
-    }catch(e){}
+      return track(done);
+    }catch(e){ return track(Promise.resolve()); }
   }
-  const stop = () => { try{ if (can) speechSynthesis.cancel(); }catch(e){} try{ recAudio.pause(); }catch(e){} };
+  const stop = () => { try{ if (can) speechSynthesis.cancel(); }catch(e){} try{ recAudio.pause(); }catch(e){} track(Promise.resolve()); };
   // 지금 언어로 말할 수 있는 목소리 목록 (설정 화면용)
   // 언어 코드 앞부분이 정확히 같은 것만 (ko ≠ kok 코카니어)
   const primary = (l) => String(l || '').toLowerCase().split(/[-_]/)[0];
   const list = () => { const code = primary(packs[lang].meta.tts || lang); return voices.filter(x => primary(x.lang) === code); };
-  return { play, stop, list };
+  return { play, stop, list, wait };
 })();
 
 function refreshSoundIcons(){
