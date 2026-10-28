@@ -330,7 +330,7 @@ const TH_ART3 = {
 };
 // v0.51.0 소품 한곳에서 (16-th-art.js 의 TH_P 에 예전 소품도 이어 붙임) + 헹굼 물결
 Object.assign(TH_P, { star:TH_ART.star, heart:TH_ART.heart, note:TH_ART.note, bubble:TH_ART.bubble, banana:TH_ART.banana, bush:TH_ART.bush, tear:TH_ART.tear,
-  candy:TH_ART2.candy, chest:TH_ART2.chest, chestOpen:TH_ART2.chestOpen, crown:TH_ART2.crown, cup:TH_ART2.cup, trophy:TH_ART2.trophy, moon:TH_ART2.moon, flag:TH_ART2.flag, zzz:TH_ART2.zzz,
+  candy:TH_ART2.candy, crown:TH_ART2.crown, cup:TH_ART2.cup, trophy:TH_ART2.trophy, zzz:TH_ART2.zzz,
   tooth:TH_ART3.tooth, apple:TH_ART3.apple, sun:TH_ART3.sun, cloudGray:TH_ART3.cloudGray, cloudWhite:TH_ART3.cloudWhite, rainbow:TH_ART3.rainbow, mirror:TH_ART3.mirror, mirrorBig:TH_ART3.mirrorBig, cake:TH_ART3.cake,
   wave: stickerSvg('<svg viewBox="-60 -30 120 60" aria-hidden="true"><path d="M-60 30 V2 Q-45 -22 -30 2 Q-15 -22 0 2 Q15 -22 30 2 Q45 -22 60 2 V30Z" fill="#8fd3ff"/><path d="M-50 6 Q-40 -6 -32 4 M-10 6 Q0 -6 8 4 M30 6 Q40 -6 48 4" stroke="#ffffff" stroke-width="3" fill="none"/></svg>', 3) });
 const P_TINY = [{ transform:'translateY(0)' }, { transform:'translateY(-14%)' }, { transform:'translateY(0)' }];
@@ -925,5 +925,4 @@ function thLikeShow(id, kind, c){
 function thLikeHide(){ const b = $('#thLike'); b.hidden = true; b.onclick = null; }
 $('#thSkip').addEventListener('click', () => { sfx.tap(); if (thEnd) thEnd(); });
 $('#theaterTest').addEventListener('click', () => { sfx.tap(); playTheater(() => { refreshHome(); show('home'); }); });
-$('#theaterV2').addEventListener('click', () => { sfx.tap(); playTheater(() => { renderSettings(); show('settings'); }, 'dream'); });   // v0.50.0 극장 2.0 시험판 (부모님 설정)
 if (TEST_MODE) window.__bjTheater = (id, bg) => playTheater(() => { refreshHome(); show('home'); }, id, bg);   // 자동 테스트용

@@ -136,7 +136,6 @@ const brushVars = (id) => {
   return Object.entries(v).map(([k, x]) => `--${k}:${x}`).join(';');
 };
 const BF = (n) => `style="fill:var(--${n})"`;          // 칫솔 색 채우기
-const BS = (n) => `style="stroke:var(--${n})"`;
 // 손잡이 무늬 (x0~x1, 높이 ±h, 가운데 y=0)
 function bDeco(x0, x1, h){
   const out = [], f = (n) => n.toFixed(1);
