@@ -73,7 +73,7 @@ const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, 
   'slot.head':'모자', 'slot.eyes':'안경', 'slot.neck':'목', 'slot.back':'등', 'slot.hand':'손',
   'brush.back':'처음으로',
   'zone.ul':'윗니 왼쪽', 'zone.ur':'윗니 오른쪽', 'zone.lr':'아랫니 오른쪽', 'zone.ll':'아랫니 왼쪽',
-  'slot.brush':'칫솔', 'closet.using':'쓰는 중', 'settings.voicePick':'목소리 고르기', 'settings.voiceAuto':'자동', 'settings.voiceTone':'말투', 'tone.kind':'상냥하게', 'tone.normal':'보통', 'tone.bright':'신나게', 'settings.voiceTry':'🔊 미리 듣기', 'rec.title':'🎙 내 목소리로 바꾸기', 'rec.note':'● 눌러 녹음, ■ 눌러 끝내요 (최대 15초). 다시 녹음하면 이전 녹음은 지워지고, 지우면 기기 목소리로 돌아가요.', 'rec.mine':'내 목소리', 'rec.device':'기기 목소리', 'rec.saved':'녹음했어요!', 'rec.cleared':'녹음을 지웠어요', 'rec.noMic':'마이크를 쓸 수 없어요. 마이크 권한을 허용해 주세요 (앱 주소가 https일 때만 되는 폰도 있어요)', 'rec.l.prep':'치약 짜기 안내', 'rec.l.say.cheers':'중간 응원', 'rec.l.done':'다 닦았어요', 'rec.bossAny':'대장 세균',  'say.start':'자, 같이 닦아 볼까요?',
+  'slot.brush':'칫솔', 'closet.using':'쓰는 중', 'settings.voicePick':'목소리 고르기', 'settings.voiceAuto':'자동', 'settings.voiceTone':'말투', 'tone.kind':'상냥하게', 'tone.normal':'보통', 'tone.bright':'신나게', 'settings.voiceTry':'🔊 미리 듣기', 'rec.title':'🎙 내 목소리로 바꾸기', 'rec.note':'● 눌러 녹음, ■ 눌러 끝내요 (최대 15초). 다시 녹음하면 이전 녹음은 지워지고, 지우면 기기 목소리로 돌아가요.', 'rec.mine':'내 목소리', 'rec.device':'기기 목소리', 'rec.saved':'녹음했어요!', 'rec.cleared':'녹음을 지웠어요', 'rec.noMic':'마이크를 쓸 수 없어요. 마이크 권한을 허용해 주세요 (앱 주소가 https일 때만 되는 폰도 있어요)', 'rec.l.kidName':'우리 아이 이름 (극장 끝인사에서 불러요)', 'rec.l.prep':'치약 짜기 안내', 'rec.l.say.cheers':'중간 응원', 'rec.l.done':'다 닦았어요', 'rec.bossAny':'대장 세균',  'say.start':'자, 같이 닦아 볼까요?',
   'say.ul':'윗니 왼쪽부터 닦아 볼까요?', 'say.ur':'이번엔 윗니 오른쪽이에요.', 'say.lr':'아랫니 오른쪽도 치카치카 해 줘요.', 'say.ll':'마지막으로 아랫니 왼쪽이에요.',
   'say.cheers':['정말 잘하고 있어요.', '구석구석 꼼꼼하게, 좋아요.', '거품이 보글보글 나요.', '이가 웃고 있어요.', '최고예요, 조금만 더요.'],
   'say.hurry':'거의 다 했어요. 10초만 더 힘내요.', 'say.pause':'잠깐 쉬는 중…', 'say.resume':'다시 같이 닦아 볼까요?',
@@ -289,7 +289,7 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
   'slot.head':'Hats', 'slot.eyes':'Glasses', 'slot.neck':'Neck', 'slot.back':'Back', 'slot.hand':'Hand',
   'brush.back':'Home',
   'zone.ul':'Top left', 'zone.ur':'Top right', 'zone.lr':'Bottom right', 'zone.ll':'Bottom left',
-  'slot.brush':'Brush', 'closet.using':'Using', 'settings.voicePick':'Voice', 'settings.voiceAuto':'Auto', 'settings.voiceTone':'Tone', 'tone.kind':'Gentle', 'tone.normal':'Normal', 'tone.bright':'Cheerful', 'settings.voiceTry':'🔊 Try it', 'rec.title':'🎙 Use my own voice', 'rec.note':'Tap ● to record, ■ to stop (15s max). Recording again replaces the old one; delete to go back to the device voice.', 'rec.mine':'My voice', 'rec.device':'Device voice', 'rec.saved':'Recorded!', 'rec.cleared':'Recording deleted', 'rec.noMic':"Can't use the microphone. Please allow it (some phones need the app on https)", 'rec.l.prep':'Toothpaste step', 'rec.l.say.cheers':'Cheering', 'rec.l.done':'All done', 'rec.bossAny':'the boss germ',  'say.start':"Ready? Let's brush together.",
+  'slot.brush':'Brush', 'closet.using':'Using', 'settings.voicePick':'Voice', 'settings.voiceAuto':'Auto', 'settings.voiceTone':'Tone', 'tone.kind':'Gentle', 'tone.normal':'Normal', 'tone.bright':'Cheerful', 'settings.voiceTry':'🔊 Try it', 'rec.title':'🎙 Use my own voice', 'rec.note':'Tap ● to record, ■ to stop (15s max). Recording again replaces the old one; delete to go back to the device voice.', 'rec.mine':'My voice', 'rec.device':'Device voice', 'rec.saved':'Recorded!', 'rec.cleared':'Recording deleted', 'rec.noMic':"Can't use the microphone. Please allow it (some phones need the app on https)", 'rec.l.kidName':"Your child's name (said at the end of Theater)", 'rec.l.prep':'Toothpaste step', 'rec.l.say.cheers':'Cheering', 'rec.l.done':'All done', 'rec.bossAny':'the boss germ',  'say.start':"Ready? Let's brush together.",
   'say.ul':"Let's start with the top left.", 'say.ur':'Now the top right!', 'say.lr':'Bottom right, swish swish!', 'say.ll':'Last one! Bottom left!',
   'say.cheers':['Great job!', 'Get every corner!', 'Bubbles everywhere!', 'Your teeth are smiling!', 'Awesome! Keep going!'],
   'say.hurry':'Almost there. Just 10 more seconds.', 'say.pause':'Taking a little break…', 'say.resume':'Back to brushing!',
@@ -488,5 +488,5 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
 })};
 
 const PACK_CATALOG = [   // v0.52.0 받는 언어팩은 lang/<code>.json (번역 파일 하나 = 언어 하나). version 은 그 파일 meta.version 과 같게 (올리면 받아 둔 기기도 새로 받음)
-  { code:'ja', name:'日本語', url:'lang/ja.json', version:57 }
+  { code:'ja', name:'日本語', url:'lang/ja.json', version:58 }
 ];

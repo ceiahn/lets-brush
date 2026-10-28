@@ -78,6 +78,7 @@ const voiceSample = () => Voice.play('say.sample', t('say.ul'));
 /* ---------- 녹음 화면 ---------- */
 let recorder = null, recChunks = [], recFor = null, recStopT = 0, recStream = null, recStarting = false;
 function recLabel(k){
+  if (k === 'kidName') return t('rec.l.kidName');                    // v0.52.6 극장 끝인사에서 불러 줄 아이 이름
   if (k === 'prep') return t('rec.l.prep');
   if (k === 'say.cheers') return t('rec.l.say.cheers');
   if (k === 'done') return t('rec.l.done');

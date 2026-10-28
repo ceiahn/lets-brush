@@ -30,7 +30,7 @@ function loadSources(){
   ctx.EXTRA.forEach(tx => ['en', 'ko'].forEach(c => Object.entries(tx[c] || {}).forEach(([k, v]) => { if (base[c][k] === undefined) base[c][k] = v; if (c === 'en') group[k] = group[k] || '극장'; })));
   Object.entries(PETS).forEach(([id, P]) => { ['en', 'ko'].forEach(c => { if (P.names && P.names[c]) base[c]['pet.' + id] = P.names[c]; }); group['pet.' + id] = '펫 이름'; });
   const petLangs = new Set(Object.values(PETS).flatMap(P => Object.keys(P.names || {})));
-  return { base, group, CORE, CAT, petLangs };
+  return { base, group, CORE, CAT, petLangs, PETS };
 }
 
 const PLURAL = /_(zero|one|two|few|many|other)$/;

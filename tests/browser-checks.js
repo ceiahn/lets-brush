@@ -399,6 +399,30 @@ async function runVoiceFiles(base){
   if (!r.tts.some(x => x.includes(r.owl3.slice(0, 5)))) problems.push('[voicefile] 파일을 못 받은 대사가 기기 목소리로 안 이어짐');
   if (r.tts.some(x => /부엉이가 살아요/.test(x))) problems.push('[voicefile] 파일이 있는 대사를 기기 목소리로도 읽음');
   await browser.close();
+  // v0.52.6 이름 자리: "{pet}, 칫솔 좀 가져다줘!" → [펫 이름 조각][나머지] 차례로
+  const b2 = await chromium.launch({ args:['--autoplay-policy=no-user-gesture-required'] }), p2 = await b2.newPage();
+  p2.on('pageerror', e => problems.push('[voicefile] 오류: ' + e.message));
+  const pets = Object.keys(require('../tools/lang.js').loadSources().PETS);
+  const f2 = { 'thg.sock.1~1':'sock1.mp3', 'pn.hero._|':'pn_.mp3', 'pn.hero.egg|':'pnegg.mp3' };
+  pets.forEach(id => { f2['pn.hero.' + id + '|'] = 'pn-' + id + '.mp3'; });
+  await p2.route('**/voice/ko.json', r => r.fulfill({ status:200, contentType:'application/json', body:JSON.stringify({ dir:'ko/', files:f2, parts:{ 'thg.sock.1':[{ slot:'pet', suf:'', role:'hero' }, { k:'thg.sock.1~1' }] } }) }));
+  await p2.route('**/voice/ko/*.mp3', r => r.fulfill({ status:200, contentType:'audio/mpeg', body:Buffer.from(SILENT_MP3, 'base64') }));
+  await p2.addInitScript(() => {
+    window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } };
+    localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); localStorage.setItem('bj_lang', '"ko"');
+    const files = window.__files = [];
+    Object.defineProperty(window, 'speechSynthesis', { value:{ speaking:false, getVoices:() => [], addEventListener(){}, cancel(){}, speak(u){ setTimeout(() => u.onend && u.onend(), 300); } }, configurable:true });
+    const play = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function(){ if (/voice\/ko\//.test(this.src)) files.push(this.src.split('/').pop()); return play.call(this); };
+  });
+  await p2.goto(base + '/index.html'); await p2.waitForTimeout(1500);
+  const exp = await p2.evaluate(() => { const pal = companion(); return !pal ? 'pnegg.mp3' : pal.name ? 'pn_.mp3' : 'pn-' + pal.sp + '.mp3'; });
+  await p2.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); window.__bjTheater('sock'); });
+  for (let i = 0; i < 60; i++){ await p2.waitForTimeout(500); if (await p2.evaluate(() => document.querySelector('.screen.active').id) !== 'theater') break; }
+  const fl = await p2.evaluate(() => window.__files);
+  const at = fl.indexOf(exp);
+  if (at < 0 || fl[at + 1] !== 'sock1.mp3') problems.push(`[voicefile] 이름 자리 차례가 이상함 (기대 ${exp} → sock1.mp3): ${fl.join(' ')}`);
+  await b2.close();
   return problems;
 }
 
