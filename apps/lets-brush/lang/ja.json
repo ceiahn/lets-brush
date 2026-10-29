@@ -4,7 +4,7 @@
   "name": "日本語",
   "dir": "ltr",
   "tts": "ja-JP",
-  "version": 58,
+  "version": 59,
   "font": {
    "family": "'Kosugi Maru'",
    "url": "../../core/fonts/kosugi-maru.css"
@@ -1787,6 +1787,19 @@
   "thg.medalday.1": "まいにち みがいた ともだちに メダル!",
   "thg.medalday.2": "ぼくに?",
   "thg.medalday.3": "きょうも ピカピカ、あしたも ピカピカ!",
-  "rec.l.kidName": "お子さんの なまえ(げきじょうの さいごに よびます)"
+  "rec.l.kidName": "お子さんの なまえ(げきじょうの さいごに よびます)",
+  "wrap.title": "おかたづけ",
+  "wrap.spit": "あわを ぺっと はきだそう。",
+  "wrap.rinse": "おみずを すこし ふくんで かるく すすごう。",
+  "wrap.wash": "はぶらしも おみずで きれいに あらおう。",
+  "wrap.put": "はぶらしを コップに たてて もとの ばしょへ。",
+  "wrap.spit.s": "ぺっ",
+  "wrap.rinse.s": "すすぐ",
+  "wrap.wash.s": "はぶらしを あらう",
+  "wrap.put.s": "もとの ばしょ",
+  "wrap.end": "おかたづけ できたね! すごい!",
+  "wrap.done": "できた!",
+  "wrap.tip": "フッ素入りの歯みがき粉なら、すすぎは かるく 1回で じゅうぶん",
+  "settings.wrap": "はみがきの あとの おかたづけ(すすぎ・はぶらし)"
  }
 }

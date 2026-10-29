@@ -780,6 +780,50 @@ function openTongue(done){
   tgTimers.push(setTimeout(end, CONFIG.tongueMs));
   $('#tgSkip').onclick = () => { sfx.tap(); Voice.stop(); end(); };
 }
+/* ---------- v0.53.0 마무리 정리 ----------
+   혀 닦기(또는 양치) 바로 뒤 극장이 나오면 아이가 칫솔을 든 채 입도 못 헹굼 → 정리를 다 한 뒤에 극장 · 완료 화면
+   퉤 뱉기 → 물로 가볍게 헹구기 → 칫솔 씻기 → 칫솔 세워 두기. 단계마다 그림 + 목소리, 목소리가 끝나고 잠깐 기다렸다 다음
+   "다 했어요!" 는 언제든 누르면 바로 다음 (손이 젖은 아이는 못 누를 수 있어서 마지막 단계 뒤 9초면 저절로)
+   기록 · 별은 이 화면 전에 이미 저장 (finishDone). 설정에서 끌 수 있음 (bj_wrap) */
+let wrTimers = [];
+const WRAP_STEPS = [['spit', 2500], ['rinse', 4500], ['wash', 4000], ['put', 3000]];
+function wrapArt(k){
+  const cup = (inner) => `<path d="M-22 -8 L-18 34 Q-17 40 -10 40 H10 Q17 40 18 34 L22 -8Z" fill="#cdeefc" stroke="#7fbfe0" stroke-width="3"/>${inner}`;
+  const bru = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-4" y="-44" width="8" height="58" rx="4" fill="#ff9ec0"/><rect x="-6" y="-58" width="12" height="16" rx="4" fill="#fff" stroke="#bfe3f7" stroke-width="2"/></g>`;
+  const drops = (xs) => xs.map(([x, y]) => `<path d="M${x} ${y} q5 7 0 11 q-5 -4 0 -11Z" fill="#8fd3ff"/>`).join('');
+  const art = {
+    spit:'<circle cx="-6" cy="0" r="30" fill="#fff" stroke="#bfe3f7" stroke-width="3"/><circle cx="-16" cy="-8" r="4" fill="#24324a"/><circle cx="2" cy="-8" r="4" fill="#24324a"/><ellipse cx="6" cy="12" rx="6" ry="5" fill="#8a2346"/>' +
+      '<circle cx="24" cy="12" r="6" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="2"/><circle cx="36" cy="6" r="4.5" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="2"/><circle cx="44" cy="16" r="3.5" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="2"/>',
+    rinse:cup('<rect x="-17" y="6" width="34" height="30" rx="4" fill="#8fd3ff"/>') + drops([[-30, -34], [-14, -44], [8, -40]]),
+    wash:bru(0, 18, -20) + drops([[-26, -30], [16, -38], [26, -14], [-30, 6]]),
+    put:cup('') + bru(-6, 6, -8) + '<path d="M28 -30 l4 -10 l4 10 l10 2 l-8 6 l2 10 l-8 -6 l-8 6 l2 -10 l-8 -6Z" fill="#ffd54a"/>'
+  };
+  return stickerSvg(`<svg viewBox="-55 -60 110 110" aria-hidden="true">${art[k]}</svg>`, 3);
+}
+function openWrap(done){
+  wrTimers.forEach(clearTimeout); wrTimers = [];
+  $('#wrSteps').innerHTML = WRAP_STEPS.map(([k]) => `<li data-k="${k}">${esc(t('wrap.' + k + '.s'))}</li>`).join('');
+  $('#wrDone').classList.remove('ready');
+  show('wrap');
+  let finished = false, i = 0;
+  const end = () => { if (finished) return; finished = true; wrTimers.forEach(clearTimeout); wrTimers = []; Voice.stop(); done(); };
+  const step = () => {
+    if (finished) return;
+    $$('#wrSteps li').forEach((li, j) => { li.classList.toggle('on', j === i); li.classList.toggle('ok', j < i); });
+    if (i >= WRAP_STEPS.length){
+      $('#wrArt').innerHTML = wrapArt('put'); $('#wrSay').textContent = t('wrap.end'); $('#wrDone').classList.add('ready');
+      sfx.done(); Voice.play('wrap.end', t('wrap.end'));
+      wrTimers.push(setTimeout(end, 9000)); return;
+    }
+    const [k, ms] = WRAP_STEPS[i++];
+    $('#wrArt').innerHTML = wrapArt(k); $('#wrSay').textContent = t('wrap.' + k);
+    tone(880 + i * 120, .12, 'sine', .12);
+    const said = Voice.play('wrap.' + k, t('wrap.' + k));
+    wrTimers.push(setTimeout(() => Promise.resolve(said).then(() => { if (!finished) wrTimers.push(setTimeout(step, 1200)); }), ms));
+  };
+  step();
+  $('#wrDone').onclick = () => { sfx.tap(); end(); };
+}
 /* ---------- 보상 계산 ---------- */
 function computeRewards(){
   const R = CONFIG.reward;
@@ -924,11 +968,13 @@ function finishDone(){
   giftTimers.push(setTimeout(openGift, CONFIG.giftAutoOpenMs));               // 안 눌러도 3초 뒤 자동으로 열림
   quizRefresh();                                                              // v0.30.0 오늘의 퀴즈 단추
   if (typeof shareDoneRefresh === 'function') shareDoneRefresh();             // v0.45.0 연속 기록 3 · 7 · 14 · 30일 … 자랑하기
+  $('#doneSpit').hidden = wrapOn;                                             // v0.53.0 정리 화면에서 이미 퉤
   $('#doneSpit').innerHTML = `${stickerSvg('<svg viewBox="0 0 44 44"><circle cx="16" cy="22" r="13" fill="#fff" stroke="#bfe3f7" stroke-width="2"/><circle cx="12" cy="19" r="1.8" fill="#24324a"/><circle cx="19" cy="19" r="1.8" fill="#24324a"/><ellipse cx="22" cy="27" rx="3" ry="2.5" fill="#8a2346"/><circle cx="31" cy="27" r="3" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="1.5"/><circle cx="37" cy="25" r="2.2" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="1.5"/></svg>', 2.2)}<span>${t('done.spit')}</span>`;
-  setTimeout(() => Voice.play('done', callName() + t('done.title') + ' ' + t('done.spit') + ' ' + t('gift.say')), 600);
+  setTimeout(() => Voice.play('done', callName() + t('done.title') + ' ' + (wrapOn ? '' : t('done.spit') + ' ') + t('gift.say')), 600);
   };
   // 특별한 날 · 일주일에 한 번은 스페셜 영상 (v0.25: 틀 수 있는 영상이 확인된 것 중에서만 → 없으면 바로 극장)
-  specialPick().then(sp => { if (sp) playSpecial(sp, reveal); else if (theaterOn) playTheater(reveal); else reveal(); });
+  const show2 = () => specialPick().then(sp => { if (sp) playSpecial(sp, reveal); else if (theaterOn) playTheater(reveal); else reveal(); });
+  if (wrapOn) openWrap(show2); else show2();                                  // v0.53.0 마무리 정리를 다 한 뒤에 극장 · 완료
 }
 
 function confetti(n){

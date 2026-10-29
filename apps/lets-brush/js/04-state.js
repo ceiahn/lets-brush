@@ -50,6 +50,7 @@ function applyAge(){ const a = kidAge(); if (a !== null){ childAge = a < 3 ? 'u3
 applyAge();
 let prepOn      = store.get('prep', true);
 let tongueOn    = store.get('tongue', true);
+let wrapOn      = store.get('wrap', true);       // v0.53.0 양치 뒤 마무리 정리 (헹구기 · 칫솔 정리)
 let myBrushes   = store.get('brushes', ['brush_basic']);
 let brush       = store.get('brush', 'brush_basic');
 function applyBrush(){

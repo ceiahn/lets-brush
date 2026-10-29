@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-title" content="Let's Brush" />
 <title>Let's Brush</title>
 <!--
-  Let's Brush (렛츠 브러시)  버전: v0.52.7  |  2026-10-28
+  Let's Brush (렛츠 브러시)  버전: v0.53.0  |  2026-10-29
   개발 안내 · 규칙 · 변경 기록은 apps/lets-brush/docs/개발_인수인계.md 에 있음 (새로 이어서 작업한다면 그 파일부터 읽을 것)
   파일 나눔 (v0.36.0~): 이 파일 = 화면(HTML)만 · 모양 = css/app.css · 동작 = js/ 폴더 (아래 순서대로 읽힘, 순서 바꾸지 말 것)
 -->
@@ -71,7 +71,7 @@
       <button class="menu-btn" id="bookBtn"><span class="mi">📖</span><span data-i18n="menu.book"></span></button>
       <button class="menu-btn" id="mapBtn"><span class="mi">🗺️</span><span data-i18n="menu.map"></span><i class="mbadge" id="mapBadge"></i></button>
     </div>
-    <button class="ver" id="ver">v0.52.7</button>
+    <button class="ver" id="ver">v0.53.0</button>
   </div>
 </section>
 
@@ -198,6 +198,7 @@
       <p class="set-note" id="ageNote"></p>
       <label class="set-row" id="ageRow"><span data-i18n="settings.age"></span><select id="ageSel"></select></label>
       <label class="set-row"><span data-i18n="settings.tongue"></span><input type="checkbox" class="tgl" id="tongueTgl"></label>
+      <label class="set-row"><span data-i18n="settings.wrap"></span><input type="checkbox" class="tgl" id="wrapTgl"></label>
       <label class="set-row"><span data-i18n="settings.theater"></span><input type="checkbox" class="tgl" id="theaterTgl"></label>
       <label class="set-row" id="statsRow" hidden><span data-i18n="settings.stats"></span><input type="checkbox" class="tgl" id="statsTgl"></label>
       <p class="set-note" id="statsNote" data-i18n="settings.statsNote" hidden></p>
@@ -316,6 +317,16 @@
   <div class="tg-say" id="tgSay"></div>
   <p class="tg-tip" data-i18n="tongue.tip"></p>
   <button class="text-btn" id="tgSkip" data-i18n="tongue.skip"></button>
+</section>
+
+<!-- ④-2b 마무리 정리 (v0.53.0): 퉤 → 입 헹구기 → 칫솔 씻기 → 칫솔 세워 두기. 다 하고 나서 극장 · 완료 -->
+<section id="wrap" class="screen">
+  <div class="tg-title" data-i18n="wrap.title"></div>
+  <div class="wr-art" id="wrArt"></div>
+  <div class="tg-say" id="wrSay"></div>
+  <ol class="wr-steps" id="wrSteps"></ol>
+  <button class="big-btn small" id="wrDone" data-i18n="wrap.done"></button>
+  <p class="tg-tip" data-i18n="wrap.tip"></p>
 </section>
 
 <!-- ⑤ 완료 화면 -->

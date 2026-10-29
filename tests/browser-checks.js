@@ -124,13 +124,15 @@ async function runLang(browser, base, code){
   await run(1500);
   await page.evaluate(() => { const g = document.querySelector('#prepGo'); if (g && g.offsetParent) g.click(); });
   let sawBrush = false;
+  const seq = [];                                                         // v0.53.0 지나간 화면 차례 (양치 → 혀 → 정리 → 극장 → 완료)
+  const track = async () => { const cur = await page.evaluate(() => (document.querySelector('.screen.active') || {}).id); if (seq[seq.length - 1] !== cur){ seq.push(cur); if (cur === 'wrap') await checkText('wrap'); } return cur; };
   for (let i = 0; i < 230; i++){
-    await run(1000);
+    await run(1000); await track();
     if (i === 60){ sawBrush = await page.evaluate(() => (document.querySelector('.screen.active') || {}).id === 'brushC'); await checkText('brushC'); }
   }
   if (!sawBrush) note('양치 화면(brushC)이 안 나옴');
   for (let i = 0; i < 120; i++){                                           // 혀 닦기는 건너뛰고, 극장은 끝까지 보면서 대사 확인
-    await run(1000);
+    await run(1000); await track();
     const id = await page.evaluate(() => {
       for (const s of ['#tongueSkip', '#tongue .skip', '#spSkip', '#giftBox']){ const e = document.querySelector(s); if (e && e.offsetParent) e.click(); }
       return (document.querySelector('.screen.active') || {}).id;
@@ -143,6 +145,9 @@ async function runLang(browser, base, code){
   }
   const end = await page.evaluate(() => (document.querySelector('.screen.active') || {}).id);
   if (end !== 'done') note(`양치 뒤 완료 화면 대신 ${end}`);
+  const wi = seq.indexOf('wrap'), ti = seq.indexOf('theater');
+  if (wi < 0) note('양치 뒤 마무리 정리 화면이 안 나옴: ' + seq.join(' → '));
+  else if (ti >= 0 && ti < wi) note('정리 전에 극장이 나옴: ' + seq.join(' → '));
   else await checkText('done');
   await page.screenshot({ path:path.join(__dirname, 'test-results', `done-${code}.png`) });
   await ctx.close();
