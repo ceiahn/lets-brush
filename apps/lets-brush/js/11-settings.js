@@ -56,6 +56,7 @@ function renderSettings(){
   $('#ageSel').innerHTML = ['u3', '3p'].map(k => `<option value="${k}" ${childAge === k ? 'selected' : ''}>${t('age.' + k)}</option>`).join('');
   $('#prepTgl').checked = prepOn;
   $('#tongueTgl').checked = tongueOn;
+  $('#wrapTgl').checked = wrapOn;
   $('#theaterTgl').checked = theaterOn;
   Stats.syncUI();                                                                        // v0.52.0 익명 숫자 (statsUrl 이 있을 때만 보임)
   $('#quizTgl').checked = store.get('quizOn', true);
@@ -174,6 +175,7 @@ $('#bdayD').addEventListener('change', saveBday);
 $('#ageSel').addEventListener('change', (e) => { childAge = e.target.value === 'u3' ? 'u3' : '3p'; store.set('age', childAge); sfx.tap(); });
 $('#prepTgl').addEventListener('change', (e) => { prepOn = e.target.checked; store.set('prep', prepOn); });
 $('#tongueTgl').addEventListener('change', (e) => { tongueOn = e.target.checked; store.set('tongue', tongueOn); });
+$('#wrapTgl').addEventListener('change', (e) => { wrapOn = e.target.checked; store.set('wrap', wrapOn); });
 $('#theaterTgl').addEventListener('change', (e) => { theaterOn = e.target.checked; store.set('theaterOn', theaterOn); });
 $('#quizTgl').addEventListener('change', (e) => { store.set('quizOn', e.target.checked); quizRefresh(); });
 $('#specialTgl').addEventListener('change', (e) => { specialOn = e.target.checked; store.set('specialOn', specialOn); });

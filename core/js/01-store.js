@@ -14,7 +14,7 @@
 const KID_MAX = 3;
 const KID_KEYS = new Set(['stars', 'testGift', 'owned', 'look', 'brush', 'brushes', 'evGift', 'log', 'log2', 'covered', 'shields', 'fairyDay',
   'pet', 'petOwned', 'book', 'map', 'roomOwned', 'roomOn', 'hab', 'goal', 'theater', 'thLikes', 'special', 'quizDay', 'quizStamps',
-  'kidName', 'bday', 'birthY', 'age', 'hand', 'technique', 'prep', 'tongue']);
+  'kidName', 'bday', 'birthY', 'age', 'hand', 'technique', 'prep', 'tongue', 'wrap']);
 const kidList = () => { try{ const v = JSON.parse(localStorage.getItem('bj_kids')); if (Array.isArray(v) && v.length) return v.filter(x => x >= 1 && x <= KID_MAX); }catch(e){} return [1]; };
 const KID = (() => { try{ const v = JSON.parse(localStorage.getItem('bj_kid')); return kidList().includes(v) ? v : kidList()[0]; }catch(e){ return kidList()[0]; } })();
 const kidKey = (id, k) => 'bj_' + (id !== 1 && KID_KEYS.has(k) ? 'k' + id + '_' : '') + k;
