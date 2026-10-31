@@ -128,13 +128,17 @@ async function runLang(browser, base, code){
   const track = async () => { const cur = await page.evaluate(() => (document.querySelector('.screen.active') || {}).id); if (seq[seq.length - 1] !== cur){ seq.push(cur); if (cur === 'wrap') await checkText('wrap'); } return cur; };
   for (let i = 0; i < 230; i++){
     await run(1000); await track();
-    if (i === 60){ sawBrush = await page.evaluate(() => (document.querySelector('.screen.active') || {}).id === 'brushC'); await checkText('brushC'); }
+    if (i === 60){ sawBrush = await page.evaluate(() => (document.querySelector('.screen.active') || {}).id === 'brushC'); await checkText('brushC');
+      // v0.53.1 알에서 나올 펫: 양치 중간에는 아직 거의 그림자 (밝기 0.5 아래)
+      const pk = await page.evaluate(() => { const r = document.querySelector('#brushC .pet-ride'); return r ? { peek:r.classList.contains('peek'), b:parseFloat((r.style.filter.match(/brightness\(([\d.]+)/) || [])[1]), egg:!!petState.egg, pal:!!companion() } : null; });
+      if (pk && pk.egg && !pk.pal && (!pk.peek || !(pk.b >= 0 && pk.b < .5))) note('양치 중 펫 미리 보기가 이상함: ' + JSON.stringify(pk));
+    }
   }
   if (!sawBrush) note('양치 화면(brushC)이 안 나옴');
   for (let i = 0; i < 120; i++){                                           // 혀 닦기는 건너뛰고, 극장은 끝까지 보면서 대사 확인
     await run(1000); await track();
     const id = await page.evaluate(() => {
-      for (const s of ['#tongueSkip', '#tongue .skip', '#spSkip', '#giftBox']){ const e = document.querySelector(s); if (e && e.offsetParent) e.click(); }
+      for (const s of ['#tongueSkip', '#tongue .skip', '#spSkip', '#giftBox', '#wrDone']){ const e = document.querySelector(s); if (e && e.offsetParent) e.click(); }
       return (document.querySelector('.screen.active') || {}).id;
     });
     if (id === 'theater'){                                                  // 극장 움직임은 진짜 시간으로 흘러감 (빨리 감기 시계와 별개)
@@ -434,6 +438,23 @@ async function runVoiceFiles(base){
   return problems;
 }
 
+// v0.53.1 마무리 정리: 저절로 넘어가지 않고, 아이가 "했어요!" 를 눌러야 다음 단계
+async function runWrap(browser, base){
+  const problems = [], page = await browser.newPage();
+  page.on('pageerror', e => problems.push('[wrap] 오류: ' + e.message));
+  await page.addInitScript(() => { window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } }; localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); });
+  await page.goto(base + '/index.html'); await page.waitForTimeout(1200);
+  await page.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); window.__wrapped = 0; openWrap(() => { window.__wrapped = 1; }); });
+  const on = () => page.evaluate(() => [...document.querySelectorAll('#wrSteps li')].findIndex(li => li.classList.contains('on')));
+  await page.waitForTimeout(6000);
+  if (await on() !== 0) problems.push('[wrap] 안 눌렀는데 다음 단계로 넘어감');
+  for (let k = 1; k <= 4; k++){ await page.click('#wrDone', { force:true }); await page.waitForTimeout(1700); if (k < 4 && await on() !== k) problems.push(`[wrap] ${k}번 누른 뒤 단계가 ${await on()}`); }
+  await page.waitForTimeout(4000);
+  if (!await page.evaluate(() => window.__wrapped)) problems.push('[wrap] 다 누른 뒤 다음으로 안 감');
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -468,6 +489,9 @@ async function runBrowser(){
     const lk = await runLikes(browser, base);
     console.log(`${lk.length ? '✗' : '✓'} 극장 좋아요 · 다시 보기 · 아침 한 컷 고르기 · 익명 숫자${lk.length ? ` (${lk.length})` : ''}`);
     lk.forEach(x => console.log('   ' + x)); all.push(...lk);
+    const wr = await runWrap(browser, base);
+    console.log(`${wr.length ? '✗' : '✓'} 마무리 정리 (눌러야 다음 단계)${wr.length ? ` (${wr.length})` : ''}`);
+    wr.forEach(x => console.log('   ' + x)); all.push(...wr);
     const vc = await runVoice(browser, base);
     console.log(`${vc.length ? '✗' : '✓'} 극장 목소리 (대사가 안 끊김 · 사람마다 높낮이)${vc.length ? ` (${vc.length})` : ''}`);
     vc.forEach(x => console.log('   ' + x)); all.push(...vc);

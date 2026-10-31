@@ -500,6 +500,31 @@ function setProgress(e){
     els.pill.style.left = Math.round(pct * 2) / 2 + '%';   // 0.5% 단위로만 움직여 매 프레임 다시 그리지 않게
     els.marks.forEach((m, k) => m.classList.toggle('done', e >= (k + 1) * totalSec / 4 - .01));
   }
+  peekUpdate(e);
+}
+/* v0.53.1 알에서 나올 펫 미리 보기: 양치하는 동안 알 대신 나올 펫이 까만 그림자에서 아주 천천히 드러남
+   끝나기 10초 전쯤 거의 다 보이고(90%) 끝날 때 다 보임. 이번 양치로 부화하지 않으면 그만큼만 (알 칸 4개 중 1칸 → 25%까지)
+   펫을 데리고 다니는 아이(동반 펫)는 그대로 그 펫 */
+let peek = null;
+function peekStart(){
+  peek = null;
+  const r = view && view.querySelector('.pet-ride'), egg = petState.egg;
+  if (!r || companion() || !egg) return;
+  r.classList.remove('egg'); r.classList.add('peek');
+  r.innerHTML = petArt({ sp:egg.sp, st:1 });
+  peek = { el:r, cap:Math.min(1, ((egg.p || 0) + 1) / PET_CFG.hatch), last:-1 };
+  peekSet(0);
+}
+function peekSet(v){
+  if (!peek || Math.abs(v - peek.last) < .008) return;
+  peek.last = v;
+  peek.el.style.filter = `brightness(${v.toFixed(3)}) saturate(${v.toFixed(3)})`;
+  peek.el.style.opacity = (.8 + .2 * v).toFixed(3);
+}
+function peekUpdate(e){
+  if (!peek) return;
+  const tt = Math.max(1, totalSec - 10);
+  peekSet(peek.cap * (e < tt ? .9 * Math.pow(e / tt, 2.6) : .9 + .1 * Math.min(1, (e - tt) / 10)));
 }
 function setHurry(on){ if (view) view.classList.toggle('hurry', on); }
 function setPauseIcon(){ $$('.js-pause').forEach(b => { b.innerHTML = paused ? ICON.play : ICON.pause; }); }
@@ -537,6 +562,7 @@ function start(){
   }
   bchar.setState('brushing'); bchar.setPaused(false);
   setPauseIcon();
+  peekStart();
   show(view.id);
   CScene.reset();
   begin();
@@ -780,13 +806,14 @@ function openTongue(done){
   tgTimers.push(setTimeout(end, CONFIG.tongueMs));
   $('#tgSkip').onclick = () => { sfx.tap(); Voice.stop(); end(); };
 }
-/* ---------- v0.53.0 마무리 정리 ----------
+/* ---------- v0.53.0 마무리 정리 (v0.53.1: 단계마다 아이가 "했어요!" 를 눌러야 다음) ----------
    혀 닦기(또는 양치) 바로 뒤 극장이 나오면 아이가 칫솔을 든 채 입도 못 헹굼 → 정리를 다 한 뒤에 극장 · 완료 화면
-   퉤 뱉기 → 물로 가볍게 헹구기 → 칫솔 씻기 → 칫솔 세워 두기. 단계마다 그림 + 목소리, 목소리가 끝나고 잠깐 기다렸다 다음
-   "다 했어요!" 는 언제든 누르면 바로 다음 (손이 젖은 아이는 못 누를 수 있어서 마지막 단계 뒤 9초면 저절로)
+   퉤 뱉기 → 물로 가볍게 헹구기 → 칫솔 씻기 → 칫솔 세워 두기. 단계마다 그림 + 목소리. 시간이 지나도 저절로 넘어가지 않음
+   (v0.53.0 은 저절로 넘어가서 헹구는 동안 다음 단계로 가 버림). 안 누르면 20초마다 다시 알려 줌 (두 번까지)
+   마지막 단계까지 누르면 "정리 끝!" 뒤 극장. 부모님용 "건너뛰기" · 안드로이드 뒤로 = 건너뛰기
    기록 · 별은 이 화면 전에 이미 저장 (finishDone). 설정에서 끌 수 있음 (bj_wrap) */
 let wrTimers = [];
-const WRAP_STEPS = [['spit', 2500], ['rinse', 4500], ['wash', 4000], ['put', 3000]];
+const WRAP_STEPS = ['spit', 'rinse', 'wash', 'put'];
 function wrapArt(k){
   const cup = (inner) => `<path d="M-22 -8 L-18 34 Q-17 40 -10 40 H10 Q17 40 18 34 L22 -8Z" fill="#cdeefc" stroke="#7fbfe0" stroke-width="3"/>${inner}`;
   const bru = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-4" y="-44" width="8" height="58" rx="4" fill="#ff9ec0"/><rect x="-6" y="-58" width="12" height="16" rx="4" fill="#fff" stroke="#bfe3f7" stroke-width="2"/></g>`;
@@ -802,27 +829,32 @@ function wrapArt(k){
 }
 function openWrap(done){
   wrTimers.forEach(clearTimeout); wrTimers = [];
-  $('#wrSteps').innerHTML = WRAP_STEPS.map(([k]) => `<li data-k="${k}">${esc(t('wrap.' + k + '.s'))}</li>`).join('');
-  $('#wrDone').classList.remove('ready');
+  $('#wrSteps').innerHTML = WRAP_STEPS.map(k => `<li data-k="${k}">${esc(t('wrap.' + k + '.s'))}</li>`).join('');
   show('wrap');
-  let finished = false, i = 0;
+  let finished = false, i = 0, ready = 0;
+  const btn = $('#wrDone');
   const end = () => { if (finished) return; finished = true; wrTimers.forEach(clearTimeout); wrTimers = []; Voice.stop(); done(); };
-  const step = () => {
-    if (finished) return;
+  const remind = (k, n) => { if (n < 2) wrTimers.push(setTimeout(() => { if (!finished && WRAP_STEPS[i] === k){ Voice.play('wrap.' + k, t('wrap.' + k)); btn.classList.add('ready'); remind(k, n + 1); } }, 20000)); };
+  const show1 = () => {
+    wrTimers.forEach(clearTimeout); wrTimers = [];
     $$('#wrSteps li').forEach((li, j) => { li.classList.toggle('on', j === i); li.classList.toggle('ok', j < i); });
     if (i >= WRAP_STEPS.length){
-      $('#wrArt').innerHTML = wrapArt('put'); $('#wrSay').textContent = t('wrap.end'); $('#wrDone').classList.add('ready');
-      sfx.done(); Voice.play('wrap.end', t('wrap.end'));
-      wrTimers.push(setTimeout(end, 9000)); return;
+      $('#wrArt').innerHTML = wrapArt('put'); $('#wrSay').textContent = t('wrap.end'); btn.hidden = true;
+      sfx.done();
+      Promise.resolve(Voice.play('wrap.end', t('wrap.end'))).then(() => { if (!finished) wrTimers.push(setTimeout(end, 1200)); });
+      return;
     }
-    const [k, ms] = WRAP_STEPS[i++];
+    const k = WRAP_STEPS[i];
     $('#wrArt').innerHTML = wrapArt(k); $('#wrSay').textContent = t('wrap.' + k);
+    btn.hidden = false; btn.textContent = t('wrap.ok'); btn.classList.remove('ready');
     tone(880 + i * 120, .12, 'sine', .12);
-    const said = Voice.play('wrap.' + k, t('wrap.' + k));
-    wrTimers.push(setTimeout(() => Promise.resolve(said).then(() => { if (!finished) wrTimers.push(setTimeout(step, 1200)); }), ms));
+    Voice.play('wrap.' + k, t('wrap.' + k));
+    ready = Date.now() + 1500;                                      // 바로 두 번 눌러서 단계를 건너뛰지 않게
+    remind(k, 0);
   };
-  step();
-  $('#wrDone').onclick = () => { sfx.tap(); end(); };
+  btn.onclick = () => { if (finished || Date.now() < ready) return; sfx.tap(); i++; show1(); };
+  $('#wrSkip').onclick = () => { sfx.tap(); end(); };
+  show1();
 }
 /* ---------- 보상 계산 ---------- */
 function computeRewards(){

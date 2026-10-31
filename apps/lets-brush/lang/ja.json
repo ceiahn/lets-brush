@@ -4,7 +4,7 @@
   "name": "日本語",
   "dir": "ltr",
   "tts": "ja-JP",
-  "version": 59,
+  "version": 60,
   "font": {
    "family": "'Kosugi Maru'",
    "url": "../../core/fonts/kosugi-maru.css"
@@ -1800,6 +1800,7 @@
   "wrap.end": "おかたづけ できたね! すごい!",
   "wrap.done": "できた!",
   "wrap.tip": "フッ素入りの歯みがき粉なら、すすぎは かるく 1回で じゅうぶん",
-  "settings.wrap": "はみがきの あとの おかたづけ(すすぎ・はぶらし)"
+  "settings.wrap": "はみがきの あとの おかたづけ(すすぎ・はぶらし)",
+  "wrap.ok": "できた!"
  }
 }

@@ -132,7 +132,7 @@ function renderPets(){
   palEl.hidden = !pal;
   if (pal) palEl.innerHTML = petArt(pal) + (pal === g ? `<div class="pdots">${dotsHTML(g.p, needOf(g))}</div>` : '');
   palEl.classList.toggle('sleep', cap && pal === g);
-  $$('.pet-ride').forEach(r => { r.innerHTML = pal ? petArt(pal) : eggArt(); r.classList.toggle('egg', !pal); });
+  $$('.pet-ride').forEach(r => { r.innerHTML = pal ? petArt(pal) : eggArt(); r.classList.toggle('egg', !pal); r.classList.remove('peek'); r.style.filter = ''; r.style.opacity = ''; });   // v0.53.1 미리 보기 지움
 }
 function petHop(){
   const r = view && view.querySelector('.pet-ride'); if (!r) return;
