@@ -55,7 +55,7 @@ const withItems = (code, strings) => {
 
 const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, strings: withItems('ko', {
   'wrap.title':'마무리 정리', 'wrap.spit':'치약 거품을 퉤 뱉어요.', 'wrap.rinse':'물을 조금 머금고 가볍게 헹궈요.', 'wrap.wash':'칫솔도 물로 깨끗이 씻어요.', 'wrap.put':'칫솔을 컵에 세워 제자리에 둬요.',
-  'wrap.spit.s':'퉤', 'wrap.rinse.s':'헹구기', 'wrap.wash.s':'칫솔 씻기', 'wrap.put.s':'제자리', 'wrap.end':'정리 끝! 정말 잘했어요.', 'wrap.done':'다 했어요!',
+  'wrap.spit.s':'퉤', 'wrap.rinse.s':'헹구기', 'wrap.wash.s':'칫솔 씻기', 'wrap.put.s':'제자리', 'wrap.end':'정리 끝! 정말 잘했어요.', 'wrap.done':'다 했어요!', 'wrap.ok':'했어요!',
   'wrap.tip':'불소 치약을 썼다면 헹굼은 가볍게 한 번이면 충분해요', 'settings.wrap':'양치 뒤 마무리 정리 (헹구기 · 칫솔 정리)',
   'th.like':'좋아요', 'th.fav':'♥ 좋아한 이야기 다시 보기', 'th.favOpen':'좋아하는 이야기 다시 보기! {title}',
   'settings.stats':'📊 이야기 좋아요 수 보내기 (익명)',
@@ -273,7 +273,7 @@ const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, 
 
 const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, strings: withItems('en', {
   'wrap.title':'Clean-up time', 'wrap.spit':'Spit out the foam.', 'wrap.rinse':'Take a little water and rinse gently.', 'wrap.wash':'Rinse your toothbrush with water.', 'wrap.put':'Stand your toothbrush back in its cup.',
-  'wrap.spit.s':'Spit', 'wrap.rinse.s':'Rinse', 'wrap.wash.s':'Wash brush', 'wrap.put.s':'Put away', 'wrap.end':'All tidy! Great job.', 'wrap.done':'All done!',
+  'wrap.spit.s':'Spit', 'wrap.rinse.s':'Rinse', 'wrap.wash.s':'Wash brush', 'wrap.put.s':'Put away', 'wrap.end':'All tidy! Great job.', 'wrap.done':'All done!', 'wrap.ok':'Done!',
   'wrap.tip':'With fluoride toothpaste, one light rinse is enough', 'settings.wrap':'Clean-up after brushing (rinse · put brush away)',
   'th.like':'Like', 'th.fav':'♥ A favorite, once more', 'th.favOpen':'Your favorite story again! {title}',
   'settings.stats':'📊 Send story like counts (anonymous)',
@@ -494,5 +494,5 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
 })};
 
 const PACK_CATALOG = [   // v0.52.0 받는 언어팩은 lang/<code>.json (번역 파일 하나 = 언어 하나). version 은 그 파일 meta.version 과 같게 (올리면 받아 둔 기기도 새로 받음)
-  { code:'ja', name:'日本語', url:'lang/ja.json', version:59 }
+  { code:'ja', name:'日本語', url:'lang/ja.json', version:60 }
 ];

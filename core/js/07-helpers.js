@@ -36,7 +36,7 @@ window.addEventListener('popstate', () => {
   if ($('#petShow').classList.contains('show')){ if (!$('#psOk').hidden) $('#psOk').click(); keep(); return; }
   if (/^brush/.test(current)){ keep(); askStop(); return; }
   if (current === 'tongue'){ keep(); $('#tgSkip').click(); return; }
-  if (current === 'wrap' && $('#wrDone')){ keep(); $('#wrDone').click(); return; }   // v0.53.0 마무리 정리
+  if (current === 'wrap' && $('#wrSkip')){ keep(); $('#wrSkip').click(); return; }   // v0.53.0 마무리 정리 (v0.53.1 뒤로 = 건너뛰기)
   if (current === 'theater'){ keep(); if (thEnd) thEnd(); return; }
   if (current === 'special'){ keep(); if (spEnd) spEnd(); return; }
   if (current !== 'home'){ Voice.stop(); refreshHome(); show('home'); }
