@@ -502,17 +502,23 @@ function setProgress(e){
   }
   peekUpdate(e);
 }
-/* v0.53.1 알에서 나올 펫 미리 보기: 양치하는 동안 알 대신 나올 펫이 까만 그림자에서 아주 천천히 드러남
-   끝나기 10초 전쯤 거의 다 보이고(90%) 끝날 때 다 보임. 이번 양치로 부화하지 않으면 그만큼만 (알 칸 4개 중 1칸 → 25%까지)
-   펫을 데리고 다니는 아이(동반 펫)는 그대로 그 펫 */
-let peek = null;
+/* v0.53.2 선물 펫 미리 보기: 이번 양치를 끝내면 선물 펫을 받는 날(그날 두 번째 양치 · 하루 한 마리)이면
+   양치를 시작할 때 선물 펫을 미리 정해 두고(giftPre), 오른쪽 아래(반짝이 반대편) 선물 칸에 까만 그림자에서 아주 천천히 드러남
+   끝나기 10초 전쯤 거의 다(90%), 끝날 때 다 보임. 선물이 없는 양치에는 안 나옴. 알 · 동반 펫과는 상관없음 */
+let peek = null, giftPre = null;
 function peekStart(){
-  peek = null;
-  const r = view && view.querySelector('.pet-ride'), egg = petState.egg;
-  if (!r || companion() || !egg) return;
-  r.classList.remove('egg'); r.classList.add('peek');
-  r.innerHTML = petArt({ sp:egg.sp, st:1 });
-  peek = { el:r, cap:Math.min(1, ((egg.p || 0) + 1) / PET_CFG.hatch), last:-1 };
+  peek = null; giftPre = null;
+  let box = view.querySelector('.gift-peek');
+  if (!box){ box = document.createElement('div'); box.className = 'gift-peek'; box.innerHTML = '<div class="gp-art"></div><span>🎁</span>'; view.appendChild(box); }
+  box.hidden = true;
+  if (log.filter(k => k === todayKey()).length + 1 < 2 || !giftReady()) return;
+  const pool = bestTier(freePool(regPool(), giftSkip()));
+  if (!pool.length) return;
+  giftPre = pick(pool);
+  box.classList.toggle('left', view.querySelector('.c-rider').classList.contains('right'));
+  const art = box.querySelector('.gp-art'); art.innerHTML = petArt({ sp:giftPre, st:1 });
+  box.hidden = false;
+  peek = { el:art, cap:1, last:-1 };
   peekSet(0);
 }
 function peekSet(v){
@@ -806,10 +812,10 @@ function openTongue(done){
   tgTimers.push(setTimeout(end, CONFIG.tongueMs));
   $('#tgSkip').onclick = () => { sfx.tap(); Voice.stop(); end(); };
 }
-/* ---------- v0.53.0 마무리 정리 (v0.53.1: 단계마다 아이가 "했어요!" 를 눌러야 다음) ----------
+/* ---------- v0.53.0 마무리 정리 (v0.53.1: 단계마다 아이가 "했어요!" 를 눌러야 다음, v0.53.2: 한 단계 최대 1분) ----------
    혀 닦기(또는 양치) 바로 뒤 극장이 나오면 아이가 칫솔을 든 채 입도 못 헹굼 → 정리를 다 한 뒤에 극장 · 완료 화면
-   퉤 뱉기 → 물로 가볍게 헹구기 → 칫솔 씻기 → 칫솔 세워 두기. 단계마다 그림 + 목소리. 시간이 지나도 저절로 넘어가지 않음
-   (v0.53.0 은 저절로 넘어가서 헹구는 동안 다음 단계로 가 버림). 안 누르면 20초마다 다시 알려 줌 (두 번까지)
+   퉤 뱉기 → 물로 가볍게 헹구기 → 칫솔 씻기 → 칫솔 세워 두기. 단계마다 그림 + 목소리
+   (v0.53.0 은 몇 초 만에 넘어가서 헹구는 동안 다음 단계로 가 버림). 안 누르면 20초 · 40초에 다시 알려 주고, 1분이 지나면 다음 단계
    마지막 단계까지 누르면 "정리 끝!" 뒤 극장. 부모님용 "건너뛰기" · 안드로이드 뒤로 = 건너뛰기
    기록 · 별은 이 화면 전에 이미 저장 (finishDone). 설정에서 끌 수 있음 (bj_wrap) */
 let wrTimers = [];
@@ -834,7 +840,11 @@ function openWrap(done){
   let finished = false, i = 0, ready = 0;
   const btn = $('#wrDone');
   const end = () => { if (finished) return; finished = true; wrTimers.forEach(clearTimeout); wrTimers = []; Voice.stop(); done(); };
-  const remind = (k, n) => { if (n < 2) wrTimers.push(setTimeout(() => { if (!finished && WRAP_STEPS[i] === k){ Voice.play('wrap.' + k, t('wrap.' + k)); btn.classList.add('ready'); remind(k, n + 1); } }, 20000)); };
+  const remind = (k, n) => wrTimers.push(setTimeout(() => {                    // 20초 · 40초에 다시 알려 주고, 1분이면 다음 단계 (v0.53.2 최대 1분)
+    if (finished || WRAP_STEPS[i] !== k) return;
+    if (n >= 2){ i++; show1(); return; }
+    Voice.play('wrap.' + k, t('wrap.' + k)); btn.classList.add('ready'); remind(k, n + 1);
+  }, 20000));
   const show1 = () => {
     wrTimers.forEach(clearTimeout); wrTimers = [];
     $$('#wrSteps li').forEach((li, j) => { li.classList.toggle('on', j === i); li.classList.toggle('ok', j < i); });
@@ -973,7 +983,7 @@ function finishDone(){
   Habit.done();                                               // v0.49.0 습관 엔진: 양치 1번 기록 · 연속 기록 · 지킴이 방석 (core/js/04-habit.js)
   mapEv = mapAdvance();
   petEv = petAdvance();
-  petGift = log.filter(k => k === todayKey()).length >= 2 && giftReady() ? giftPet() : null;     // 하루 두 번 닦으면 펫 선물
+  petGift = log.filter(k => k === todayKey()).length >= 2 && giftReady() ? giftPet(giftPre) : null;     // 하루 두 번 닦으면 펫 선물 (v0.53.2 양치 중 미리 보여 준 펫 그대로)
   const newTeams = checkTeams();                               // 이번에 다 모인 팀 → 합체 연출 + 별
   extraShows = newTeams.map(tm => ({ kind:'team', team:tm, star:teamStar(tm) }));
   if (mapEv && mapEv.heroSet) extraShows.push({ kind:'hero', set:mapEv.heroSet, auto:true });   // 변신 세트 완성 → 바로 변신

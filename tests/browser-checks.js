@@ -129,9 +129,9 @@ async function runLang(browser, base, code){
   for (let i = 0; i < 230; i++){
     await run(1000); await track();
     if (i === 60){ sawBrush = await page.evaluate(() => (document.querySelector('.screen.active') || {}).id === 'brushC'); await checkText('brushC');
-      // v0.53.1 알에서 나올 펫: 양치 중간에는 아직 거의 그림자 (밝기 0.5 아래)
-      const pk = await page.evaluate(() => { const r = document.querySelector('#brushC .pet-ride'); return r ? { peek:r.classList.contains('peek'), b:parseFloat((r.style.filter.match(/brightness\(([\d.]+)/) || [])[1]), egg:!!petState.egg, pal:!!companion() } : null; });
-      if (pk && pk.egg && !pk.pal && (!pk.peek || !(pk.b >= 0 && pk.b < .5))) note('양치 중 펫 미리 보기가 이상함: ' + JSON.stringify(pk));
+      // v0.53.2 알 · 동반 펫 자리는 그대로 (선물 펫 미리 보기는 선물 칸에만)
+      const pk = await page.evaluate(() => { const r = document.querySelector('#brushC .pet-ride'); return r ? { f:r.style.filter, peek:r.classList.contains('peek') } : null; });
+      if (pk && (pk.f || pk.peek)) note('알 · 동반 펫 자리에 미리 보기가 섞임: ' + JSON.stringify(pk));
     }
   }
   if (!sawBrush) note('양치 화면(brushC)이 안 나옴');
@@ -438,6 +438,31 @@ async function runVoiceFiles(base){
   return problems;
 }
 
+// v0.53.2 선물 펫 미리 보기: 그날 두 번째 양치면 선물 칸에 그림자 → 서서히, 끝나면 그 펫을 그대로 받음
+async function runGiftPeek(browser, base){
+  const problems = [], page = await browser.newPage();
+  page.on('pageerror', e => problems.push('[gift] 오류: ' + e.message));
+  await page.clock.install({ time:new Date('2026-11-05T19:30:00+09:00') });
+  await page.addInitScript(() => { window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } };
+    const d = new Date(), k = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    ['picked', 'subAsked', 'durSet'].forEach(x => localStorage.setItem('bj_' + x, 'true'));
+    localStorage.setItem('bj_log', JSON.stringify([k])); localStorage.setItem('bj_dur', '60');
+    ['prep', 'tongue', 'wrap', 'theaterOn', 'specialOn'].forEach(x => localStorage.setItem('bj_' + x, 'false')); });
+  await page.goto(base + '/index.html'); await page.clock.runFor(2000);
+  await page.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); document.querySelector('#startBtn').click(); });
+  await page.clock.runFor(2000);
+  await page.evaluate(() => { const g = document.querySelector('#prepGo'); if (g && g.offsetParent) g.click(); });
+  await page.clock.runFor(25000);
+  const mid = await page.evaluate(() => { const b = document.querySelector('#brushC .gift-peek'), a = b && b.querySelector('.gp-art');
+    return { shown:!!b && !b.hidden, b:a ? parseFloat((a.style.filter.match(/brightness\(([\d.]+)/) || [])[1]) : null, sp:giftPre }; });
+  if (!mid.shown || !(mid.b >= 0 && mid.b < .5)) problems.push('[gift] 두 번째 양치인데 선물 칸 그림자가 이상함: ' + JSON.stringify(mid));
+  for (let i = 0; i < 80; i++){ await page.clock.runFor(1000); if (await page.evaluate(() => document.querySelector('.screen.active').id) === 'done') break; }
+  const got = await page.evaluate(() => petGift && petGift.sp);
+  if (!got || got !== mid.sp) problems.push(`[gift] 미리 보여 준 펫(${mid.sp})과 받은 펫(${got})이 다름`);
+  await page.close();
+  return problems;
+}
+
 // v0.53.1 마무리 정리: 저절로 넘어가지 않고, 아이가 "했어요!" 를 눌러야 다음 단계
 async function runWrap(browser, base){
   const problems = [], page = await browser.newPage();
@@ -489,6 +514,9 @@ async function runBrowser(){
     const lk = await runLikes(browser, base);
     console.log(`${lk.length ? '✗' : '✓'} 극장 좋아요 · 다시 보기 · 아침 한 컷 고르기 · 익명 숫자${lk.length ? ` (${lk.length})` : ''}`);
     lk.forEach(x => console.log('   ' + x)); all.push(...lk);
+    const gp = await runGiftPeek(browser, base);
+    console.log(`${gp.length ? '✗' : '✓'} 선물 펫 미리 보기 (그림자 → 받는 펫 그대로)${gp.length ? ` (${gp.length})` : ''}`);
+    gp.forEach(x => console.log('   ' + x)); all.push(...gp);
     const wr = await runWrap(browser, base);
     console.log(`${wr.length ? '✗' : '✓'} 마무리 정리 (눌러야 다음 단계)${wr.length ? ` (${wr.length})` : ''}`);
     wr.forEach(x => console.log('   ' + x)); all.push(...wr);
