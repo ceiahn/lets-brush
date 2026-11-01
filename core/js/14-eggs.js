@@ -223,10 +223,10 @@ function giftPet(want){                                                       //
 }
 const giftReady = () => petState.giftDay !== todayKey() && freePool(regPool(), giftSkip()).length > 0;
 /* v0.53.3 선물 펫 규칙 (사용자와 정함): 처음 3일(양치한 날 기준)은 그날 두 번째 양치에 한 마리,
-   그다음부터는 "아침 · 저녁 양치 4번"(이틀 동안 아침 · 저녁 모두)마다 한 마리. 아침 칸 · 저녁 칸은 하루에 한 번씩만 셈
+   그다음부터는 "아침 · 저녁 양치 3번"마다 한 마리 (v0.54.0: 4번 → 3번, 사용자가 이틀은 길다고 함). 아침 칸 · 저녁 칸은 하루에 한 번씩만 셈
    하루 빠져도 처음부터가 아니라 멈췄다가 이어짐 (giftP 그대로). 받을 펫은 미리 정해 두고(giftSp) 여러 번에 걸쳐 그림자에서 서서히 보여 줌
-   하루 최대 한 마리(giftReady). 저장: petState.giftP(0~4) · giftK(센 칸 "날짜am|pm") · giftSp */
-const GIFT_EVERY = PET_CFG.giftEvery || 4, GIFT_EARLY = PET_CFG.giftEarlyDays === undefined ? 3 : PET_CFG.giftEarlyDays;
+   하루 최대 한 마리(giftReady). 저장: petState.giftP(0~giftEvery) · giftK(센 칸 "날짜am|pm") · giftSp */
+const GIFT_EVERY = PET_CFG.giftEvery || 3, GIFT_EARLY = PET_CFG.giftEarlyDays === undefined ? 3 : PET_CFG.giftEarlyDays;
 const giftKey = () => todayKey() + slotOf();
 const giftEarly = (plusToday) => new Set(log.concat(plusToday ? [todayKey()] : [])).size <= GIFT_EARLY;
 function giftSpPick(){
