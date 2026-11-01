@@ -218,6 +218,26 @@ h2{font-size:clamp(32px,9.5vw,44px)}
 .c-rider .char-wrap{will-change:transform;animation:riderBob .9s ease-in-out infinite}
 @keyframes riderBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
 .is-paused .c-rider .char-wrap{animation-play-state:paused}
+/* v0.54.0 구석 반짝이 춤 · 대결: 그림 안쪽은 그대로, 바깥 상자(.c-move)만 GPU 로 움직임. --d = 대장 세균 쪽 방향 */
+.c-move{position:absolute;inset:0;will-change:transform;transform-origin:50% 90%;--d:1}
+.c-rider.right .c-move{--d:-.4}
+.c-move.mv-hop{animation:mvHop 1s ease-in-out}
+@keyframes mvHop{0%,100%{transform:none}18%{transform:translateY(3%) scale(1.1,.88)}45%{transform:translateY(-30%) scale(.94,1.08)}72%{transform:translateY(2%) scale(1.08,.92)}}
+.c-move.mv-spin{animation:mvSpin 1.1s ease-in-out}
+@keyframes mvSpin{0%{transform:translateY(0) rotate(0deg)}35%{transform:translateY(-22%) rotate(180deg)}65%{transform:translateY(-22%) rotate(360deg)}100%{transform:translateY(0) rotate(360deg)}}
+.c-move.mv-sway{animation:mvSway 1.6s ease-in-out}
+@keyframes mvSway{0%,100%{transform:none}20%{transform:translateX(-10%) rotate(-14deg)}45%{transform:translateX(10%) rotate(14deg)}70%{transform:translateX(-10%) rotate(-14deg)}88%{transform:translateX(6%) rotate(8deg)}}
+.c-move.mv-shimmy{animation:mvShimmy 1.2s ease-in-out}
+@keyframes mvShimmy{0%,100%{transform:none}15%,45%,75%{transform:scale(1.1,.9) rotate(-6deg)}30%,60%,90%{transform:scale(.92,1.08) rotate(6deg)}}
+.c-move.mv-look{animation:mvLook 1.4s ease-in-out}
+@keyframes mvLook{0%,100%{transform:none}15%{transform:translateY(-12%) scale(1.06)}35%,80%{transform:translateX(calc(var(--d)*8%)) rotate(calc(var(--d)*12deg))}}
+.c-move.mv-fight{animation:mvFight .7s ease-in-out infinite}
+@keyframes mvFight{0%,100%{transform:none}35%{transform:translate(calc(var(--d)*-4%),4%) rotate(calc(var(--d)*-8deg)) scale(1.05,.95)}60%{transform:translate(calc(var(--d)*16%),-14%) rotate(calc(var(--d)*16deg))}}
+.c-move.mv-win{animation:mvWin 1.3s ease-out}
+@keyframes mvWin{0%{transform:translateY(0) rotate(0deg) scale(1)}40%{transform:translateY(-40%) rotate(360deg) scale(1.15)}70%{transform:translateY(0) rotate(360deg) scale(1.1,.9)}100%{transform:translateY(0) rotate(360deg) scale(1)}}
+.is-paused .c-move{animation-play-state:paused}
+.c-shot{position:absolute;z-index:5;width:min(15vw,10vh,64px);filter:drop-shadow(0 0 6px #fff6);pointer-events:none;will-change:transform}
+.c-shot svg{display:block;width:100%;height:auto}
 @media (orientation:landscape){
   .c-zone{top:auto;bottom:calc(12px + env(safe-area-inset-bottom))}
   .brushC .c-tech{top:auto;bottom:calc(64px + env(safe-area-inset-bottom))}

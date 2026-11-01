@@ -459,21 +459,22 @@ async function runGiftPeek(browser, base){
   for (let i = 0; i < 80; i++){ await page.clock.runFor(1000); if (await page.evaluate(() => document.querySelector('.screen.active').id) === 'done') break; }
   const got = await page.evaluate(() => petGift && petGift.sp);
   if (!got || got !== mid.sp) problems.push(`[gift] 미리 보여 준 펫(${mid.sp})과 받은 펫(${got})이 다름`);
-  // v0.53.3 처음 3일 뒤: 아침 · 저녁 4번마다, 같은 칸은 하루 한 번만, 빠져도 멈췄다 이어짐
+  // v0.53.3 · v0.54.0 처음 3일 뒤: 아침 · 저녁 3번마다, 같은 칸은 하루 한 번만, 빠져도 멈췄다 이어짐
   const r = await page.evaluate(() => {
     const k = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
     log = [k(9), k(8), k(7), k(5)]; store.set('log', log);                       // 양치한 날 4일 (중간에 빠진 날 있음) → 처음 3일 지남
-    petState.giftDay = ''; petState.giftP = 2; petState.giftK = []; delete petState.giftSp;
+    petState.giftDay = ''; petState.giftP = 1; petState.giftK = []; delete petState.giftSp;
     const out = [];
     const step = () => { const pv = giftPreview(); Habit.done(); const g = giftStep(); out.push({ lo:pv && pv.lo, hi:pv && pv.hi, sp:pv && pv.sp, got:g && g.sp, p:petState.giftP }); };
-    step();                                                                        // 저녁 칸 처음: 2 → 3
-    step();                                                                        // 같은 저녁 칸 또: 그대로 3
+    step();                                                                        // 이번 칸 처음: 1 → 2
+    step();                                                                        // 같은 칸 또: 그대로 2
     return out;
   });
-  if (r[0].lo !== .5 || r[0].hi !== .75 || r[0].got || r[0].p !== 3) problems.push('[gift] 4번마다 규칙이 이상함 (첫 양치): ' + JSON.stringify(r[0]));
-  if (r[1].lo !== .75 || r[1].hi !== .75 || r[1].got || r[1].p !== 3) problems.push('[gift] 같은 칸을 두 번 셈: ' + JSON.stringify(r[1]));
-  const r2 = await page.evaluate(() => { petState.giftP = 3; petState.giftK = []; const pv = giftPreview(); Habit.done(); const g = giftStep(); return { hi:pv.hi, sp:pv.sp, got:g && g.sp, p:petState.giftP }; });
-  if (r2.hi !== 1 || r2.got !== r2.sp || r2.p !== 0) problems.push('[gift] 4번째에 미리 본 펫을 안 줌: ' + JSON.stringify(r2));
+  const near = (a, b) => typeof a === 'number' && Math.abs(a - b) < 1e-6;
+  if (!near(r[0].lo, 1 / 3) || !near(r[0].hi, 2 / 3) || r[0].got || r[0].p !== 2) problems.push('[gift] 3번마다 규칙이 이상함 (첫 양치): ' + JSON.stringify(r[0]));
+  if (!near(r[1].lo, 2 / 3) || !near(r[1].hi, 2 / 3) || r[1].got || r[1].p !== 2) problems.push('[gift] 같은 칸을 두 번 셈: ' + JSON.stringify(r[1]));
+  const r2 = await page.evaluate(() => { petState.giftP = 2; petState.giftK = []; const pv = giftPreview(); Habit.done(); const g = giftStep(); return { hi:pv.hi, sp:pv.sp, got:g && g.sp, p:petState.giftP }; });
+  if (r2.hi !== 1 || r2.got !== r2.sp || r2.p !== 0) problems.push('[gift] 3번째에 미리 본 펫을 안 줌: ' + JSON.stringify(r2));
   await page.close();
   return problems;
 }
@@ -491,6 +492,48 @@ async function runWrap(browser, base){
   for (let k = 1; k <= 4; k++){ await page.click('#wrDone', { force:true }); await page.waitForTimeout(1700); if (k < 4 && await on() !== k) problems.push(`[wrap] ${k}번 누른 뒤 단계가 ${await on()}`); }
   await page.waitForTimeout(4000);
   if (!await page.evaluate(() => window.__wrapped)) problems.push('[wrap] 다 누른 뒤 다음으로 안 감');
+  await page.close();
+  return problems;
+}
+
+// v0.54.0 양치 끝 마무리 말이 끝까지 나오는지 + 구석 반짝이가 춤추고 대장 세균과 싸우는지
+async function runRider(browser, base){
+  const problems = [], note = (m) => problems.push('[rider] ' + m);
+  const page = await browser.newPage({ viewport:{ width:390, height:800 } });
+  page.on('pageerror', e => note('오류: ' + e.message));
+  await page.addInitScript(() => {
+    window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } };
+    localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); localStorage.setItem('bj_lang', '"ko"');
+    localStorage.setItem('bj_country', '"KR"'); localStorage.setItem('bj_tongue', 'false');
+    const log = window.__vlog = [];
+    let cur = null, timer = 0;
+    const fake = { speaking:false, pending:false, paused:false, getVoices:() => [], addEventListener(){}, removeEventListener(){},
+      speak(u){ cur = u; fake.speaking = true; log.push({ text:u.text }); setTimeout(() => u.onstart && u.onstart(), 30);
+        timer = setTimeout(() => { if (cur === u){ cur = null; fake.speaking = false; u.onend && u.onend(); } }, 7000); },   // 말 하나 = 7초 (긴 말)
+      cancel(){ if (cur){ const u = cur; cur = null; fake.speaking = false; clearTimeout(timer); log.push({ cancel:u.text }); u.onerror && u.onerror(); } } };
+    Object.defineProperty(window, 'speechSynthesis', { value:fake, configurable:true });
+    window.__moves = [];
+    new MutationObserver(ms => ms.forEach(m => { const c = m.target.className; if (m.target.classList && m.target.classList.contains('c-move') && /mv-/.test(c)) window.__moves.push(c.replace('c-move', '').trim()); }))
+      .observe(document, { subtree:true, attributes:true, attributeFilter:['class'] });
+  });
+  await page.clock.install({ time:new Date('2026-11-04T19:30:00+09:00') });
+  const run = (ms) => page.clock.runFor(ms);
+  await page.goto(base + '/index.html'); await run(2500);
+  await page.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); start(); });
+  const sec = await page.evaluate(() => totalSec);
+  for (let i = 0; i < sec + 1; i++) await run(1000);
+  const atEnd = await page.evaluate(() => ({ id:document.querySelector('.screen.active').id, shots:document.querySelectorAll('#brushC .c-shot').length }));
+  await run(3000);                                                              // 끝나고 약 4초: 7초짜리 말이 아직 안 끝남 → 아직 양치 화면이어야 됨
+  const mid = await page.evaluate(() => document.querySelector('.screen.active').id);
+  await run(6000);
+  const after = await page.evaluate(() => ({ id:document.querySelector('.screen.active').id, log:window.__vlog, moves:window.__moves, line:bossDownLine() }));
+  if (atEnd.id !== 'brushC' || mid !== 'brushC') note(`마무리 말이 끝나기 전에 넘어감: 끝 ${atEnd.id} · 3초 뒤 ${mid}`);
+  if (after.id === 'brushC') note('마무리 말이 끝났는데 다음 화면으로 안 넘어감');
+  const head = after.line.replace(/[~()!]/g, '').trim().slice(0, 5);
+  if (after.log.some(x => x.cancel && x.cancel.includes(head))) note('마무리 말이 끊김: ' + after.line);
+  const dances = new Set(after.moves.filter(m => /mv-(hop|spin|sway|shimmy)/.test(m)));
+  if (dances.size < 3) note('반짝이 춤이 너무 적음: ' + JSON.stringify(after.moves));
+  if (!after.moves.includes('mv-fight') || !after.moves.includes('mv-win')) note('대장 세균 대결 · 승리 동작이 없음: ' + JSON.stringify(after.moves.slice(-6)));
   await page.close();
   return problems;
 }
@@ -535,6 +578,9 @@ async function runBrowser(){
     const wr = await runWrap(browser, base);
     console.log(`${wr.length ? '✗' : '✓'} 마무리 정리 (눌러야 다음 단계)${wr.length ? ` (${wr.length})` : ''}`);
     wr.forEach(x => console.log('   ' + x)); all.push(...wr);
+    const rd = await runRider(browser, base);
+    console.log(`${rd.length ? '✗' : '✓'} 양치 끝 마무리 말 · 구석 반짝이 춤 · 대장 세균 대결${rd.length ? ` (${rd.length})` : ''}`);
+    rd.forEach(x => console.log('   ' + x)); all.push(...rd);
     const vc = await runVoice(browser, base);
     console.log(`${vc.length ? '✗' : '✓'} 극장 목소리 (대사가 안 끊김 · 사람마다 높낮이)${vc.length ? ` (${vc.length})` : ''}`);
     vc.forEach(x => console.log('   ' + x)); all.push(...vc);
@@ -551,5 +597,5 @@ async function runBrowser(){
   return all;
 }
 
-module.exports = { runBrowser, serve };
+module.exports = { runBrowser, serve, runRider };
 if (require.main === module) runBrowser().then(p => process.exit(p.length ? 1 : 0));

@@ -38,6 +38,47 @@ function say(key, text, speak = true){
   el.textContent = msg; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
   if (speak) Voice.play(key, msg);
 }
+/* ---------- v0.54.0 구석 반짝이 움직임 (사용자: "아무것도 안 하는 것 같다") ----------
+   폰 깜빡임 때문에 그림 안쪽 애니메이션은 꺼 둔 그대로 두고, 바깥 상자(.c-move)만 GPU 로 움직임
+   · 평소: 4~6초마다 춤 하나 (깡충 · 빙글 · 흔들흔들 · 씰룩씰룩), 데리고 다니는 펫도 같이 깡충
+   · 세균을 잡을 때: 작게 톡 (춤 중이면 건너뜀)
+   · 대장 세균이 휙 지나갈 때: "어?" 하고 쳐다봄
+   · 마지막 10초 대장 세균: 계속 덤벼들면서 체력이 줄 때마다 별을 날림 → 물리치면 크게 빙글 점프 */
+const MOVES = ['hop', 'spin', 'sway', 'shimmy'];
+let moveAt = 0, lastMove = '', hitAt = 0;
+function riderMove(name){
+  const m = els.move; if (!m) return;
+  try{ m.getAnimations().forEach(a => { if (!a.animationName) a.cancel(); }); }catch(e){}
+  m.className = 'c-move'; void m.offsetWidth;
+  if (name) m.classList.add('mv-' + name);
+}
+function riderTick(e){
+  if (!els.move || boss || e < moveAt) return;
+  moveAt = e + 4 + Math.random() * 2;
+  if (e < 2) return;                                                       // 첫 인사 동안은 가만히
+  const pool = MOVES.filter(x => x !== lastMove); lastMove = pick(pool);
+  riderMove(lastMove); petHop();
+}
+function riderHit(){
+  const m = els.move; if (!m || m.classList.length > 1) return;           // 춤 · 대결 중이면 그대로
+  const now = performance.now(); if (now - hitAt < 450) return; hitAt = now;
+  m.animate([{ transform:'none' }, { transform:'translateY(-6%) scale(1.08,.94)' }, { transform:'none' }], { duration:280, easing:'ease-out' });
+}
+const SHOT_SVG = '<svg viewBox="-24 -24 48 48" aria-hidden="true"><path d="M0 -20 L6 -6 L20 -5 L9 4 L13 19 L0 10 L-13 19 L-9 4 L-20 -5 L-6 -6Z" fill="#ffd54a" stroke="#24324a" stroke-width="4" stroke-linejoin="round"/><circle cx="-4" cy="-4" r="3" fill="#fff"/></svg>';
+function riderShot(target){                                                // 반짝이 → 대장 세균으로 별 하나
+  const from = els.move, to = (target || boss) && (target || boss).querySelector('.bimg'); if (!from || !to) return;
+  const v = view.getBoundingClientRect(), a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+  const x0 = a.left + a.width * .6 - v.left, y0 = a.top + a.height * .3 - v.top;
+  const dx = b.left + b.width / 2 - v.left - x0, dy = b.top + b.height / 2 - v.top - y0;
+  const s = document.createElement('div'); s.className = 'c-shot'; s.innerHTML = SHOT_SVG;
+  s.style.left = x0 + 'px'; s.style.top = y0 + 'px';
+  view.appendChild(s);
+  s.animate([
+    { transform:'translate(-50%,-50%) scale(.5) rotate(0deg)', opacity:1 },
+    { transform:`translate(calc(-50% + ${dx.toFixed(1)}px), calc(-50% + ${dy.toFixed(1)}px)) scale(1.1) rotate(300deg)`, opacity:1 }
+  ], { duration:380, easing:'ease-in' }).onfinish = () => s.remove();
+  setTimeout(() => s.remove(), 900);
+}
 function cheerLine(){                                                      // 양치 중간 응원 (지금은 안 부름: 넣을지 아이 테스트 뒤 결정, 인수인계 [10])
   const pool = tList('say.cheers').map(s => ['say.cheers', s]);
   const ev = activeEvent();
@@ -541,8 +582,11 @@ function start(){
   els = {
     time: view.querySelector('.js-time'), zoneName: view.querySelector('.js-zoneName'), say: view.querySelector('.js-say'),
     track: view.querySelector('.c-track'), fill: view.querySelector('.c-fill'),
-    pill: view.querySelector('.c-pill'), marks: [...view.querySelectorAll('.c-mark')]
+    pill: view.querySelector('.c-pill'), marks: [...view.querySelectorAll('.c-mark')],
+    move: view.querySelector('.c-move')
   };
+  moveAt = 0; lastMove = ''; hitAt = 0; riderMove('');
+  els.move.onanimationend = (ev) => { if (ev.target === els.move && !els.move.classList.contains('mv-fight')) els.move.className = 'c-move'; };   // 춤 하나가 끝나면 원래대로
   surfIdx = 0;
   view.classList.remove('running', 'is-paused');
   zoneIdx = -1; hurrySaid = false; paused = false; banked = 0; pauseCount = 0;
@@ -593,6 +637,7 @@ function loop(){
   const z = Math.min(3, Math.floor(e / zl));
   if (z !== zoneIdx) setZone(z);
   setProgress(e);
+  riderTick(e);
   {
     const fz = (e - z * zl) / zl;
     let seg = 0; while (seg < SURF_CUT.length - 2 && fz >= SURF_CUT[seg + 1]) seg++;
@@ -651,6 +696,7 @@ function germHit(el, cls){
   }
   buzz(25);
   if (bchar) bchar.cheer();
+  riderHit();
   petHop();
 }
 /* ---------- 보스 기습 (v0.26) ----------
@@ -663,6 +709,7 @@ function bossFly(){                                                          // 
   f.className = 'boss-fly' + (Math.random() < .5 ? ' rtl' : '');
   f.innerHTML = germSVG(B.col, B);
   view.appendChild(f); f.addEventListener('animationend', () => f.remove());
+  if (!boss) riderMove('look');
   [330, 262].forEach((fr, i) => tone(fr, .12, 'square', .04, i * .12));
 }
 function bossTease(){
@@ -688,6 +735,7 @@ function bossIn(){
   boss = document.createElement('div'); boss.className = 'boss';
   boss.innerHTML = `<div class="bimg">${germSVG(B.col, B)}</div><div class="hp">${'<i></i>'.repeat(BOSS_HP)}</div>`;
   view.appendChild(boss); bossHp = BOSS_HP;
+  riderMove('fight');
   [196, 247, 196, 147].forEach((f, i) => tone(f, .15, 'square', .05, i * .13));
   buzz([60, 40, 60]);
   say('say.boss', callName() + t('say.boss', { boss:t('boss.' + B.id) }));
@@ -700,6 +748,7 @@ function bossTick(left){
   boss.classList.remove('hit'); void boss.offsetWidth; boss.classList.add('hit');
   view.classList.remove('shake'); void view.offsetWidth; view.classList.add('shake');     // 화면 흔들
   tone(260, .07, 'square', .05); tone(880, .1, 'sine', .1, .05); buzz(30);
+  riderShot();
   if (bchar) bchar.cheer();
   petHop();
 }
@@ -711,6 +760,7 @@ function bossDown(){
   const fl = document.createElement('div'); fl.className = 'flash'; view.appendChild(fl); setTimeout(() => fl.remove(), 900);   // 마지막 한 방 번쩍
   const r = b.getBoundingClientRect(); firework(r.left + r.width / 2, r.top + r.width / 2);
   setTimeout(() => firework(r.left + r.width * .2, r.top + r.width * .3), 250);
+  riderShot(b); riderMove('win');
   germCount++; germBump(); bookAdd('boss', curBoss.id);
   [523, 659, 784, 1047].forEach((f, i) => tone(f, .16, 'triangle', .14, i * .09));
   buzz([80, 40, 160]);
@@ -753,7 +803,9 @@ function finish(){
   const bd = bossDown();
   halt(); CScene.outro(); if (bd) say('say.bossDown', bossDownLine()); else say('say.sparkle');
   [1568, 1319, 1568, 2093].forEach((f, i) => tone(f, .18, 'sine', .12, .3 + i * .12));
-  setTimeout(afterBrush, 2200);
+  // v0.54.0 마무리 말이 끝날 때까지 기다림 (예전엔 2.2초 뒤 바로 넘어가서 말이 잘렸음). 최소 2.2초, 끝 신호가 안 오는 폰을 위해 최대 12초
+  const said = Voice.wait(12000);
+  Promise.all([said, new Promise(r => setTimeout(r, 2200))]).then(() => setTimeout(afterBrush, 350));
 }
 const afterBrush = () => { if (tongueOn) openTongue(finishDone); else finishDone(); };
 
