@@ -502,24 +502,22 @@ function setProgress(e){
   }
   peekUpdate(e);
 }
-/* v0.53.2 선물 펫 미리 보기: 이번 양치를 끝내면 선물 펫을 받는 날(그날 두 번째 양치 · 하루 한 마리)이면
-   양치를 시작할 때 선물 펫을 미리 정해 두고(giftPre), 오른쪽 아래(반짝이 반대편) 선물 칸에 까만 그림자에서 아주 천천히 드러남
-   끝나기 10초 전쯤 거의 다(90%), 끝날 때 다 보임. 선물이 없는 양치에는 안 나옴. 알 · 동반 펫과는 상관없음 */
-let peek = null, giftPre = null;
+/* v0.53.2 · v0.53.3 선물 펫 미리 보기: 받을 선물 펫(core giftPreview)이 오른쪽 아래(반짝이 반대편) 🎁 칸에 까만 그림자로
+   이번 양치 동안 lo → hi 만큼 아주 천천히 밝아짐 (끝나기 10초 전쯤 그 몫의 90%, 끝에 100%). 4번(이틀 아침 · 저녁)에 걸쳐 조금씩, 마지막 양치 끝에 다 보임
+   칸 아래 점 = 선물까지 센 양치. 선물이 없는 양치(처음 3일의 첫 양치 등)에는 안 나옴. 알 · 동반 펫과는 상관없음 */
+let peek = null;
 function peekStart(){
-  peek = null; giftPre = null;
+  peek = null;
   let box = view.querySelector('.gift-peek');
-  if (!box){ box = document.createElement('div'); box.className = 'gift-peek'; box.innerHTML = '<div class="gp-art"></div><span>🎁</span>'; view.appendChild(box); }
+  if (!box){ box = document.createElement('div'); box.className = 'gift-peek'; box.innerHTML = '<div class="gp-art"></div><span>🎁</span><div class="pdots"></div>'; view.appendChild(box); }
   box.hidden = true;
-  if (log.filter(k => k === todayKey()).length + 1 < 2 || !giftReady()) return;
-  const pool = bestTier(freePool(regPool(), giftSkip()));
-  if (!pool.length) return;
-  giftPre = pick(pool);
+  const g = giftPreview(); if (!g) return;
   box.classList.toggle('left', view.querySelector('.c-rider').classList.contains('right'));
-  const art = box.querySelector('.gp-art'); art.innerHTML = petArt({ sp:giftPre, st:1 });
+  const art = box.querySelector('.gp-art'); art.innerHTML = petArt({ sp:g.sp, st:1 });
+  box.querySelector('.pdots').innerHTML = dotsHTML(g.p, g.all);
   box.hidden = false;
-  peek = { el:art, cap:1, last:-1 };
-  peekSet(0);
+  peek = { el:art, lo:g.lo, hi:g.hi, last:-1 };
+  peekSet(g.lo);
 }
 function peekSet(v){
   if (!peek || Math.abs(v - peek.last) < .008) return;
@@ -529,8 +527,8 @@ function peekSet(v){
 }
 function peekUpdate(e){
   if (!peek) return;
-  const tt = Math.max(1, totalSec - 10);
-  peekSet(peek.cap * (e < tt ? .9 * Math.pow(e / tt, 2.6) : .9 + .1 * Math.min(1, (e - tt) / 10)));
+  const tt = Math.max(1, totalSec - 10), f = e < tt ? .9 * Math.pow(e / tt, 2.6) : .9 + .1 * Math.min(1, (e - tt) / 10);
+  peekSet(peek.lo + (peek.hi - peek.lo) * f);
 }
 function setHurry(on){ if (view) view.classList.toggle('hurry', on); }
 function setPauseIcon(){ $$('.js-pause').forEach(b => { b.innerHTML = paused ? ICON.play : ICON.pause; }); }
@@ -983,7 +981,7 @@ function finishDone(){
   Habit.done();                                               // v0.49.0 습관 엔진: 양치 1번 기록 · 연속 기록 · 지킴이 방석 (core/js/04-habit.js)
   mapEv = mapAdvance();
   petEv = petAdvance();
-  petGift = log.filter(k => k === todayKey()).length >= 2 && giftReady() ? giftPet(giftPre) : null;     // 하루 두 번 닦으면 펫 선물 (v0.53.2 양치 중 미리 보여 준 펫 그대로)
+  petGift = giftStep();                                        // v0.53.3 선물 펫: 처음 3일은 하루 두 번째 양치, 그 뒤엔 아침 · 저녁 4번마다 (미리 보여 준 펫 그대로)
   const newTeams = checkTeams();                               // 이번에 다 모인 팀 → 합체 연출 + 별
   extraShows = newTeams.map(tm => ({ kind:'team', team:tm, star:teamStar(tm) }));
   if (mapEv && mapEv.heroSet) extraShows.push({ kind:'hero', set:mapEv.heroSet, auto:true });   // 변신 세트 완성 → 바로 변신

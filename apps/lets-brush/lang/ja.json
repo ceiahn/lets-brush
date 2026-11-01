@@ -4,7 +4,7 @@
   "name": "日本語",
   "dir": "ltr",
   "tts": "ja-JP",
-  "version": 60,
+  "version": 61,
   "font": {
    "family": "'Kosugi Maru'",
    "url": "../../core/fonts/kosugi-maru.css"
@@ -240,11 +240,11 @@
   "pet.adult": "{name}が おとなに なったよ!",
   "pet.newSpecialEgg": "キラキラの とくべつな たまごが きたよ!",
   "book.legend": "でんせつの ペット",
-  "pet.giftRow": "🐾 きょう 2かい みがいたので ペットの プレゼント!",
+  "pet.giftRow": "🐾 まいにち みがいたので ペットの プレゼント!",
   "pet.giftTitle": "プレゼントから {sp}が でてきたよ!",
   "pet.palChange": "かえる",
   "pet.allDone": "ぜんぶの ペットを あつめたよ! すごい!",
-  "home.twiceHint": "もう1かい みがくと ペットの プレゼント! 🎁",
+  "home.twiceHint": "つぎの はみがきが おわると ペットの プレゼント! 🎁",
   "pet.eggSay_other": "なにが うまれるかな? あと{n}かい!",
   "pet.says": [
    "いっしょに みがこう!",

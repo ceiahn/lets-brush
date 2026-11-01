@@ -14,7 +14,7 @@ function refreshHome(){
   fb.className = 'pill flame ' + (st === 0 ? 'off' : st >= 14 ? 'l3' : st >= 7 ? 'l2' : st >= 3 ? 'l1' : '');
   $('#mapBadge').textContent = mapLeft();
   const n = log.filter(k => k === todayKey()).length;
-  $('#todayText').textContent = n === 1 && giftReady() ? t('home.twiceHint') : n ? t('home.todayCount', { n }) : t('home.todayNone');
+  $('#todayText').textContent = n >= 1 && giftNext() ? t('home.twiceHint') : n ? t('home.todayCount', { n }) : t('home.todayNone');   // v0.53.3 다음 양치에 선물 펫이 오면
 }
 
 /* ---------- 양치 전 준비: 치약 짜기 ---------- */
