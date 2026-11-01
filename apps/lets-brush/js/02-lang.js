@@ -103,7 +103,7 @@ const PACK_KO = { meta:{ code:'ko', name:'한국어', dir:'ltr', tts:'ko-KR' }, 
   'pet.eggLeft_other':'알이 따뜻해졌어요! {n}번 더 닦으면 태어나요.', 'pet.growLeft_other':'{name}{name|이/가} 자라고 있어요! {n}번 더 닦으면 쑥 커요.', 'pet.seeTomorrow':'내일 또 만나요!',
   'pet.restEgg':'알은 오늘 쿨쿨 자요. 내일 또 닦으면 따뜻해져요!', 'pet.restPet':'{name}{name|이/가} 오늘은 쿨쿨 자요. 내일 또 같이 닦아요!',
   'pet.hatched':'짜잔! {sp}{sp|이/가} 태어났어요!', 'pet.nameAsk':'이름을 지어 줄까요?', 'pet.ok':'좋아요!',
-  'pet.grew':'{name}{name|이/가} 쑥 컸어요!', 'pet.adult':'{name}{name|이/가} 다 컸어요!', 'pet.newSpecialEgg':'반짝반짝 특별한 알이 왔어요!', 'book.legend':'전설 펫', 'pet.giftRow':'🐾 오늘 두 번 닦아서 펫 선물!', 'pet.giftTitle':'선물 상자에서 {sp}{sp|이/가} 나왔어요!', 'pet.palChange':'바꾸기', 'pet.allDone':'모든 펫을 다 모았어요! 정말 대단해요!', 'home.twiceHint':'한 번 더 닦으면 펫 선물이 와요! 🎁',
+  'pet.grew':'{name}{name|이/가} 쑥 컸어요!', 'pet.adult':'{name}{name|이/가} 다 컸어요!', 'pet.newSpecialEgg':'반짝반짝 특별한 알이 왔어요!', 'book.legend':'전설 펫', 'pet.giftRow':'🐾 꾸준히 닦아서 펫 선물!', 'pet.giftTitle':'선물 상자에서 {sp}{sp|이/가} 나왔어요!', 'pet.palChange':'바꾸기', 'pet.allDone':'모든 펫을 다 모았어요! 정말 대단해요!', 'home.twiceHint':'다음 양치를 끝내면 펫 선물이 와요! 🎁',
   'pet.eggSay_other':'무엇이 태어날까? {n}번 더 닦으면 만나요!', 'pet.says':['같이 이 닦아요!', '오늘도 반짝반짝!', '세균 물리치러 가요!', '같이 닦는 게 제일 좋아요!'],
   'settings.petTest':'🥚 알·펫 키우기 +1 (테스트)', 'settings.eggTest':'🌈 특별한 알 받기 (테스트)', 'settings.star100':'⭐ 별 100개 받기 (테스트)', 'settings.bookAll':'📖 도감 모두 열기 (테스트)', 'settings.petAll':'🐾 모든 펫 받기 (테스트)', 'toast.petAll_other':'펫 {n}마리를 받았어요!', 'settings.reset':'🔄 처음부터 다시 (초기화)',
   'reset.q':'별, 펫, 도감, 지도, 꾸미기, 양치 기록이 모두 지워지고 처음 상태로 돌아가요. 이름·소리·언어 같은 설정은 그대로예요. 초기화할까요?', 'reset.ok':'초기화', 'reset.cancel':'취소', 'toast.star100':'별 100개를 받았어요!', 'toast.bookAll':'도감을 모두 열었어요!',
@@ -323,7 +323,7 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
   'pet.growLeft_one':'{name} is growing! {n} more brush to get bigger.', 'pet.growLeft_other':'{name} is growing! {n} more brushes to get bigger.', 'pet.seeTomorrow':'See you tomorrow!',
   'pet.restEgg':'The egg is sleeping today. Brush again tomorrow to warm it up!', 'pet.restPet':'{name} is sleeping today. Brush together again tomorrow!',
   'pet.hatched':'Ta-da! A baby {sp} hatched!', 'pet.nameAsk':'Give it a name?', 'pet.ok':'OK!',
-  'pet.grew':'{name} grew bigger!', 'pet.adult':'{name} is all grown up!', 'pet.newSpecialEgg':'A sparkly special egg arrived!', 'book.legend':'Legend Pets', 'pet.giftRow':'🐾 Brushed twice today: a pet gift!', 'pet.giftTitle':'A {sp} popped out of the gift box!', 'pet.palChange':'Change', 'pet.allDone':"You've collected every pet! Amazing!", 'home.twiceHint':'Brush once more today for a pet gift! 🎁',
+  'pet.grew':'{name} grew bigger!', 'pet.adult':'{name} is all grown up!', 'pet.newSpecialEgg':'A sparkly special egg arrived!', 'book.legend':'Legend Pets', 'pet.giftRow':'🐾 A pet gift for brushing every day!', 'pet.giftTitle':'A {sp} popped out of the gift box!', 'pet.palChange':'Change', 'pet.allDone':"You've collected every pet! Amazing!", 'home.twiceHint':'Finish your next brushing for a pet gift! 🎁',
   'pet.eggSay_one':'What will hatch? {n} more brush!', 'pet.eggSay_other':'What will hatch? {n} more brushes!', 'pet.says':["Let's brush together!", 'Sparkly teeth today!', "Let's beat the germs!", 'Brushing with you is the best!'],
   'settings.petTest':'🥚 Grow egg/pet +1 (test)', 'settings.eggTest':'🌈 Get a special egg (test)', 'settings.star100':'⭐ Get 100 stars (test)', 'settings.bookAll':'📖 Unlock the whole collection (test)', 'settings.petAll':'🐾 Get every pet (test)', 'toast.petAll_one':'You got {n} pet!', 'toast.petAll_other':'You got {n} pets!', 'settings.reset':'🔄 Start over (reset)',
   'reset.q':'Stars, pets, collection, map, outfits and brushing records will all be erased. Settings like name, sound and language stay. Reset?', 'reset.ok':'Reset', 'reset.cancel':'Cancel', 'toast.star100':'You got 100 stars!', 'toast.bookAll':'Collection fully unlocked!',
@@ -494,5 +494,5 @@ const PACK_EN = { meta:{ code:'en', name:'English', dir:'ltr', tts:'en-US' }, st
 })};
 
 const PACK_CATALOG = [   // v0.52.0 받는 언어팩은 lang/<code>.json (번역 파일 하나 = 언어 하나). version 은 그 파일 meta.version 과 같게 (올리면 받아 둔 기기도 새로 받음)
-  { code:'ja', name:'日本語', url:'lang/ja.json', version:60 }
+  { code:'ja', name:'日本語', url:'lang/ja.json', version:61 }
 ];

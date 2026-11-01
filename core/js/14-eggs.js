@@ -216,11 +216,48 @@ function giftPet(want){                                                       //
   const all = freePool(regPool(), giftSkip());
   const np = { id:petUid(), sp:want && all.includes(want) ? want : pick(pool), st:1, p:0, name:'', wear:{} };
   petState.pets.push(np); bookPet(np);
+  if (petState.giftSp === np.sp) delete petState.giftSp;                         // v0.53.3 미리 정해 둔 펫을 받음 → 다음 선물은 새로
   if (!companion()) petState.pal = np.id;
   petState.giftDay = todayKey(); store.set('pet', petState); renderPets();
   return np;
 }
 const giftReady = () => petState.giftDay !== todayKey() && freePool(regPool(), giftSkip()).length > 0;
+/* v0.53.3 선물 펫 규칙 (사용자와 정함): 처음 3일(양치한 날 기준)은 그날 두 번째 양치에 한 마리,
+   그다음부터는 "아침 · 저녁 양치 4번"(이틀 동안 아침 · 저녁 모두)마다 한 마리. 아침 칸 · 저녁 칸은 하루에 한 번씩만 셈
+   하루 빠져도 처음부터가 아니라 멈췄다가 이어짐 (giftP 그대로). 받을 펫은 미리 정해 두고(giftSp) 여러 번에 걸쳐 그림자에서 서서히 보여 줌
+   하루 최대 한 마리(giftReady). 저장: petState.giftP(0~4) · giftK(센 칸 "날짜am|pm") · giftSp */
+const GIFT_EVERY = PET_CFG.giftEvery || 4, GIFT_EARLY = PET_CFG.giftEarlyDays === undefined ? 3 : PET_CFG.giftEarlyDays;
+const giftKey = () => todayKey() + slotOf();
+const giftEarly = (plusToday) => new Set(log.concat(plusToday ? [todayKey()] : [])).size <= GIFT_EARLY;
+function giftSpPick(){
+  const all = freePool(regPool(), giftSkip());
+  if (!petState.giftSp || !all.includes(petState.giftSp)){ const pool = bestTier(all); petState.giftSp = pool.length ? pick(pool) : null; store.set('pet', petState); }
+  return petState.giftSp;
+}
+// 양치를 시작할 때 (아직 기록 전): { sp, lo, hi, p, all } = 이번 양치 동안 그림자가 lo → hi 만큼 밝아짐 (hi 1 = 이번에 받음). 선물이 없으면 null
+function giftPreview(){
+  if (!giftReady()) return null;
+  if (giftEarly(true)) return log.filter(k => k === todayKey()).length + 1 >= 2 ? { sp:giftSpPick(), lo:0, hi:1, p:1, all:2, early:true } : null;
+  const p = Math.min(GIFT_EVERY, petState.giftP || 0), inc = (petState.giftK || []).includes(giftKey()) ? 0 : 1;
+  const sp = giftSpPick(); if (!sp) return null;
+  return { sp, lo:p / GIFT_EVERY, hi:Math.min(1, (p + inc) / GIFT_EVERY), p, all:GIFT_EVERY };
+}
+// 다음 양치를 끝내면 선물을 받는지 (첫 화면 안내용, 아무것도 바꾸지 않음)
+function giftNext(){
+  if (!giftReady()) return false;
+  if (giftEarly(true)) return log.filter(k => k === todayKey()).length + 1 >= 2;
+  return (petState.giftP || 0) + ((petState.giftK || []).includes(giftKey()) ? 0 : 1) >= GIFT_EVERY;
+}
+// 양치를 마쳤을 때 (Habit.done 다음): 칸을 세고, 다 차면 그 펫을 줌
+function giftStep(){
+  if (giftEarly(false)) return log.filter(k => k === todayKey()).length >= 2 && giftReady() ? giftPet(petState.giftSp) : null;
+  const k = giftKey(); petState.giftK = petState.giftK || [];
+  if (!petState.giftK.includes(k)){ petState.giftK = petState.giftK.concat(k).slice(-8); petState.giftP = Math.min(GIFT_EVERY, (petState.giftP || 0) + 1); }
+  let got = null;
+  if (petState.giftP >= GIFT_EVERY && giftReady()){ got = giftPet(petState.giftSp); if (got) petState.giftP = 0; }
+  store.set('pet', petState);
+  return got;
+}
 
 if (!petState || !petState.v) petState = { v:3, egg:null, pets:[], pal:null, day:'', dayN:0 };
 if (!petState.pets){ petState.pets = (petState.friends || []).concat(petState.cur ? [petState.cur] : []); delete petState.friends; delete petState.cur; }

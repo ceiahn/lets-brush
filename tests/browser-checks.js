@@ -454,11 +454,26 @@ async function runGiftPeek(browser, base){
   await page.evaluate(() => { const g = document.querySelector('#prepGo'); if (g && g.offsetParent) g.click(); });
   await page.clock.runFor(25000);
   const mid = await page.evaluate(() => { const b = document.querySelector('#brushC .gift-peek'), a = b && b.querySelector('.gp-art');
-    return { shown:!!b && !b.hidden, b:a ? parseFloat((a.style.filter.match(/brightness\(([\d.]+)/) || [])[1]) : null, sp:giftPre }; });
+    return { shown:!!b && !b.hidden, b:a ? parseFloat((a.style.filter.match(/brightness\(([\d.]+)/) || [])[1]) : null, sp:petState.giftSp }; });
   if (!mid.shown || !(mid.b >= 0 && mid.b < .5)) problems.push('[gift] 두 번째 양치인데 선물 칸 그림자가 이상함: ' + JSON.stringify(mid));
   for (let i = 0; i < 80; i++){ await page.clock.runFor(1000); if (await page.evaluate(() => document.querySelector('.screen.active').id) === 'done') break; }
   const got = await page.evaluate(() => petGift && petGift.sp);
   if (!got || got !== mid.sp) problems.push(`[gift] 미리 보여 준 펫(${mid.sp})과 받은 펫(${got})이 다름`);
+  // v0.53.3 처음 3일 뒤: 아침 · 저녁 4번마다, 같은 칸은 하루 한 번만, 빠져도 멈췄다 이어짐
+  const r = await page.evaluate(() => {
+    const k = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+    log = [k(9), k(8), k(7), k(5)]; store.set('log', log);                       // 양치한 날 4일 (중간에 빠진 날 있음) → 처음 3일 지남
+    petState.giftDay = ''; petState.giftP = 2; petState.giftK = []; delete petState.giftSp;
+    const out = [];
+    const step = () => { const pv = giftPreview(); Habit.done(); const g = giftStep(); out.push({ lo:pv && pv.lo, hi:pv && pv.hi, sp:pv && pv.sp, got:g && g.sp, p:petState.giftP }); };
+    step();                                                                        // 저녁 칸 처음: 2 → 3
+    step();                                                                        // 같은 저녁 칸 또: 그대로 3
+    return out;
+  });
+  if (r[0].lo !== .5 || r[0].hi !== .75 || r[0].got || r[0].p !== 3) problems.push('[gift] 4번마다 규칙이 이상함 (첫 양치): ' + JSON.stringify(r[0]));
+  if (r[1].lo !== .75 || r[1].hi !== .75 || r[1].got || r[1].p !== 3) problems.push('[gift] 같은 칸을 두 번 셈: ' + JSON.stringify(r[1]));
+  const r2 = await page.evaluate(() => { petState.giftP = 3; petState.giftK = []; const pv = giftPreview(); Habit.done(); const g = giftStep(); return { hi:pv.hi, sp:pv.sp, got:g && g.sp, p:petState.giftP }; });
+  if (r2.hi !== 1 || r2.got !== r2.sp || r2.p !== 0) problems.push('[gift] 4번째에 미리 본 펫을 안 줌: ' + JSON.stringify(r2));
   await page.close();
   return problems;
 }
