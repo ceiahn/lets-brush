@@ -210,10 +210,11 @@ function newEgg(first){
 }
 // 양치 보상 펫: 하루에 두 번 닦은 날 한 번
 const giftSkip = () => (petState.egg ? [petState.egg.sp] : []).concat(petState.feat && !petState.feat.given && petState.feat.sp ? [petState.feat.sp] : []);
-function giftPet(){
+function giftPet(want){                                                       // want: 미리 정해 둔 동물 (v0.53.2 양치 중 미리 보기), 아직 받을 수 있을 때만
   const pool = bestTier(freePool(regPool(), giftSkip()));                     // v0.29.0 인기 동물부터
   if (!pool.length) return null;
-  const np = { id:petUid(), sp:pick(pool), st:1, p:0, name:'', wear:{} };
+  const all = freePool(regPool(), giftSkip());
+  const np = { id:petUid(), sp:want && all.includes(want) ? want : pick(pool), st:1, p:0, name:'', wear:{} };
   petState.pets.push(np); bookPet(np);
   if (!companion()) petState.pal = np.id;
   petState.giftDay = todayKey(); store.set('pet', petState); renderPets();
