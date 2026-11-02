@@ -956,6 +956,7 @@ function computeRewards(){
 /* ---------- 보상 연출: 선물 상자 → 별이 날아가 쌓임 → 불꽃놀이 ---------- */
 const STAR_SVG = '<svg viewBox="0 0 24 24" width="34" height="34"><path fill="#ffd54a" stroke="#f0a500" stroke-width="1.2" stroke-linejoin="round" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>';
 let giftTimers = [], giftOpened = true, rewardQueue = null;
+let doneSaid = Promise.resolve();                                            // v0.54.2 완료 화면 첫 말이 끝나면 풀림 (최대 8초)
 function clearGift(){ giftTimers.forEach(clearTimeout); giftTimers = []; giftOpened = true; }
 var petEv = null, petPend = null, petGift = null, mapEv = null, giftAllDone = false, stampDone = false, extraShows = [];      // 이번 양치의 알·펫 결과 / 아직 못 보여준 축하
 const rectC = (el) => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
@@ -1022,7 +1023,7 @@ function openGift(){
     const W = window.innerWidth, H = window.innerHeight;
     [[.25, .22], [.75, .18], [.5, .12], [.2, .4], [.8, .38]].forEach(([fx, fy], i) => giftTimers.push(setTimeout(() => firework(W * fx, H * fy), i * 260)));
     $('#doneMsg').textContent = stars >= cheapestLocked() ? t('done.canBuy') : t('done.msgs');
-    Voice.play('gift.got', t('gift.got', { n:total }));
+    doneSaid.then(() => { if (current === 'done') Voice.play('gift.got', t('gift.got', { n:total })); });   // v0.54.2 첫 말을 끊지 않음
     // 알·펫: 부화·성장이면 축하 화면 먼저, 아니면 바로 진행 카드
     giftAllDone = true; $('#stampBtn').classList.add('ready');
     const q = petShowsOf(petEv, petGift).concat(extraShows), special = q.length > 0;
@@ -1065,12 +1066,15 @@ function finishDone(){
   // 여기까지 기록 · 별 저장 끝 → (켜져 있으면) 반짝이 극장 → 완료 화면
   const reveal = () => {
   show('done'); confetti(40); refreshHome();
-  giftTimers.push(setTimeout(openGift, CONFIG.giftAutoOpenMs));               // 안 눌러도 3초 뒤 자동으로 열림
+  doneSaid = new Promise(res => setTimeout(() => {
+    Promise.race([Voice.play('done', callName() + t('done.title') + ' ' + (wrapOn ? '' : t('done.spit') + ' ') + t('gift.say')), new Promise(r => setTimeout(r, 8000))]).then(res);
+  }, 600));
+  { const q0 = rewardQueue, t0 = Date.now();                                   // 안 눌러도 3초 뒤 자동으로 열림 (v0.54.2: 첫 말이 끝난 뒤)
+    doneSaid.then(() => { if (rewardQueue === q0 && !giftOpened) giftTimers.push(setTimeout(openGift, Math.max(600, CONFIG.giftAutoOpenMs - (Date.now() - t0)))); }); }
   quizRefresh();                                                              // v0.30.0 오늘의 퀴즈 단추
   if (typeof shareDoneRefresh === 'function') shareDoneRefresh();             // v0.45.0 연속 기록 3 · 7 · 14 · 30일 … 자랑하기
   $('#doneSpit').hidden = wrapOn;                                             // v0.53.0 정리 화면에서 이미 퉤
   $('#doneSpit').innerHTML = `${stickerSvg('<svg viewBox="0 0 44 44"><circle cx="16" cy="22" r="13" fill="#fff" stroke="#bfe3f7" stroke-width="2"/><circle cx="12" cy="19" r="1.8" fill="#24324a"/><circle cx="19" cy="19" r="1.8" fill="#24324a"/><ellipse cx="22" cy="27" rx="3" ry="2.5" fill="#8a2346"/><circle cx="31" cy="27" r="3" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="1.5"/><circle cx="37" cy="25" r="2.2" fill="#e9f8ff" stroke="#9fd3ee" stroke-width="1.5"/></svg>', 2.2)}<span>${t('done.spit')}</span>`;
-  setTimeout(() => Voice.play('done', callName() + t('done.title') + ' ' + (wrapOn ? '' : t('done.spit') + ' ') + t('gift.say')), 600);
   };
   // 특별한 날 · 일주일에 한 번은 스페셜 영상 (v0.25: 틀 수 있는 영상이 확인된 것 중에서만 → 없으면 바로 극장)
   const show2 = () => specialPick().then(sp => { if (sp) playSpecial(sp, reveal); else if (theaterOn) playTheater(reveal); else reveal(); });
