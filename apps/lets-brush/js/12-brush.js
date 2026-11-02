@@ -858,8 +858,16 @@ function openTongue(done){
       tone(900 + n * 200, .12, 'sine', .14);
     }, 1100 + n * 1600));
   }
-  tgTimers.push(setTimeout(() => { stage.classList.add('end'); $('#tgSay').textContent = t('tongue.done'); Voice.play('tongue.done', t('tongue.done')); }, 5000));
-  tgTimers.push(setTimeout(end, CONFIG.tongueMs));
+  /* v0.54.1 첫 안내 말이 끝난 뒤에 "깨끗해졌어요", 그 말도 끝난 뒤에 다음 화면 (예전엔 5초 · 6.8초에 바로 넘겨서 둘 다 잘렸음)
+     끝 신호가 안 오는 폰을 위해 말마다 기다리는 시간에 한도를 둠. 그림(세 번 쓸기)은 그대로 */
+  const said = Voice.wait(9000);
+  tgTimers.push(setTimeout(async () => {
+    await said; if (finished) return;
+    stage.classList.add('end'); $('#tgSay').textContent = t('tongue.done');
+    const bye = Voice.play('tongue.done', t('tongue.done'));
+    await Promise.all([Promise.race([bye, new Promise(r => setTimeout(r, 5000))]), new Promise(r => setTimeout(r, CONFIG.tongueMs - 5000))]);
+    if (!finished) tgTimers.push(setTimeout(end, 300));
+  }, 5000));
   $('#tgSkip').onclick = () => { sfx.tap(); Voice.stop(); end(); };
 }
 /* ---------- v0.53.0 마무리 정리 (v0.53.1: 단계마다 아이가 "했어요!" 를 눌러야 다음, v0.53.2: 한 단계 최대 1분) ----------

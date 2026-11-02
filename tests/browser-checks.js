@@ -538,6 +538,35 @@ async function runRider(browser, base){
   return problems;
 }
 
+// v0.54.1 혀 닦기: 안내 말 · "깨끗해졌어요" 가 끊기지 않고, 다 끝난 뒤 다음 화면
+async function runTongue(browser, base){
+  const problems = [], note = (m) => problems.push('[tongue] ' + m);
+  const page = await browser.newPage({ viewport:{ width:390, height:800 } });
+  page.on('pageerror', e => note('오류: ' + e.message));
+  await page.addInitScript(() => {
+    window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } };
+    localStorage.setItem('bj_picked', 'true'); localStorage.setItem('bj_subAsked', 'true'); localStorage.setItem('bj_lang', '"ko"');
+    const log = window.__vlog = [];
+    let cur = null, timer = 0;
+    const fake = { speaking:false, pending:false, paused:false, getVoices:() => [], addEventListener(){}, removeEventListener(){},
+      speak(u){ cur = u; fake.speaking = true; log.push({ text:u.text }); setTimeout(() => u.onstart && u.onstart(), 30);
+        timer = setTimeout(() => { if (cur === u){ cur = null; fake.speaking = false; log.push({ end:u.text }); u.onend && u.onend(); } }, 6000); },   // 말 하나 = 6초 (느린 폰)
+      cancel(){ if (cur){ const u = cur; cur = null; fake.speaking = false; clearTimeout(timer); log.push({ cancel:u.text }); u.onerror && u.onerror(); } } };
+    Object.defineProperty(window, 'speechSynthesis', { value:fake, configurable:true });
+  });
+  await page.clock.install({ time:new Date('2026-11-04T19:30:00+09:00') });
+  await page.goto(base + '/index.html'); await page.clock.runFor(2500);
+  await page.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); window.__tgDone = 0; openTongue(() => { window.__tgDone = Date.now(); show('home'); }); });
+  for (let i = 0; i < 20; i++) await page.clock.runFor(1000);
+  const r = await page.evaluate(() => ({ log:window.__vlog, done:window.__tgDone, t:[t('tongue.say'), t('tongue.done')] }));
+  const head = (x) => x.replace(/[?!.]/g, '').trim().slice(0, 5);
+  r.t.forEach(x => { if (r.log.some(l => l.cancel && l.cancel.includes(head(x)))) note('말이 끊김: ' + x); });
+  if (!r.log.some(l => l.end && l.end.includes(head(r.t[1])))) note('"깨끗해졌어요" 가 끝까지 안 나옴: ' + JSON.stringify(r.log));
+  if (!r.done) note('말이 다 끝났는데 다음으로 안 넘어감');
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -581,6 +610,9 @@ async function runBrowser(){
     const rd = await runRider(browser, base);
     console.log(`${rd.length ? '✗' : '✓'} 양치 끝 마무리 말 · 구석 반짝이 춤 · 대장 세균 대결${rd.length ? ` (${rd.length})` : ''}`);
     rd.forEach(x => console.log('   ' + x)); all.push(...rd);
+    const tg = await runTongue(browser, base);
+    console.log(`${tg.length ? '✗' : '✓'} 혀 닦기 말이 안 끊김${tg.length ? ` (${tg.length})` : ''}`);
+    tg.forEach(x => console.log('   ' + x)); all.push(...tg);
     const vc = await runVoice(browser, base);
     console.log(`${vc.length ? '✗' : '✓'} 극장 목소리 (대사가 안 끊김 · 사람마다 높낮이)${vc.length ? ` (${vc.length})` : ''}`);
     vc.forEach(x => console.log('   ' + x)); all.push(...vc);
@@ -597,5 +629,5 @@ async function runBrowser(){
   return all;
 }
 
-module.exports = { runBrowser, serve, runRider };
+module.exports = { runBrowser, serve, runRider, runTongue };
 if (require.main === module) runBrowser().then(p => process.exit(p.length ? 1 : 0));
