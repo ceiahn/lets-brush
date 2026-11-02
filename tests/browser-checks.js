@@ -567,6 +567,38 @@ async function runTongue(browser, base){
   return problems;
 }
 
+// v0.54.2 완료 화면: 첫 말("양치 끝 … 선물 상자가 왔어요") 을 상자 열기 · "별 n개" 가 끊지 않음
+async function runDoneVoice(browser, base){
+  const problems = [], note = (m) => problems.push('[done] ' + m);
+  const page = await browser.newPage({ viewport:{ width:390, height:800 } });
+  page.on('pageerror', e => note('오류: ' + e.message));
+  await page.addInitScript(() => {
+    window.BJ_RESOURCES = { config:{ testMode:true, parentGate:false } };
+    for (const [k, v] of Object.entries({ picked:true, subAsked:true, lang:'ko', country:'KR', tongue:false, wrap:false, theaterOn:false, specialOn:false })) localStorage.setItem('bj_' + k, JSON.stringify(v));
+    const log = window.__vlog = [];
+    let cur = null, timer = 0;
+    const fake = { speaking:false, pending:false, paused:false, getVoices:() => [], addEventListener(){}, removeEventListener(){},
+      speak(u){ cur = u; fake.speaking = true; log.push({ text:u.text }); setTimeout(() => u.onstart && u.onstart(), 30);
+        timer = setTimeout(() => { if (cur === u){ cur = null; fake.speaking = false; log.push({ end:u.text }); u.onend && u.onend(); } }, 6000); },
+      cancel(){ if (cur){ const u = cur; cur = null; fake.speaking = false; clearTimeout(timer); log.push({ cancel:u.text }); u.onerror && u.onerror(); } } };
+    Object.defineProperty(window, 'speechSynthesis', { value:fake, configurable:true });
+  });
+  await page.clock.install({ time:new Date('2026-11-04T19:30:00+09:00') });
+  await page.goto(base + '/index.html'); await page.clock.runFor(2500);
+  await page.evaluate(() => { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); start(); });
+  const sec = await page.evaluate(() => totalSec);
+  let onDone = false;
+  for (let i = 0; i < sec + 40; i++){ await page.clock.runFor(1000);
+    if (!onDone && await page.evaluate(() => current === 'done')){ onDone = true; await page.clock.runFor(1500); await page.evaluate(() => { const b = document.querySelector('#giftBox'); if (b) b.click(); }); } }   // 아이가 상자를 바로 누름
+  const r = await page.evaluate(() => ({ log:window.__vlog, title:t('done.title'), got:t('gift.got', { n:1 }).slice(0, 2) }));
+  if (!onDone) note('완료 화면이 안 나옴');
+  const head = r.title.replace(/[!.?]/g, '').trim().slice(0, 4);
+  if (r.log.some(l => l.cancel && l.cancel.includes(head))) note('완료 화면 첫 말이 끊김');
+  if (!r.log.some(l => l.text && l.text.startsWith(r.got))) note('"별 n개" 말이 안 나옴: ' + JSON.stringify(r.log.slice(-4)));
+  await page.close();
+  return problems;
+}
+
 async function runBrowser(){
   let chromium;
   try{ ({ chromium } = require('playwright')); }
@@ -613,6 +645,9 @@ async function runBrowser(){
     const tg = await runTongue(browser, base);
     console.log(`${tg.length ? '✗' : '✓'} 혀 닦기 말이 안 끊김${tg.length ? ` (${tg.length})` : ''}`);
     tg.forEach(x => console.log('   ' + x)); all.push(...tg);
+    const dv = await runDoneVoice(browser, base);
+    console.log(`${dv.length ? '✗' : '✓'} 완료 화면 말이 안 끊김${dv.length ? ` (${dv.length})` : ''}`);
+    dv.forEach(x => console.log('   ' + x)); all.push(...dv);
     const vc = await runVoice(browser, base);
     console.log(`${vc.length ? '✗' : '✓'} 극장 목소리 (대사가 안 끊김 · 사람마다 높낮이)${vc.length ? ` (${vc.length})` : ''}`);
     vc.forEach(x => console.log('   ' + x)); all.push(...vc);
@@ -629,5 +664,5 @@ async function runBrowser(){
   return all;
 }
 
-module.exports = { runBrowser, serve, runRider, runTongue };
+module.exports = { runBrowser, serve, runRider, runTongue, runDoneVoice };
 if (require.main === module) runBrowser().then(p => process.exit(p.length ? 1 : 0));
